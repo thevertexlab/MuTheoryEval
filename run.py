@@ -49,8 +49,9 @@ from benchmarks import MULTIMODAL_REGISTRY, MULTIMODAL_WEIGHTS
 from models import REGISTRY as MODEL_REGISTRY
 
 SYSTEM_PROMPT = (
-    "You are a music theory expert. Answer the following multiple-choice question. "
-    "Respond with only the letter of the correct answer (A, B, C, or D)."
+    "You are a music theory expert. "
+    "YOUR ENTIRE RESPONSE MUST BE EXACTLY ONE LETTER: A, B, C, or D. "
+    "DO NOT write anything else. DO NOT explain. DO NOT show reasoning. ONLY the letter."
 )
 
 # Cost & speed baseline per model (input $/MTok, output $/MTok, req/min observed)
@@ -205,6 +206,7 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
     checkpoint_file = cell_path.parent / f".checkpoint_{bench_name}_{mode}.json"
 
     predictions, references = [], []
+    _sample_data: list[dict] = []  # per-question data for bad-case sampling
     t_start = time.time()
     start_idx = 0
     # Accumulated token usage across all questions
@@ -216,6 +218,7 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
             ck = json.loads(checkpoint_file.read_text())
             predictions = ck["predictions"]
             references = ck["references"]
+            _sample_data = ck.get("sample_data", [])
             start_idx = len(predictions)
             print(f"  Resuming from checkpoint at {start_idx}/{n}")
         except Exception:
@@ -239,6 +242,7 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
         pred = model.extract_choice(raw)
 
         # Accumulate token usage reported by the API
+        q_output_tokens: int | None = None
         if model.last_usage:
             _usage_totals["prompt_tokens"]     += model.last_usage.get("prompt_tokens") or 0
             _usage_totals["completion_tokens"] += model.last_usage.get("completion_tokens") or 0
@@ -246,6 +250,7 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
             if tk is not None:
                 _usage_totals["thinking_tokens"] += tk
                 _has_thinking_tokens = True
+            q_output_tokens = model.last_usage.get("completion_tokens")
 
         if hasattr(bench, "get_answer"):
             ref = bench.get_answer(item)
@@ -255,6 +260,24 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
 
         predictions.append(pred)
         references.append(ref)
+
+        # Collect per-question sample data for bad-case analysis
+        max_out = model.config.get("max_output_tokens", 16) if model.config else 16
+        stop_reason_est = (
+            "max_tokens" if (q_output_tokens is not None and q_output_tokens >= max_out)
+            else "end_turn"
+        )
+        _sample_data.append({
+            "idx":         i,
+            "subject":     item.get("subject", "") if hasattr(item, "get") else "",
+            "stem":        (item.get("stem", item.get("question", "")) or "")[:80] if hasattr(item, "get") else "",
+            "raw":         raw[:120],
+            "pred":        pred,
+            "ref":         ref,
+            "correct":     pred == ref,
+            "stop_reason": stop_reason_est,
+            "output_tokens": q_output_tokens,
+        })
 
         done = i + 1
         elapsed = time.time() - t_start
@@ -270,7 +293,11 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
         print(f"\r  [{bar}] {done}/{n}  acc={acc_so_far:.1%}  ETA {eta_str}   ", end="", flush=True)
 
         if done % 50 == 0:
-            checkpoint_file.write_text(json.dumps({"predictions": predictions, "references": references}))
+            checkpoint_file.write_text(json.dumps({
+                "predictions": predictions,
+                "references":  references,
+                "sample_data": _sample_data,
+            }))
 
     print()
 
@@ -298,6 +325,23 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
                 _usage_totals["thinking_tokens"] / n_answered, 1
             ) if n_answered else 0
 
+    # Build bad-case sample buckets from per-question data
+    import random as _random
+    _rng = _random.Random(42)
+
+    def _is_format_error(s: dict) -> bool:
+        return s["pred"] == "X" or s["stop_reason"] == "max_tokens"
+
+    _format_errors = [s for s in _sample_data if _is_format_error(s)]
+    _wrong_ok      = [s for s in _sample_data if not _is_format_error(s) and not s["correct"]]
+    _correct_ok    = [s for s in _sample_data if not _is_format_error(s) and s["correct"]]
+
+    samples_block: dict = {
+        "format_error":  _format_errors[:20],
+        "wrong_answer":  _rng.sample(_wrong_ok,  min(10, len(_wrong_ok))),
+        "correct":       _rng.sample(_correct_ok, min(3,  len(_correct_ok))),
+    }
+
     cell: dict = {
         "model": model_name,
         "benchmark": bench_name,
@@ -312,6 +356,7 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
     }
     if usage_block:
         cell["usage"] = usage_block
+    cell["samples"] = samples_block
 
     print(f"  ✓ accuracy: {cell['accuracy']:.1%}  ({cell['n']}q)  "
           f"took {int(elapsed_total//60)}m{int(elapsed_total%60):02d}s  ~${cell['cost_est_usd']:.3f}")

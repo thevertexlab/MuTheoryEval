@@ -1,0 +1,21 @@
+{
+  "model": "qwen3-max-thinking",
+  "benchmark": "ziqi_eval",
+  "mode": "lite",
+  "accuracy": 0.856,
+  "n": 500,
+  "seed": 42,
+  "timestamp": "2026-04-05T19:39:58.787897+00:00",
+  "elapsed_sec": 2663,
+  "cost_est_usd": 0.081,
+  "config": {
+    "temperature": null,
+    "max_output_tokens": 1024,
+    "thinking": "native",
+    "system_prompt_hash": "eede8cf2"
+  },
+  "usage": {
+    "total_prompt_tokens": 145385,
+    "total_completion_tokens": 500
+  }
+}

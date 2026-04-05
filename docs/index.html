@@ -403,8 +403,8 @@
   let DATA = null;
   let currentMode = 'lite';
   let activeModalities = new Set(['text', 'image', 'audio']);
-  let sortKey = null;   // null = default (weighted score), or bench key
-  let sortDir = 1;      // 1=desc, -1=asc
+  let sortKey = '__text';  // '__text'|'__image'|'__audio'|bench key
+  let sortDir = 1;         // 1=desc, -1=asc
 
   // ── Fetch ─────────────────────────────────────────────────────────────────
   fetch('./data.json')
@@ -473,14 +473,24 @@
     return benches.filter(b => activeModalities.has(b.modality));
   }
 
-  function weightedScore(modelKey, benchMap, benches) {
-    const vis = visibleBenches(benches);
-    let totalW = 0, sumW = 0;
-    for (const b of vis) {
-      const c = benchMap[modelKey + '||' + b.key];
-      if (c) { sumW += c.accuracy * b.weight; totalW += b.weight; }
+  // Compute score for a single modality group.
+  // For 'text': requires ALL text benches to be present (coverage threshold).
+  // For 'image'/'audio': shows partial score if any result available.
+  // Returns { score: float|null, have: int, total: int, missing: string[] }
+  function computeModalityScore(modelKey, modality, cmap, allBenches) {
+    const group = allBenches.filter(b => b.modality === modality);
+    if (!group.length) return { score: null, have: 0, total: 0, missing: [] };
+    const present = group.filter(b => cmap[modelKey + '||' + b.key]);
+    const missing = group.filter(b => !cmap[modelKey + '||' + b.key]).map(b => b.short);
+    // Text: strict — require all benchmarks
+    if (modality === 'text' && present.length < group.length) {
+      return { score: null, have: present.length, total: group.length, missing };
     }
-    return totalW > 0 ? sumW / totalW : null;
+    if (!present.length) return { score: null, have: 0, total: group.length, missing };
+    // Normalize weights within group so partial results still give 0–100%
+    const totalW = present.reduce((s, b) => s + b.weight, 0);
+    const score  = present.reduce((s, b) => s + cmap[modelKey + '||' + b.key].accuracy * b.weight, 0) / totalW;
+    return { score, have: present.length, total: group.length, missing };
   }
 
   function heatColor(score) {
@@ -518,18 +528,18 @@
 
     // Sort
     const modelsSorted = modelKeys.slice().sort((a, b) => {
-      if (sortKey === null) {
-        // default: weighted score desc
-        const sa = weightedScore(a, cmap, DATA.benchmarks) ?? -1;
-        const sb = weightedScore(b, cmap, DATA.benchmarks) ?? -1;
-        return sb - sa;
+      let va, vb;
+      if (sortKey === '__text' || sortKey === '__image' || sortKey === '__audio') {
+        const mod = sortKey.replace('__', '');
+        va = computeModalityScore(a, mod, cmap, DATA.benchmarks).score ?? -1;
+        vb = computeModalityScore(b, mod, cmap, DATA.benchmarks).score ?? -1;
       } else {
         const ca = cmap[a + '||' + sortKey];
         const cb = cmap[b + '||' + sortKey];
-        const va = ca ? ca.accuracy : -1;
-        const vb = cb ? cb.accuracy : -1;
-        return (vb - va) * sortDir;
+        va = ca ? ca.accuracy : -1;
+        vb = cb ? cb.accuracy : -1;
       }
+      return (vb - va) * sortDir;
     });
 
     // Stats
@@ -544,17 +554,23 @@
     const wrap = document.getElementById('table-wrap');
 
     // Header
-    const thModel = `<th class="sortable${sortKey===null?' sorted':''}" onclick="setSort(null)">
-      <div class="th-inner">Model
-        <i data-lucide="${sortKey===null?'chevrons-up-down':'chevrons-up-down'}" width="13" height="13" class="sort-icon"></i>
-      </div></th>`;
+    const thModel = `<th>
+      <div class="th-inner">Model</div></th>`;
 
-    const thWS = `<th class="sortable${sortKey==='__ws'?' sorted':''}" onclick="setSort('__ws')" title="Weighted score across visible benchmarks">
-      <div class="th-inner">Weighted Score
-        <i data-lucide="chevrons-up-down" width="13" height="13" class="sort-icon"></i>
-      </div></th>`;
+    function makeScoreTh(key, label, icon, title) {
+      const isSorted = sortKey === key;
+      return `<th class="sortable${isSorted ? ' sorted' : ''}" onclick="setSort('${key}')" title="${title}">
+        <div class="th-inner">
+          <i data-lucide="${icon}" width="12" height="12"></i>
+          ${label}
+          <i data-lucide="chevrons-up-down" width="12" height="12" class="sort-icon"></i>
+        </div></th>`;
+    }
+    const thText  = makeScoreTh('__text',  'Text',  'file-text', 'Text score — requires all text benchmarks (MusicTheoryBench + ZIQI-Eval)');
+    const thImage = makeScoreTh('__image', 'Image', 'image',     'Image score — WildScore (sheet music recognition)');
+    const thAudio = makeScoreTh('__audio', 'Audio', 'music',     'Audio score — MuChoMusic / CMI-Bench');
 
-    const thBenches = benches.map(b => {
+    function makeBenchTh(b) {
       const modIcon = b.modality === 'text' ? 'file-text' : b.modality === 'image' ? 'image' : 'music';
       const isSorted = sortKey === b.key;
       const srcLink = b.source ? `<a href="https://arxiv.org/abs/${b.source.replace('arXiv:','')}" target="_blank" style="color:var(--muted)" onclick="event.stopPropagation()">
@@ -564,21 +580,74 @@
           <div class="bench-header">
             <span class="bench-name">${b.short}</span>
             <span class="bench-meta">
-              <i data-lucide="${modIcon}" width="11" height="11"></i>
-              <span>${b.modality}</span>
               ${srcLink}
               <i data-lucide="chevrons-up-down" width="11" height="11" class="sort-icon"></i>
             </span>
           </div>
         </div></th>`;
-    }).join('');
+    }
+
+    // Build grouped columns: [Text score, ...text benches, Image score, ...image benches, Audio score, ...audio benches]
+    const MODALITIES = ['text', 'image', 'audio'];
+    const scoreThMap  = { text: thText,  image: thImage,  audio: thAudio  };
+    const scoreTdFn   = { text: () => makeScoreTd('text'), image: () => makeScoreTd('image'), audio: () => makeScoreTd('audio') };
+
+    let groupedHeaders = '';
+    let groupedCellFns = []; // array of functions: (mk, cmap) => td string
+
+    for (const mod of MODALITIES) {
+      const modBenches = benches.filter(b => b.modality === mod);
+      if (!modBenches.length) continue;
+      groupedHeaders += scoreThMap[mod];
+      groupedHeaders += modBenches.map(makeBenchTh).join('');
+      const _mod = mod;
+      groupedCellFns.push(() => makeScoreTd(_mod));
+      for (const b of modBenches) {
+        const _b = b;
+        groupedCellFns.push((mk) => {
+          const c = cmap[mk + '||' + _b.key];
+          if (!c) return `<td class="score-miss">—</td>`;
+          const bg = heatColor(c.accuracy);
+          const cfg = c.config || {};
+          const thinkingLabel = (() => {
+            const t = cfg.thinking;
+            if (!t || t === false) return null;
+            if (t === 'native') return 'native (always-on)';
+            if (typeof t === 'object') {
+              if (t.budget_tokens) return `enabled, budget=${t.budget_tokens}`;
+              if (t.level)         return `level=${t.level}`;
+            }
+            return String(t);
+          })();
+          const u = c.usage || {};
+          const tooltipRows = [
+            ['Accuracy', fmtPct(c.accuracy)],
+            ['Questions', c.n],
+            c.seed != null ? ['Seed', c.seed] : null,
+            thinkingLabel ? ['Thinking', thinkingLabel] : null,
+            cfg.temperature != null ? ['Temperature', cfg.temperature] : null,
+            u.avg_thinking_tokens_per_q != null ? ['Avg think tok/q', u.avg_thinking_tokens_per_q] : null,
+            u.total_thinking_tokens != null ? ['Total think tok', u.total_thinking_tokens.toLocaleString()] : null,
+            u.total_prompt_tokens   != null ? ['Prompt tokens', u.total_prompt_tokens.toLocaleString()] : null,
+            c.cost_est_usd != null ? ['Est. cost', '$' + c.cost_est_usd.toFixed(4)] : null,
+            c.elapsed_sec  != null ? ['Elapsed', c.elapsed_sec + 's'] : null,
+            c.timestamp ? ['Date', fmtDate(c.timestamp)] : null,
+            cfg.system_prompt_hash ? ['Prompt hash', cfg.system_prompt_hash] : null,
+          ].filter(Boolean);
+          const tooltipHTML = tooltipRows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+          return `<td class="score-cell" style="background:${bg}">
+            <div class="tooltip-wrap">
+              <div class="score-val">${fmtPct(c.accuracy)}</div>
+              <div class="score-n">${c.n}q</div>
+              <div class="tooltip"><table>${tooltipHTML}</table></div>
+            </div></td>`;
+        });
+      }
+    }
 
     let tbody = '';
     for (const mk of modelsSorted) {
       const provider = (DATA.models.find(m => m.key === mk) || {}).provider || '';
-      const ws = weightedScore(mk, cmap, DATA.benchmarks);
-      const wsBg = heatColor(ws);
-
       const reasoningBadge = isReasoningNative(mk)
         ? `<span class="badge-reasoning"><i data-lucide="cpu" width="9" height="9"></i> reasoning</span>`
         : '';
@@ -595,56 +664,28 @@
           </div>
         </div></td>`;
 
-      const tdWS = ws !== null
-        ? `<td class="score-cell" style="background:${wsBg}">
-            <div class="score-val">${fmtPct(ws)}</div>
-            <div class="score-n">weighted</div>
-           </td>`
-        : `<td class="score-miss">—</td>`;
-
-      const tdBenches = benches.map(b => {
-        const c = cmap[mk + '||' + b.key];
-        if (!c) return `<td class="score-miss">—</td>`;
-        const bg = heatColor(c.accuracy);
-        // Config fields
-        const cfg = c.config || {};
-        const thinkingLabel = (() => {
-          const t = cfg.thinking;
-          if (!t || t === false) return null;
-          if (t === 'native') return 'native (always-on)';
-          if (typeof t === 'object') {
-            if (t.budget_tokens) return `enabled, budget=${t.budget_tokens}`;
-            if (t.level)         return `level=${t.level}`;
-          }
-          return String(t);
-        })();
-        // Usage fields
-        const u = c.usage || {};
-        const tooltipRows = [
-          ['Accuracy', fmtPct(c.accuracy)],
-          ['Questions', c.n],
-          c.seed != null ? ['Seed', c.seed] : null,
-          thinkingLabel ? ['Thinking', thinkingLabel] : null,
-          cfg.temperature != null ? ['Temperature', cfg.temperature] : null,
-          u.avg_thinking_tokens_per_q != null ? ['Avg think tok/q', u.avg_thinking_tokens_per_q] : null,
-          u.total_thinking_tokens != null ? ['Total think tok', u.total_thinking_tokens.toLocaleString()] : null,
-          u.total_prompt_tokens   != null ? ['Prompt tokens', u.total_prompt_tokens.toLocaleString()] : null,
-          c.cost_est_usd != null ? ['Est. cost', '$' + c.cost_est_usd.toFixed(4)] : null,
-          c.elapsed_sec  != null ? ['Elapsed', c.elapsed_sec + 's'] : null,
-          c.timestamp ? ['Date', fmtDate(c.timestamp)] : null,
-          cfg.system_prompt_hash ? ['Prompt hash', cfg.system_prompt_hash] : null,
-        ].filter(Boolean);
-        const tooltipHTML = tooltipRows
-          .map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
-        return `<td class="score-cell" style="background:${bg}">
-          <div class="tooltip-wrap">
-            <div class="score-val">${fmtPct(c.accuracy)}</div>
-            <div class="score-n">${c.n}q</div>
-            <div class="tooltip"><table>${tooltipHTML}</table></div>
-          </div></td>`;
-      }).join('');
-
-      tbody += `<tr>${tdModel}${tdWS}${tdBenches}</tr>`;
+      function makeScoreTd(mod) {
+        const r = computeModalityScore(mk, mod, cmap, DATA.benchmarks);
+        if (r.score !== null) {
+          const bg = heatColor(r.score);
+          const coverageNote = r.have < r.total ? `<div class="score-n">${r.have}/${r.total}</div>` : '';
+          return `<td class="score-cell" style="background:${bg}">
+            <div class="score-val">${fmtPct(r.score)}</div>
+            ${coverageNote}
+          </td>`;
+        } else {
+          const tip = r.total === 0 ? '' : `Needs: ${r.missing.join(', ')}`;
+          const coverageNote = r.have > 0 ? ` (${r.have}/${r.total})` : '';
+          return `<td class="score-miss">
+            <div class="tooltip-wrap" style="justify-content:center">
+              <span style="cursor:default">—${coverageNote}</span>
+              ${tip ? `<div class="tooltip">${tip}</div>` : ''}
+            </div>
+          </td>`;
+        }
+      }
+      const groupedCells = groupedCellFns.map(fn => fn(mk)).join('');
+      tbody += `<tr>${tdModel}${groupedCells}</tr>`;
     }
 
     if (!modelsSorted.length) {
@@ -653,7 +694,7 @@
     }
 
     wrap.innerHTML = `<table>
-      <thead><tr>${thModel}${thWS}${thBenches}</tr></thead>
+      <thead><tr>${thModel}${groupedHeaders}</tr></thead>
       <tbody>${tbody}</tbody>
     </table>`;
 
@@ -664,7 +705,6 @@
   }
 
   function setSort(key) {
-    if (key === '__ws') key = null;
     if (sortKey === key) {
       sortDir = -sortDir;
     } else {

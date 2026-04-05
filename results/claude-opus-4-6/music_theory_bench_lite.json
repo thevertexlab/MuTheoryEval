@@ -1,0 +1,194 @@
+{
+  "model": "claude-opus-4-6",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.6757493188010899,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-05T19:55:39.195357+00:00",
+  "elapsed_sec": 660,
+  "cost_est_usd": 0.3028,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 16,
+    "thinking": false,
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 61732,
+    "total_completion_tokens": 1492
+  },
+  "samples": {
+    "format_error": [
+      {
+        "idx": 245,
+        "subject": "reasoning",
+        "stem": "Among the following chords, how many chords can be considered as enharmonically ",
+        "raw": "Let me work through this step-by-step.\n\nFirst, I need",
+        "pred": "X",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 16
+      },
+      {
+        "idx": 305,
+        "subject": "reasoning",
+        "stem": "How many of the following chords can be used as a S\u21617 in major keys?",
+        "raw": "The SII7 (supertonic seventh) in major keys is a",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 16
+      }
+    ],
+    "wrong_answer": [
+      {
+        "idx": 297,
+        "subject": "knowledge",
+        "stem": "Express the note values of L:1/8\nM:2/4\nK:C\nV:1\n c3 z |] %1 with three dotted not",
+        "raw": "A",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 127,
+        "subject": "reasoning",
+        "stem": "What kind of modulation is shown in the following example:",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 69,
+        "subject": "knowledge",
+        "stem": "Which of the following composers wrote music that featured brass with large orch",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 324,
+        "subject": "reasoning",
+        "stem": "In the natural minor scale of B minor, which resolution is correct for \u266fE1-\u266fE2?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 179,
+        "subject": "knowledge",
+        "stem": "A regular combination of long and short tones is called",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 171,
+        "subject": "knowledge",
+        "stem": "Among the three tuning systems, the number of semitone divisions is different. T",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 166,
+        "subject": "reasoning",
+        "stem": "Which two intervals are both consonant and altered? \n \"A\": \"\u266fc - \u266f\u266fF\", \"B\": \"\u266db ",
+        "raw": "A",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 132,
+        "subject": "reasoning",
+        "stem": "In which key can the following interval be resolved?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 126,
+        "subject": "knowledge",
+        "stem": "Which option matches the following scale?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 308,
+        "subject": "reasoning",
+        "stem": "Which of the following chords is the first inversion of a major triad?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      }
+    ],
+    "correct": [
+      {
+        "idx": 259,
+        "subject": "knowledge",
+        "stem": "A triad is formed by stacking notes in ( ) relationship.",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 326,
+        "subject": "reasoning",
+        "stem": "Which of the following keys has three flats in its key signature?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 170,
+        "subject": "knowledge",
+        "stem": "Microtonal techniques used in the chamber music piece 'Vortex Temporum' by Frenc",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      }
+    ]
+  }
+}

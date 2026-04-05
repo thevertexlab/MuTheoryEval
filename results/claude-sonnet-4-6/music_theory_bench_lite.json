@@ -1,0 +1,12 @@
+{
+  "model": "claude-sonnet-4-6",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.5422343324250681,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-05T18:17:47.292729+00:00",
+  "elapsed_sec": 517,
+  "cost_est_usd": 0.1817,
+  "thinking": false
+}

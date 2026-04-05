@@ -162,6 +162,23 @@ def load_cells_for_mode(mode: str = "lite") -> dict[tuple, dict]:
     }
 
 
+TEXT_BENCHES  = ["music_theory_bench", "ziqi_eval"]
+IMAGE_BENCHES = ["wildscore"]
+AUDIO_BENCHES = ["muchomusic", "cmi_bench"]
+
+
+def _modality_score(model: str, bench_keys: list[str], cells: dict, require_all: bool = False) -> float | None:
+    """Weighted average for a modality group. Returns None if require_all and any bench missing."""
+    group = [b for b in BENCH_CATALOGUE if b["key"] in bench_keys]
+    present = [b for b in group if (model, b["key"]) in cells]
+    if require_all and len(present) < len(group):
+        return None
+    if not present:
+        return None
+    total_w = sum(b["weight"] for b in present)
+    return sum(cells[(model, b["key"])]["accuracy"] * b["weight"] for b in present) / total_w
+
+
 def build_table(mode: str = "lite") -> str:
     cells = load_cells_for_mode(mode)
     if not cells:
@@ -170,18 +187,26 @@ def build_table(mode: str = "lite") -> str:
     models  = sorted({m for m, _ in cells})
     benches = [b["key"] for b in BENCH_CATALOGUE if any((m, b["key"]) in cells for m in models)]
 
-    header = ["Model"] + [
+    header = ["Model", "Text", "Image", "Audio"] + [
         f"{b['short']} ({b['modality']})"
         for b in BENCH_CATALOGUE if b["key"] in benches
     ]
-    sep = [":---"] + [":---:" for _ in benches]
+    sep = [":---"] + [":---:" for _ in range(3 + len(benches))]
     rows = [header, sep]
 
     for model in models:
-        row = [f"`{model}`"]
+        text_s  = _modality_score(model, TEXT_BENCHES,  cells, require_all=True)
+        image_s = _modality_score(model, IMAGE_BENCHES, cells)
+        audio_s = _modality_score(model, AUDIO_BENCHES, cells)
+        row = [
+            f"`{model}`",
+            f"**{text_s:.1%}**"  if text_s  is not None else "—",
+            f"**{image_s:.1%}**" if image_s is not None else "—",
+            f"**{audio_s:.1%}**" if audio_s is not None else "—",
+        ]
         for b_key in benches:
             cell = cells.get((model, b_key))
-            row.append(f"**{cell['accuracy']:.1%}** ({cell['n']}q)" if cell else "—")
+            row.append(f"{cell['accuracy']:.1%} ({cell['n']}q)" if cell else "—")
         rows.append(row)
 
     lines = [" | ".join(r) for r in rows]
