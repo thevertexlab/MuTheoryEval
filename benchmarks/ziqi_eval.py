@@ -32,12 +32,22 @@ METADATA = {
 }
 
 
-def load(split="train", sample=500, seed=42):
+def load(split="test", sample=500, seed=42):
     from datasets import load_dataset
     ds = load_dataset("MYTH-Lab/ZIQI-Eval", split=split)
     if sample and sample < len(ds):
         ds = ds.shuffle(seed=seed).select(range(sample))
     return ds
+
+
+def format_prompt(item: dict) -> str:
+    return (
+        f"{item['question']}\n\n"
+        f"A. {item['A']}\n"
+        f"B. {item['B']}\n"
+        f"C. {item['C']}\n"
+        f"D. {item['D']}"
+    )
 
 
 def score(predictions: list[str], references: list[str]) -> dict:
