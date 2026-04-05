@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T23:17:42.330410+00:00",
+  "updated": "2026-04-05T23:34:04.281657+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -1681,6 +1681,195 @@
     },
     {
       "model": "gemini-3.1-flash",
+      "benchmark": "cmi_bench",
+      "mode": "lite",
+      "accuracy": 0.41750841750841755,
+      "n": 99,
+      "seed": 42,
+      "timestamp": "2026-04-05T23:29:58.431164+00:00",
+      "elapsed_sec": 584,
+      "cost_est_usd": 0.0083,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 4096,
+        "thinking": {
+          "level": "default"
+        },
+        "answer_format": "MULTI_SELECT",
+        "system_prompt_hash": "91cc684c"
+      },
+      "usage": {
+        "total_prompt_tokens": 51571,
+        "total_completion_tokens": 120,
+        "total_thinking_tokens": 49515,
+        "avg_thinking_tokens_per_q": 500.2
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 67,
+            "subject": "NSynth",
+            "stem": "What instrument family is playing in this audio?",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 23,
+            "subject": "GTZAN",
+            "stem": "What is the genre of this music?",
+            "raw": "F",
+            "pred": "F",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 2,
+            "subject": "GTZAN",
+            "stem": "What is the genre of this music?",
+            "raw": "D, H",
+            "pred": "D,H",
+            "ref": "H",
+            "correct": false,
+            "score": 0.5,
+            "stop_reason": "end_turn",
+            "output_tokens": 3
+          },
+          {
+            "idx": 77,
+            "subject": "VocalSet",
+            "stem": "What singing technique is being demonstrated in this audio?",
+            "raw": "A",
+            "pred": "A",
+            "ref": "G",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 36,
+            "subject": "GS-key",
+            "stem": "What is the musical key of this audio clip?",
+            "raw": "A",
+            "pred": "A",
+            "ref": "G",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 34,
+            "subject": "GS-key",
+            "stem": "What is the musical key of this audio clip?",
+            "raw": "F",
+            "pred": "F",
+            "ref": "E",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 0
+          },
+          {
+            "idx": 33,
+            "subject": "GS-key",
+            "stem": "What is the musical key of this audio clip?",
+            "raw": "H",
+            "pred": "H",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 26,
+            "subject": "GS-key",
+            "stem": "What is the musical key of this audio clip?",
+            "raw": "G",
+            "pred": "G",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 93,
+            "subject": "VocalSet",
+            "stem": "What singing technique is being demonstrated in this audio?",
+            "raw": "B",
+            "pred": "B",
+            "ref": "G",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 21,
+            "subject": "GTZAN",
+            "stem": "What is the genre of this music?",
+            "raw": "B, C",
+            "pred": "B,C",
+            "ref": "B",
+            "correct": false,
+            "score": 0.5,
+            "stop_reason": "end_turn",
+            "output_tokens": 3
+          }
+        ],
+        "correct": [
+          {
+            "idx": 92,
+            "subject": "VocalSet",
+            "stem": "What singing technique is being demonstrated in this audio?",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 9,
+            "subject": "GTZAN",
+            "stem": "What is the genre of this music?",
+            "raw": "E",
+            "pred": "E",
+            "ref": "E",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 70,
+            "subject": "NSynth",
+            "stem": "What instrument family is playing in this audio?",
+            "raw": "A",
+            "pred": "A",
+            "ref": "A",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ]
+      }
+    },
+    {
+      "model": "gemini-3.1-flash",
       "benchmark": "muchomusic",
       "mode": "lite",
       "accuracy": 0.775,
@@ -2381,6 +2570,195 @@
     },
     {
       "model": "gemini-3.1-flash-lite",
+      "benchmark": "cmi_bench",
+      "mode": "lite",
+      "accuracy": 0.3787878787878788,
+      "n": 99,
+      "seed": 42,
+      "timestamp": "2026-04-05T23:23:35.287042+00:00",
+      "elapsed_sec": 336,
+      "cost_est_usd": 0.0042,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 4096,
+        "thinking": {
+          "level": "default"
+        },
+        "answer_format": "MULTI_SELECT",
+        "system_prompt_hash": "91cc684c"
+      },
+      "usage": {
+        "total_prompt_tokens": 51571,
+        "total_completion_tokens": 125,
+        "total_thinking_tokens": 0,
+        "avg_thinking_tokens_per_q": 0.0
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 27,
+            "subject": "",
+            "stem": "",
+            "raw": "E",
+            "pred": "E",
+            "ref": "G",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 5,
+            "subject": "",
+            "stem": "",
+            "raw": "C, E",
+            "pred": "C,E",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 3
+          },
+          {
+            "idx": 66,
+            "subject": "",
+            "stem": "",
+            "raw": "E",
+            "pred": "E",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 31,
+            "subject": "",
+            "stem": "",
+            "raw": "E",
+            "pred": "E",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 28,
+            "subject": "",
+            "stem": "",
+            "raw": "F",
+            "pred": "F",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 93,
+            "subject": "",
+            "stem": "",
+            "raw": "C",
+            "pred": "C",
+            "ref": "G",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 19,
+            "subject": "",
+            "stem": "",
+            "raw": "D, E",
+            "pred": "D,E",
+            "ref": "D",
+            "correct": false,
+            "score": 0.5,
+            "stop_reason": "end_turn",
+            "output_tokens": 3
+          },
+          {
+            "idx": 89,
+            "subject": "",
+            "stem": "",
+            "raw": "B",
+            "pred": "B",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 8,
+            "subject": "",
+            "stem": "",
+            "raw": "E",
+            "pred": "E",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 62,
+            "subject": "",
+            "stem": "",
+            "raw": "A",
+            "pred": "A",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ],
+        "correct": [
+          {
+            "idx": 12,
+            "subject": "",
+            "stem": "",
+            "raw": "G",
+            "pred": "G",
+            "ref": "G",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 91,
+            "subject": "",
+            "stem": "",
+            "raw": "A",
+            "pred": "A",
+            "ref": "A",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 9,
+            "subject": "",
+            "stem": "",
+            "raw": "E",
+            "pred": "E",
+            "ref": "E",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ]
+      }
+    },
+    {
+      "model": "gemini-3.1-flash-lite",
       "benchmark": "muchomusic",
       "mode": "lite",
       "accuracy": 0.71,
@@ -2422,6 +2800,384 @@
       "timestamp": "2026-04-05T16:21:51+00:00",
       "elapsed_sec": 371,
       "cost_est_usd": 0.0081
+    },
+    {
+      "model": "gemini-3.1-flash-minimal",
+      "benchmark": "cmi_bench",
+      "mode": "lite",
+      "accuracy": 0.37070707070707076,
+      "n": 99,
+      "seed": 42,
+      "timestamp": "2026-04-05T23:33:55.251678+00:00",
+      "elapsed_sec": 207,
+      "cost_est_usd": 0.0083,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 4096,
+        "thinking": {
+          "level": "minimal"
+        },
+        "answer_format": "MULTI_SELECT",
+        "system_prompt_hash": "91cc684c"
+      },
+      "usage": {
+        "total_prompt_tokens": 51571,
+        "total_completion_tokens": 153,
+        "total_thinking_tokens": 0,
+        "avg_thinking_tokens_per_q": 0.0
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 22,
+            "subject": "",
+            "stem": "",
+            "raw": "D, G, F",
+            "pred": "D,F,G",
+            "ref": "D",
+            "correct": false,
+            "score": 0.3333333333333333,
+            "stop_reason": "end_turn",
+            "output_tokens": 5
+          },
+          {
+            "idx": 5,
+            "subject": "",
+            "stem": "",
+            "raw": "E",
+            "pred": "E",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 48,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "F",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 42,
+            "subject": "",
+            "stem": "",
+            "raw": "A",
+            "pred": "A",
+            "ref": "F",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 38,
+            "subject": "",
+            "stem": "",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 14,
+            "subject": "",
+            "stem": "",
+            "raw": "F, G, H",
+            "pred": "F,G,H",
+            "ref": "F",
+            "correct": false,
+            "score": 0.3333333333333333,
+            "stop_reason": "end_turn",
+            "output_tokens": 5
+          },
+          {
+            "idx": 65,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "G",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 12,
+            "subject": "",
+            "stem": "",
+            "raw": "G, C",
+            "pred": "C,G",
+            "ref": "G",
+            "correct": false,
+            "score": 0.5,
+            "stop_reason": "end_turn",
+            "output_tokens": 3
+          },
+          {
+            "idx": 61,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "H",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 87,
+            "subject": "",
+            "stem": "",
+            "raw": "H",
+            "pred": "H",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ],
+        "correct": [
+          {
+            "idx": 94,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 60,
+            "subject": "",
+            "stem": "",
+            "raw": "A",
+            "pred": "A",
+            "ref": "A",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 7,
+            "subject": "",
+            "stem": "",
+            "raw": "H",
+            "pred": "H",
+            "ref": "H",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ]
+      }
+    },
+    {
+      "model": "gemini-3.1-flash-minimal",
+      "benchmark": "muchomusic",
+      "mode": "lite",
+      "accuracy": 0.74,
+      "n": 200,
+      "seed": 42,
+      "timestamp": "2026-04-05T23:30:28.510971+00:00",
+      "elapsed_sec": 898,
+      "cost_est_usd": 0.0168,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 4096,
+        "thinking": {
+          "level": "minimal"
+        },
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 615717,
+        "total_completion_tokens": 204,
+        "total_thinking_tokens": 0,
+        "avg_thinking_tokens_per_q": 0.0
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 158,
+            "subject": "",
+            "stem": "",
+            "raw": "C",
+            "pred": "C",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 55,
+            "subject": "",
+            "stem": "",
+            "raw": "C",
+            "pred": "C",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 9,
+            "subject": "",
+            "stem": "",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 180,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 83,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 79,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 76,
+            "subject": "",
+            "stem": "",
+            "raw": "A",
+            "pred": "A",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 56,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 49,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 138,
+            "subject": "",
+            "stem": "",
+            "raw": "A",
+            "pred": "A",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ],
+        "correct": [
+          {
+            "idx": 26,
+            "subject": "",
+            "stem": "",
+            "raw": "B",
+            "pred": "B",
+            "ref": "B",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 146,
+            "subject": "",
+            "stem": "",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 10,
+            "subject": "",
+            "stem": "",
+            "raw": "C",
+            "pred": "C",
+            "ref": "C",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ]
+      }
     },
     {
       "model": "gemini-3.1-flash-minimal",

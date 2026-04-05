@@ -1,0 +1,189 @@
+{
+  "model": "gemini-3.1-flash-minimal",
+  "benchmark": "muchomusic",
+  "mode": "lite",
+  "accuracy": 0.74,
+  "n": 200,
+  "seed": 42,
+  "timestamp": "2026-04-05T23:30:28.510971+00:00",
+  "elapsed_sec": 898,
+  "cost_est_usd": 0.0168,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "minimal"
+    },
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 615717,
+    "total_completion_tokens": 204,
+    "total_thinking_tokens": 0,
+    "avg_thinking_tokens_per_q": 0.0
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 158,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 55,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 9,
+        "subject": "",
+        "stem": "",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 180,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 83,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 79,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 76,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 56,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 49,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 138,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ],
+    "correct": [
+      {
+        "idx": 26,
+        "subject": "",
+        "stem": "",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 146,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 10,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ]
+  }
+}

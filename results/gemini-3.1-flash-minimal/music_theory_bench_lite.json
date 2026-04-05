@@ -1,0 +1,189 @@
+{
+  "model": "gemini-3.1-flash-minimal",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.7220708446866485,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-05T23:06:48.595622+00:00",
+  "elapsed_sec": 276,
+  "cost_est_usd": 0.0308,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "minimal"
+    },
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 55422,
+    "total_completion_tokens": 367,
+    "total_thinking_tokens": 0,
+    "avg_thinking_tokens_per_q": 0.0
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 326,
+        "subject": "reasoning",
+        "stem": "Which of the following keys has three flats in its key signature?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 153,
+        "subject": "knowledge",
+        "stem": "The music fragment shown in the following example develops the musical material ",
+        "raw": "A",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 122,
+        "subject": "knowledge",
+        "stem": "Use the example below to answer the question that follows.\n     \nWhat is the mus",
+        "raw": "B",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 353,
+        "subject": "reasoning",
+        "stem": "Compared the Ya-yue Shang mode with \u266dB as the Zhi note to that with \u266dB as the to",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 216,
+        "subject": "knowledge",
+        "stem": "Which of the following two-phrase musical segments are considered balanced?\n\u24604+4",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 198,
+        "subject": "knowledge",
+        "stem": "The added in B Shang hexatonic mode can be",
+        "raw": "B",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 187,
+        "subject": "knowledge",
+        "stem": "What does 'scale degree' refer to?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 168,
+        "subject": "reasoning",
+        "stem": "What is the inversed interval of double-augmented octave?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 149,
+        "subject": "knowledge",
+        "stem": "Which of the following is NOT a main characteristic of Debussy's musical composi",
+        "raw": "B",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 338,
+        "subject": "reasoning",
+        "stem": "In the Pythagorean major scale of F-sharp, what are the two apotome pitch names?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ],
+    "correct": [
+      {
+        "idx": 45,
+        "subject": "knowledge",
+        "stem": "Which of the following notation software allows musicians to notate compositions",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 282,
+        "subject": "reasoning",
+        "stem": "Which of the following statements about inverted counterpoint is incorrect?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 16,
+        "subject": "knowledge",
+        "stem": "The Fibonacci sequence in mathematics can be seen in all of the following aspect",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ]
+  }
+}
