@@ -1,0 +1,112 @@
+{
+  "updated": "2026-04-05T17:49:06.829059+00:00",
+  "benchmarks": [
+    {
+      "key": "music_theory_bench",
+      "name": "MusicTheoryBench",
+      "short": "MusicTheory",
+      "modality": "text",
+      "source": "arXiv:2402.16153",
+      "hf": "m-a-p/MusicTheoryBench",
+      "weight": 0.35,
+      "n_full": 372,
+      "lite_n": null
+    },
+    {
+      "key": "ziqi_eval",
+      "name": "ZIQI-Eval",
+      "short": "ZIQI-Eval",
+      "modality": "text",
+      "source": "arXiv:2406.15885",
+      "hf": "MYTH-Lab/ZIQI-Eval",
+      "weight": 0.35,
+      "n_full": 14244,
+      "lite_n": 500
+    },
+    {
+      "key": "wildscore",
+      "name": "WildScore",
+      "short": "WildScore",
+      "modality": "image",
+      "source": "arXiv:2509.04744",
+      "hf": "GM77/WildScore",
+      "weight": 0.15,
+      "n_full": 807,
+      "lite_n": 100
+    },
+    {
+      "key": "muchomusic",
+      "name": "MuChoMusic",
+      "short": "MuChoMusic",
+      "modality": "audio",
+      "source": "arXiv:2408.01337",
+      "hf": "lmms-lab/muchomusic",
+      "weight": 0.15,
+      "n_full": 1187,
+      "lite_n": 200
+    },
+    {
+      "key": "cmi_bench",
+      "name": "CMI-Bench",
+      "short": "CMI-Bench",
+      "modality": "audio",
+      "source": "arXiv:2407.05830",
+      "hf": "nicolaus625/CMI-bench",
+      "weight": 0.15,
+      "n_full": null,
+      "lite_n": 50
+    }
+  ],
+  "models": [
+    {
+      "key": "gemini-3.1-flash-lite",
+      "provider": "Google"
+    }
+  ],
+  "cells": [
+    {
+      "model": "gemini-3.1-flash-lite",
+      "benchmark": "muchomusic",
+      "mode": "lite",
+      "accuracy": 0.71,
+      "n": 200,
+      "seed": 42,
+      "timestamp": "2026-04-05T17:04:47+00:00",
+      "elapsed_sec": 986,
+      "cost_est_usd": 0.003
+    },
+    {
+      "model": "gemini-3.1-flash-lite",
+      "benchmark": "music_theory_bench",
+      "mode": "lite",
+      "accuracy": 0.6675,
+      "n": 367,
+      "seed": 42,
+      "timestamp": "2026-04-05T16:15:38+00:00",
+      "elapsed_sec": 280,
+      "cost_est_usd": 0.0059
+    },
+    {
+      "model": "gemini-3.1-flash-lite",
+      "benchmark": "wildscore",
+      "mode": "lite",
+      "accuracy": 0.73,
+      "n": 100,
+      "seed": 42,
+      "timestamp": "2026-04-05T17:04:47+00:00",
+      "elapsed_sec": 128,
+      "cost_est_usd": 0.002
+    },
+    {
+      "model": "gemini-3.1-flash-lite",
+      "benchmark": "ziqi_eval",
+      "mode": "lite",
+      "accuracy": 0.81,
+      "n": 500,
+      "seed": 42,
+      "timestamp": "2026-04-05T16:21:51+00:00",
+      "elapsed_sec": 371,
+      "cost_est_usd": 0.0081
+    }
+  ]
+}

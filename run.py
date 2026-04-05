@@ -34,6 +34,15 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
 
+# Leaderboard updater — imported lazily to avoid circular issues at module level
+def _update_leaderboard():
+    try:
+        sys.path.insert(0, str(Path(__file__).parent / "scripts"))
+        from gen_leaderboard import write_data_json
+        write_data_json()
+    except Exception as e:
+        print(f"  [warn] Could not update docs/data.json: {e}")
+
 from benchmarks import REGISTRY as BENCH_REGISTRY, WEIGHTS
 from benchmarks import MULTIMODAL_REGISTRY, MULTIMODAL_WEIGHTS
 from models import REGISTRY as MODEL_REGISTRY
@@ -270,6 +279,8 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
 
     if checkpoint_file.exists():
         checkpoint_file.unlink()
+
+    _update_leaderboard()
 
     return cell
 
