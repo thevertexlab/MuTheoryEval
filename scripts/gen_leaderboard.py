@@ -89,16 +89,18 @@ BENCH_CATALOGUE = [
 # not what the underlying model architecture theoretically supports.
 # e.g. DeepInfra models skip media even if the model supports images.
 _CAPABILITIES: list[tuple[str, list[str]]] = [
-    ("gemini-",    ["text", "image", "audio"]),  # GeminiModel handles all modalities
-    ("claude-",    ["text", "image"]),            # AnthropicModel: image yes, audio skipped
-    ("gpt-",       ["text", "image"]),            # OpenAIModel: image yes, audio skipped
-    ("o1",         ["text", "image"]),
-    ("o3",         ["text", "image"]),
-    ("o4",         ["text", "image"]),
-    ("deepseek-",  ["text"]),
-    ("llama-",     ["text"]),   # DeepInfraModel ignores media kwarg
-    ("qwen",       ["text"]),
-    ("mistral",    ["text"]),
+    ("gemini-",       ["text", "image", "audio"]),  # GeminiModel handles all modalities
+    ("claude-",       ["text", "image"]),            # AnthropicModel: image yes, audio skipped
+    ("gpt-",          ["text", "image"]),            # OpenAIModel: image yes, audio skipped
+    ("o1",            ["text", "image"]),
+    ("o3",            ["text", "image"]),
+    ("o4",            ["text", "image"]),
+    ("deepseek-",     ["text"]),
+    ("llama-",        ["text"]),   # DeepInfraModel ignores media kwarg
+    ("qwen3.5-omni",  ["text", "image", "audio"]),   # DashScope Omni: full multimodal
+    ("qwen",          ["text"]),
+    ("glm-",          ["text"]),                     # ZAIModel: text only
+    ("mistral",       ["text"]),
 ]
 
 def infer_capabilities(model_key: str) -> list[str]:
@@ -116,9 +118,37 @@ def infer_provider(model_key: str) -> str:
         return "Google"
     if model_key.startswith("deepseek-"):
         return "DeepSeek"
+    if model_key.startswith("glm-"):
+        return "ZhipuAI"
+    if model_key.startswith("qwen3.5-omni"):
+        return "Alibaba"
     if model_key.startswith(("llama-", "qwen", "mistral")):
         return "DeepInfra"
     return "Unknown"
+
+
+# ── Thinking / reasoning model detection ──────────────────────────────────────
+# "thinking" = model uses extended chain-of-thought reasoning at inference time,
+# either always-on (Gemini 3, Z1, o-series, DeepSeek-R1) or explicitly enabled.
+_THINKING_PREFIXES = ("gemini-3-", "gemini-3.1-")  # always-on: Gemini 3 series
+_THINKING_KEYS = {
+    # OpenAI reasoning (o-series)
+    "o1", "o3", "o4",
+    # DeepSeek
+    "deepseek-reasoner",
+    # Always-on open-weight
+    "deepseek-r1", "qwen3-max-thinking",
+}
+_THINKING_SUBSTRINGS = ("-thinking", "glm-z1", "-xt")  # GLM-Z1, GLM-*-thinking, Claude-*-xt*
+
+def infer_thinking(model_key: str) -> bool:
+    if any(model_key.startswith(p) for p in _THINKING_PREFIXES):
+        return True
+    if model_key in _THINKING_KEYS:
+        return True
+    if any(sub in model_key for sub in _THINKING_SUBSTRINGS):
+        return True
+    return False
 
 
 # ── Cell loading ───────────────────────────────────────────────────────────────
@@ -152,7 +182,12 @@ def build_data_json() -> dict:
     known_models = sorted({c["model"] for c in cells})
 
     models_meta = [
-        {"key": m, "provider": infer_provider(m), "capabilities": infer_capabilities(m)}
+        {
+            "key":          m,
+            "provider":     infer_provider(m),
+            "capabilities": infer_capabilities(m),
+            "thinking":     infer_thinking(m),
+        }
         for m in known_models
     ]
 
@@ -220,8 +255,9 @@ def build_table(mode: str = "lite") -> str:
         text_s  = _modality_score(model, TEXT_BENCHES,  cells, require_all=True)
         image_s = _modality_score(model, IMAGE_BENCHES, cells)
         audio_s = _modality_score(model, AUDIO_BENCHES, cells)
+        label = f"`{model}` [T]" if infer_thinking(model) else f"`{model}`"
         row = [
-            f"`{model}`",
+            label,
             f"**{text_s:.1%}**"  if text_s  is not None else "—",
             f"**{image_s:.1%}**" if image_s is not None else "—",
             f"**{audio_s:.1%}**" if audio_s is not None else "—",

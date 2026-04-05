@@ -25,8 +25,8 @@ REGISTRY = {
     # ── Google ────────────────────────────────────────────────────────────────
     # Gemini 3.1 series — latest (preview, production-usable)
     "gemini-3.1-pro":        lambda: GeminiModel("gemini-3.1-pro-preview"),
-    "gemini-3.1-flash":      lambda: GeminiModel("gemini-3-flash-preview"),          # default thinking
-    "gemini-3.1-flash-high": lambda: GeminiModel("gemini-3-flash-preview", thinking_level="high"),  # thinking_budget=-1
+    "gemini-3.1-flash":         lambda: GeminiModel("gemini-3-flash-preview"),                       # always thinks (default = HIGH)
+    "gemini-3.1-flash-minimal": lambda: GeminiModel("gemini-3-flash-preview", thinking_level="minimal"),  # minimal thinking budget
     "gemini-3.1-flash-lite": lambda: GeminiModel("gemini-3.1-flash-lite-preview"),
     # Gemini 2.5 series — last stable GA
     "gemini-2.5-pro":        lambda: GeminiModel("gemini-2.5-pro"),

@@ -53,8 +53,8 @@ from models import REGISTRY as MODEL_REGISTRY
 MODEL_PRICING = {
     # Verified against LiteLLM model_prices_and_context_window.json (2026-04)
     "gemini-3.1-flash-lite": {"input_per_mtok": 0.25, "output_per_mtok": 1.50,  "rpm": 120},
-    "gemini-3.1-flash":      {"input_per_mtok": 0.50, "output_per_mtok": 3.00,  "rpm": 60},
-    "gemini-3.1-flash-high": {"input_per_mtok": 0.50, "output_per_mtok": 3.00,  "rpm": 60},  # same model, more thinking tokens
+    "gemini-3.1-flash":         {"input_per_mtok": 0.50, "output_per_mtok": 3.00, "rpm": 60},
+    "gemini-3.1-flash-minimal": {"input_per_mtok": 0.50, "output_per_mtok": 3.00, "rpm": 60},  # same model, minimal thinking
     "gemini-3.1-pro":        {"input_per_mtok": 2.00, "output_per_mtok": 12.00, "rpm": 20},
     "gemini-2.5-flash":      {"input_per_mtok": 0.30, "output_per_mtok": 1.20,  "rpm": 60},
     "gemini-2.5-pro":        {"input_per_mtok": 1.25, "output_per_mtok": 5.00,  "rpm": 20},

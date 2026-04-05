@@ -1,9 +1,18 @@
 import os
 from .base import BaseModel, MediaItem
 
-# Gemini 3-series models always think (thinking cannot be disabled).
-# thinking_level controls the budget: None = model default, "high" = unlimited (-1).
+# ── Gemini thinking API versions — DO NOT MIX ─────────────────────────────────
+# Gemini 2.5 (gemini-2.5-*):
+#   ThinkingConfig(thinking_budget=N)   — N is int token count; -1 = automatic; 0 = disabled
+#
+# Gemini 3+ (gemini-3-*, gemini-3.1-*):
+#   ThinkingConfig(thinking_level=<ThinkingLevel enum>)  — HIGH / MEDIUM / LOW / MINIMAL
+#   thinking_budget is IGNORED or undefined on Gemini 3 — never pass it to Gemini 3 models.
+#   Omitting ThinkingConfig entirely = model default (= HIGH as of Gemini 3 Flash launch).
+# ──────────────────────────────────────────────────────────────────────────────
+
 _GEMINI3_THINKING_MODELS = ("gemini-3-", "gemini-3.1-")
+_VALID_THINKING_LEVELS = {"minimal", "low", "medium", "high"}
 
 
 def _is_thinking_model(model_id: str) -> bool:
@@ -16,21 +25,26 @@ class GeminiModel(BaseModel):
         Args:
             model_id: Gemini model identifier.
             thinking_level: One of "minimal", "low", "medium", "high", or None (model default).
-                            Only applies to thinking-capable models (Gemini 3 series).
+                            Only applies to Gemini 3-series models (always-on thinking).
+                            Do NOT use thinking_budget here — that is Gemini 2.5 API only.
         """
         super().__init__(model_id)
         from google import genai
         self.client = genai.Client(api_key=os.environ["GOOGLE_GEMINI_API_KEY"])
+
+        if thinking_level is not None and thinking_level not in _VALID_THINKING_LEVELS:
+            raise ValueError(
+                f"Invalid thinking_level={thinking_level!r}. "
+                f"Must be one of {_VALID_THINKING_LEVELS} or None. "
+                f"(Note: thinking_budget is Gemini 2.5 API only — use thinking_level for Gemini 3.)"
+            )
         self.thinking_level = thinking_level
 
         native_thinking = _is_thinking_model(model_id)
         thinking_config: bool | dict | str
         if native_thinking:
-            thinking_config = (
-                {"level": thinking_level, "budget_tokens": -1}
-                if thinking_level == "high"
-                else {"level": thinking_level or "default"}
-            )
+            # Gemini 3: always thinks. None = model default (HIGH). Explicit level if set.
+            thinking_config = {"level": thinking_level} if thinking_level else {"level": "default"}
         else:
             thinking_config = False
 
@@ -58,8 +72,10 @@ class GeminiModel(BaseModel):
 
         config_kwargs: dict = dict(max_output_tokens=self.config.get("max_output_tokens", 4096), temperature=0)
         if self.thinking_level is not None:
+            # Gemini 3: use thinking_level enum (HIGH/MEDIUM/LOW/MINIMAL).
+            # Do NOT use thinking_budget here — that is Gemini 2.5 API only.
             config_kwargs["thinking_config"] = types.ThinkingConfig(
-                thinking_budget=-1 if self.thinking_level == "high" else None,
+                thinking_level=self.thinking_level.upper(),
                 include_thoughts=False,
             )
 
