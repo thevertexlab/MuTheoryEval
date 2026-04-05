@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T23:13:30.696031+00:00",
+  "updated": "2026-04-05T23:14:58.090357+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -1092,7 +1092,15 @@
       "timestamp": "2026-04-05T20:59:39.441214+00:00",
       "elapsed_sec": 8930,
       "cost_est_usd": 0.0595,
-      "thinking": false
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 8256,
+        "thinking": {
+          "budget_tokens": 8000
+        },
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      }
     },
     {
       "model": "claude-sonnet-4-6-xt8k",
@@ -1277,7 +1285,15 @@
       "timestamp": "2026-04-05T21:35:27.784870+00:00",
       "elapsed_sec": 2147,
       "cost_est_usd": 0.081,
-      "thinking": false
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 8256,
+        "thinking": {
+          "budget_tokens": 8000
+        },
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      }
     },
     {
       "model": "deepseek-chat",

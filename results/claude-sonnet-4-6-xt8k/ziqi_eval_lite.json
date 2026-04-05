@@ -8,5 +8,13 @@
   "timestamp": "2026-04-05T21:35:27.784870+00:00",
   "elapsed_sec": 2147,
   "cost_est_usd": 0.081,
-  "thinking": false
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 8256,
+    "thinking": {
+      "budget_tokens": 8000
+    },
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  }
 }
