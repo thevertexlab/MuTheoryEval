@@ -6,11 +6,14 @@ from .deepinfra import DeepInfraModel
 
 REGISTRY = {
     # ── OpenAI ────────────────────────────────────────────────────────────────
-    # GPT-4.1 series (Apr 2025) — instruction following + coding flagship
-    "gpt-4.1":        lambda: OpenAIModel("gpt-4.1"),
-    "gpt-4.1-mini":   lambda: OpenAIModel("gpt-4.1-mini"),
+    # GPT-5.4 series — current frontier (agentic, coding, professional)
+    "gpt-5.4":        lambda: OpenAIModel("gpt-5.4"),
+    "gpt-5.4-mini":   lambda: OpenAIModel("gpt-5.4-mini"),
+    # GPT-5 base — strong general purpose
+    "gpt-5":          lambda: OpenAIModel("gpt-5"),
     # o-series reasoning models
     "o3":             lambda: OpenAIModel("o3"),
+    "o3-pro":         lambda: OpenAIModel("o3-pro"),
     "o4-mini":        lambda: OpenAIModel("o4-mini"),
 
     # ── Anthropic ─────────────────────────────────────────────────────────────

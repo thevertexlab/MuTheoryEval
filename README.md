@@ -75,10 +75,12 @@ python run.py --list-benchmarks
 
 | Model key | API model ID | Provider |
 |-----------|-------------|----------|
-| `gpt-4.1` | `gpt-4.1` | OpenAI |
-| `gpt-4.1-mini` | `gpt-4.1-mini` | OpenAI |
-| `o3` | `o3` | OpenAI |
-| `o4-mini` | `o4-mini` | OpenAI |
+| `gpt-5.4` | `gpt-5.4` | OpenAI (frontier) |
+| `gpt-5.4-mini` | `gpt-5.4-mini` | OpenAI |
+| `gpt-5` | `gpt-5` | OpenAI |
+| `o3` | `o3` | OpenAI (reasoning) |
+| `o3-pro` | `o3-pro` | OpenAI (reasoning, high compute) |
+| `o4-mini` | `o4-mini` | OpenAI (reasoning, fast) |
 | `claude-opus-4-6` | `claude-opus-4-6` | Anthropic |
 | `claude-sonnet-4-6` | `claude-sonnet-4-6` | Anthropic |
 | `claude-haiku-4-5` | `claude-haiku-4-5-20251001` | Anthropic |
