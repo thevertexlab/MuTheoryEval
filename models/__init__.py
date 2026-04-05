@@ -20,9 +20,13 @@ REGISTRY = {
     "claude-haiku-4-5":  lambda: AnthropicModel("claude-haiku-4-5-20251001"),
 
     # ── Google ────────────────────────────────────────────────────────────────
-    # Gemini 2.5 series — current production flagship
-    "gemini-2.5-pro":   lambda: GeminiModel("gemini-2.5-pro"),
-    "gemini-2.5-flash": lambda: GeminiModel("gemini-2.5-flash"),
+    # Gemini 3.1 series — latest (preview, production-usable)
+    "gemini-3.1-pro":        lambda: GeminiModel("gemini-3.1-pro-preview"),
+    "gemini-3.1-flash":      lambda: GeminiModel("gemini-3-flash-preview"),
+    "gemini-3.1-flash-lite": lambda: GeminiModel("gemini-3.1-flash-lite-preview"),
+    # Gemini 2.5 series — last stable GA
+    "gemini-2.5-pro":        lambda: GeminiModel("gemini-2.5-pro"),
+    "gemini-2.5-flash":      lambda: GeminiModel("gemini-2.5-flash"),
 
     # ── DeepSeek ──────────────────────────────────────────────────────────────
     # Both point to DeepSeek-V3.2 (128K ctx); -chat = standard, -reasoner = thinking

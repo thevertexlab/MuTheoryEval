@@ -82,8 +82,11 @@ python run.py --list-benchmarks
 | `claude-opus-4-6` | `claude-opus-4-6` | Anthropic |
 | `claude-sonnet-4-6` | `claude-sonnet-4-6` | Anthropic |
 | `claude-haiku-4-5` | `claude-haiku-4-5-20251001` | Anthropic |
-| `gemini-2.5-pro` | `gemini-2.5-pro` | Google |
-| `gemini-2.5-flash` | `gemini-2.5-flash` | Google |
+| `gemini-3.1-pro` | `gemini-3.1-pro-preview` | Google |
+| `gemini-3.1-flash` | `gemini-3-flash-preview` | Google |
+| `gemini-3.1-flash-lite` | `gemini-3.1-flash-lite-preview` | Google |
+| `gemini-2.5-pro` | `gemini-2.5-pro` | Google (last stable GA) |
+| `gemini-2.5-flash` | `gemini-2.5-flash` | Google (last stable GA) |
 | `deepseek-chat` | `deepseek-chat` (= V3.2) | DeepSeek |
 | `deepseek-reasoner` | `deepseek-reasoner` (= V3.2 thinking) | DeepSeek |
 | `llama-4-maverick` | `meta-llama/Llama-4-Maverick-17B-128E-Instruct` | DeepInfra |
