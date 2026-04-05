@@ -509,10 +509,10 @@
       full: 1187, lite: 200,
     },
     cmi_bench: {
-      desc: 'Comprehensive music instruction following across 14 MIR tasks and 20 sub-datasets. Mixed formats including classification, captioning, and regression.',
-      subsets: '14 MIR tasks · classification / captioning / regression',
-      bias: 'Instruction following; MIR task diversity',
-      full: null, lite: 50,
+      desc: 'Audio-grounded music understanding benchmark spanning 16 MIR tasks (full dataset). Our lite eval covers 4 classification tasks formatted as MCQ: GTZAN genre (10 classes), GS-key detection (24 keys), NSynth instrument (10 classes), VocalSet technique (10 classes).',
+      subsets: '4 / 16 tasks · GTZAN · Key · NSynth · VocalSet · 25q each',
+      bias: 'Classification-only subset; full dataset also includes captioning & regression',
+      full: null, lite: 100,
     },
   };
 

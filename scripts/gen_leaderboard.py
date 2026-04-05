@@ -77,8 +77,8 @@ BENCH_CATALOGUE = [
         "source":    "arXiv:2506.12285",
         "hf":        "nicolaus625/CMI-bench",
         "weight":    0.15,
-        "n_full":    None,
-        "lite_n":    50,
+        "n_full":    None,   # full dataset ~56k items across 16 tasks; not yet fully implemented
+        "lite_n":    100,
     },
 ]
 

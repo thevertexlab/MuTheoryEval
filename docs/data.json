@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T23:38:11.583645+00:00",
+  "updated": "2026-04-05T23:43:44.984408+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -54,7 +54,7 @@
       "hf": "nicolaus625/CMI-bench",
       "weight": 0.15,
       "n_full": null,
-      "lite_n": 50
+      "lite_n": 100
     }
   ],
   "models": [
