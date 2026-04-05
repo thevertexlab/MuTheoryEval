@@ -3,23 +3,24 @@ CMI-Bench — A Comprehensive Benchmark for Evaluating Music Instruction-Followi
 Source: arXiv:2407.05830
 Dataset: huggingface.co/datasets/nicolaus625/CMI-bench
 
-Covers 16 MIR tasks across four categories:
-  Classification: key detection (24 labels), singing technique (10), pitch (106 MIDI),
-                  GTZAN genre (10)
-  Multi-label:    MTG genre (87), emotion (56), instrument (44), top50tags (50)
-  Regression:     tempo, loudness, spectral features
-  Transcription:  melody, chord, beat
+Covers 16 MIR tasks.  This implementation targets 4 classification tasks
+with small fixed label pools, formatted as MULTI_SELECT (A-H lettered MCQ):
 
-This implementation covers the classification tasks (single and multi-label)
-using the MULTI_SELECT answer format with A-H lettered options.
+  Task         JSONL                         Labels  Test
+  GTZAN        GTZAN/CMI_GTZAN.jsonl            10    290
+  GS-key       GS-key/CMI_GS_key.jsonl          24   2406
+  NSynth       NSynth/CMI_Nsynth_instrument.jsonl 10  4096
+  VocalSet     VocalSet/CMI_VocalSet_tech.jsonl  10  1140
 
-Audio storage: selective shard download via scripts/download_cmibench.py
-  → audio saved to data/cmibench/audio/testdata/  (gitignored)
-  → metadata (JSONL) at data/cmibench/meta/
+Audio path mapping:
+  JSONL  audio_path[0]: "data/GTZAN/Data/..."
+  ZIP    entry path:    "testdata/GTZAN/Data/..."
+  Local: data/cmibench/audio/testdata/GTZAN/Data/...
+
+Download audio:  python scripts/download_cmibench.py
+Metadata clone:  python scripts/download_cmibench.py --meta-only
 
 Modality: audio — requires an Audio-Language Model (e.g. Gemini 2.5+)
-
-Weight in aggregate: 0.15 (audio-only; excluded from text-only weighted score)
 """
 
 import json
@@ -27,39 +28,60 @@ import random
 from pathlib import Path
 
 METADATA = {
-    "name":          "CMI-Bench",
-    "source":        "arXiv:2407.05830",
-    "hf_dataset":    "nicolaus625/CMI-bench",
-    "n_questions":   None,   # determined at load time from JSONL
-    "lite_n":        100,
-    "lite_seed":     42,
-    "answer_format": "MULTI_SELECT",
-    "max_output_tokens": 64,
-    "modality":      "audio",
-    "requires_alm":  True,
-    "data_dir":      "data/cmibench",
-    "weight":        0.15,
+    "name":              "CMI-Bench",
+    "source":            "arXiv:2407.05830",
+    "hf_dataset":        "nicolaus625/CMI-bench",
+    "n_questions":       None,
+    "lite_n":            100,
+    "lite_seed":         42,
+    "answer_format":     "MULTI_SELECT",
+    "max_output_tokens": 16,   # single letter per item; allow short answer
+    "modality":          "audio",
+    "requires_alm":      True,
+    "data_dir":          "data/cmibench",
+    "weight":            0.15,
 }
 
-_REPO_ROOT  = Path(__file__).parent.parent
-_DATA_DIR   = _REPO_ROOT / "data" / "cmibench"
-_META_DIR   = _DATA_DIR / "meta"      # cloned from GitHub
-_AUDIO_DIR  = _DATA_DIR / "audio"     # extracted shards land here
+_REPO_ROOT = Path(__file__).parent.parent
+_DATA_DIR  = _REPO_ROOT / "data" / "cmibench"
+_META_DIR  = _DATA_DIR / "meta"
+_AUDIO_DIR = _DATA_DIR / "audio"
 
 # ── Task definitions ──────────────────────────────────────────────────────────
-# Only classification tasks (single and multi-label) are included.
-# Each entry: task subfolder name, max 8 options per item, task type.
-_TASKS = {
-    # single-label (Jaccard of singleton sets = exact match)
-    "key_detection":      {"type": "single"},
-    "singing_technique":  {"type": "single"},
-    "pitch":              {"type": "single"},
-    "GTZAN":              {"type": "single"},
-    # multi-label
-    "MTGgenre":           {"type": "multi"},
-    "emotion":            {"type": "multi"},
-    "instrument":         {"type": "multi"},
-    "top50tags":          {"type": "multi"},
+
+_TASK_CONFIGS = {
+    "GTZAN": {
+        "jsonl":    "GTZAN/CMI_GTZAN.jsonl",
+        "labels":   ["blues", "classical", "country", "disco", "hiphop",
+                     "jazz", "metal", "pop", "reggae", "rock"],
+        "n_sample": 25,
+        "question": "What is the genre of this music?",
+    },
+    "GS-key": {
+        "jsonl":    "GS-key/CMI_GS_key.jsonl",
+        "labels":   ["A major", "A minor", "Ab major", "Ab minor",
+                     "B major", "B minor", "Bb major", "Bb minor",
+                     "C major", "C minor", "D major", "D minor",
+                     "Db major", "Db minor", "E major", "E minor",
+                     "Eb major", "Eb minor", "F major", "F minor",
+                     "G major", "G minor", "Gb major", "Gb minor"],
+        "n_sample": 25,
+        "question": "What is the musical key of this audio clip?",
+    },
+    "NSynth": {
+        "jsonl":    "NSynth/CMI_Nsynth_instrument.jsonl",
+        "labels":   ["bass", "brass", "flute", "guitar", "keyboard",
+                     "mallet", "organ", "reed", "string", "vocal"],
+        "n_sample": 25,
+        "question": "What instrument family is playing in this audio?",
+    },
+    "VocalSet": {
+        "jsonl":    "VocalSet/CMI_VocalSet_tech.jsonl",
+        "labels":   ["belt", "breathy", "inhaled", "lip_trill", "spoken",
+                     "straight", "trill", "trillo", "vibrato", "vocal_fry"],
+        "n_sample": 25,
+        "question": "What singing technique is being demonstrated in this audio?",
+    },
 }
 
 _MIME_MAP = {
@@ -67,97 +89,61 @@ _MIME_MAP = {
     "flac": "audio/flac", "ogg": "audio/ogg", "m4a": "audio/mp4",
 }
 
-# ── JSONL loader ──────────────────────────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────────────────────────────
 
-def _load_jsonl(task: str) -> list[dict]:
-    """Load items from data/cmibench/meta/data/<task>/test.jsonl (GitHub clone)."""
-    for candidate in [
-        _META_DIR / "data" / task / "test.jsonl",
-        _META_DIR / "data" / task / "test.json",
-    ]:
-        if candidate.exists():
-            items = []
-            with open(candidate) as f:
-                for line in f:
-                    line = line.strip()
-                    if line:
-                        items.append(json.loads(line))
-            return items
-    return []
-
-
-def _audio_path(item_audio_path: str) -> Path:
-    """Map JSONL audio_path (data/X/...) → local filesystem path.
-
-    JSONL uses:  data/<task>/<filename>
-    Zip extracts to: data/cmibench/audio/testdata/<task>/<filename>
-    """
-    # Strip leading "data/" if present
-    rel = item_audio_path
+def _audio_local(audio_path_field) -> Path:
+    """Resolve JSONL audio_path (list or str, prefixed 'data/') to local path."""
+    rel = audio_path_field[0] if isinstance(audio_path_field, list) else audio_path_field
     if rel.startswith("data/"):
         rel = rel[len("data/"):]
     return _AUDIO_DIR / "testdata" / rel
 
 
-def _build_options(item: dict, rng: random.Random) -> tuple[list[str], list[str]]:
-    """Build up to 8 A-H options for an item; return (options_list, correct_letters).
+def _audio_zip_path(audio_path_field) -> str:
+    """Return the path as stored in the HF zip (testdata/ prefix)."""
+    rel = audio_path_field[0] if isinstance(audio_path_field, list) else audio_path_field
+    if rel.startswith("data/"):
+        rel = rel[len("data/"):]
+    return f"testdata/{rel}"
 
-    For single-label: correct answer + up to 7 distractors from the task pool.
-    For multi-label:  all correct labels as options (up to 8), rest are distractors.
+
+def _load_test_items(task_key: str) -> list[dict]:
+    jsonl_path = _META_DIR / "data" / _TASK_CONFIGS[task_key]["jsonl"]
+    if not jsonl_path.exists():
+        return []
+    items = []
+    with open(jsonl_path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            if "test" in d.get("split", []):
+                items.append(d)
+    return items
+
+
+def _build_mcq(item: dict, task_key: str, rng: random.Random) -> tuple[list[str], str]:
+    """Return (options_list, correct_letter).
+
+    Picks the correct label + up to 7 distractors, shuffled, → A-H.
     """
-    # Normalise answers field
-    raw_answers = item.get("answers") or item.get("answer") or item.get("label") or []
-    if isinstance(raw_answers, str):
-        try:
-            raw_answers = json.loads(raw_answers)
-        except Exception:
-            raw_answers = [raw_answers]
-    if not isinstance(raw_answers, list):
-        raw_answers = [raw_answers]
-    correct_labels = [str(a).strip() for a in raw_answers if str(a).strip()]
+    correct = item["output"].strip() if isinstance(item["output"], str) else str(item["output"]).strip()
+    pool = list(_TASK_CONFIGS[task_key]["labels"])
 
-    # Get candidate pool from choices / options field, or use correct as pool
-    pool = item.get("choices") or item.get("options") or []
-    if isinstance(pool, str):
-        try:
-            pool = json.loads(pool)
-        except Exception:
-            pool = [pool]
-    pool = list({str(c).strip() for c in pool if str(c).strip()})
-
-    # Ensure correct labels are in the pool
-    for lbl in correct_labels:
-        if lbl not in pool:
-            pool.append(lbl)
-
-    # Limit: pick at most 8 options including all correct ones
-    n_slots = 8
-    correct_set = set(correct_labels)
-    distractors = [c for c in pool if c not in correct_set]
+    distractors = [l for l in pool if l != correct]
     rng.shuffle(distractors)
-    # Ensure we have enough room for all correct labels
-    n_correct = min(len(correct_labels), n_slots)
-    n_dist = min(len(distractors), n_slots - n_correct)
-    selected_correct = correct_labels[:n_correct]
-    selected = selected_correct + distractors[:n_dist]
-    rng.shuffle(selected)
-    selected = selected[:n_slots]
+    options = [correct] + distractors[:7]
+    rng.shuffle(options)
+    options = options[:8]
 
-    letters = "ABCDEFGH"
-    letter_map = {label: letters[i] for i, label in enumerate(selected)}
-    correct_letters = sorted(letter_map[lbl] for lbl in selected_correct if lbl in letter_map)
-
-    return selected, correct_letters
+    letter = chr(65 + options.index(correct))
+    return options, letter
 
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
 def load(split="test", sample=100, seed=42) -> list[dict]:
-    """Load CMI-Bench classification items.
-
-    Requires audio downloaded via scripts/download_cmibench.py
-    and metadata cloned at data/cmibench/meta/.
-    """
     if not _META_DIR.exists():
         raise FileNotFoundError(
             f"CMI-Bench metadata not found at {_META_DIR}.\n"
@@ -172,31 +158,34 @@ def load(split="test", sample=100, seed=42) -> list[dict]:
     rng = random.Random(seed)
     items: list[dict] = []
 
-    for task_name in _TASKS:
-        raw_items = _load_jsonl(task_name)
+    for task_key, cfg in _TASK_CONFIGS.items():
+        raw_items = _load_test_items(task_key)
+        rng.shuffle(raw_items)
+
+        added = 0
         for raw in raw_items:
-            audio_rel = raw.get("audio_path") or raw.get("audio") or ""
-            if not audio_rel:
+            if added >= cfg["n_sample"]:
+                break
+            audio_field = raw.get("audio_path")
+            if not audio_field:
                 continue
-            audio_abs = _audio_path(audio_rel)
+            audio_abs = _audio_local(audio_field)
             if not audio_abs.exists():
-                continue   # only include items whose audio was downloaded
-
-            options, correct_letters = _build_options(raw, rng)
-            if not options or not correct_letters:
                 continue
 
+            options, correct_letter = _build_mcq(raw, task_key, rng)
             items.append({
-                "task":            task_name,
-                "audio_path":      str(audio_abs),
-                "_options":        options,
-                "_correct_letters": correct_letters,
-                "_raw":            raw,
+                "task":           task_key,
+                "audio_path":     str(audio_abs),
+                "_options":       options,
+                "_correct_letter": correct_letter,
+                "_question":      cfg["question"],
             })
+            added += 1
 
     if not items:
         raise FileNotFoundError(
-            f"No CMI-Bench items found under {_AUDIO_DIR}.\n"
+            f"No CMI-Bench audio found under {_AUDIO_DIR}.\n"
             "Run: python scripts/download_cmibench.py"
         )
 
@@ -217,32 +206,22 @@ def get_media(item: dict) -> list[dict]:
 
 
 def format_prompt(item: dict) -> str:
-    """Build the MCQ prompt with A-H option letters."""
-    options = item["_options"]
-    raw = item["_raw"]
-
-    task_question = raw.get("instruction") or raw.get("question") or ""
-    if not task_question:
-        task_question = f"Identify the {item['task'].replace('_', ' ')} of this audio clip."
-
-    opts_str = "\n".join(
-        f"{chr(65+i)}. {opt}" for i, opt in enumerate(options)
-    )
-    return f"{task_question}\n\n{opts_str}"
+    opts_str = "\n".join(f"{chr(65+i)}. {opt}" for i, opt in enumerate(item["_options"]))
+    return f"{item['_question']}\n\n{opts_str}"
 
 
 def get_answer(item: dict) -> str:
-    """Return sorted comma-joined correct letters, e.g. 'A' or 'A,C'."""
-    return ",".join(item["_correct_letters"])
+    return item["_correct_letter"]
 
 
 def score(predictions: list[str], references: list[str]) -> dict:
-    """Mean Jaccard similarity across all items."""
+    """Mean Jaccard (= exact match for single-letter answers)."""
     from benchmarks.answer_formats import ANSWER_FORMATS
     _jaccard = ANSWER_FORMATS["MULTI_SELECT"]["compare"]
     total = sum(_jaccard(p, r) for p, r in zip(predictions, references))
+    n = len(references)
     return {
-        "accuracy":     total / len(references) if references else 0.0,
-        "mean_jaccard": total / len(references) if references else 0.0,
-        "n":            len(references),
+        "accuracy":     total / n if n else 0.0,
+        "mean_jaccard": total / n if n else 0.0,
+        "n":            n,
     }

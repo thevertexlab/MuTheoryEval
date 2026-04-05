@@ -5,8 +5,8 @@
   "accuracy": 0.6430517711171662,
   "n": 367,
   "seed": 42,
-  "timestamp": "2026-04-05T22:52:13.255891+00:00",
-  "elapsed_sec": 572,
+  "timestamp": "2026-04-05T22:55:59.797802+00:00",
+  "elapsed_sec": 903,
   "cost_est_usd": 0.0595,
   "config": {
     "temperature": 0,
@@ -15,7 +15,7 @@
     "system_prompt_hash": "451d3bf6"
   },
   "usage": {
-    "total_prompt_tokens": 32419,
+    "total_prompt_tokens": 17763,
     "total_completion_tokens": 734
   },
   "samples": {

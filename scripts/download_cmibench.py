@@ -51,12 +51,14 @@ CD_CACHE  = DATA_DIR / "cd_index.json"    # cached central-directory mapping
 HF_REPO   = "nicolaus625/CMI-bench"
 GITHUB_META = "https://github.com/nicolaus625/CMI-Bench.git"
 
-# Sampling plan for the 100-item lite set
+# Sampling plan for the 100-item lite set.
+# Each entry: (task_key, jsonl_relative_path, n_items)
+# All four tasks have small fixed label pools suitable for MCQ.
 _SAMPLE_PLAN = [
-    ("key_detection",     40),
-    ("singing_technique", 30),
-    ("pitch",             20),
-    ("GTZAN",             10),
+    ("GTZAN",    "GTZAN/CMI_GTZAN.jsonl",                   25),
+    ("GS-key",   "GS-key/CMI_GS_key.jsonl",                 25),
+    ("NSynth",   "NSynth/CMI_Nsynth_instrument.jsonl",       25),
+    ("VocalSet", "VocalSet/CMI_VocalSet_tech.jsonl",         25),
 ]
 _SAMPLE_SEED = 42
 
@@ -252,31 +254,37 @@ def sample_items() -> list[dict]:
     """Return 100 sampled items with task and audio_path set."""
     rng = random.Random(_SAMPLE_SEED)
     sampled: list[dict] = []
-    for task, n in _SAMPLE_PLAN:
-        jsonl = META_DIR / "data" / task / "test.jsonl"
+    for task, jsonl_rel, n in _SAMPLE_PLAN:
+        jsonl = META_DIR / "data" / jsonl_rel
         if not jsonl.exists():
-            jsonl = META_DIR / "data" / task / "test.json"
-        if not jsonl.exists():
-            print(f"  WARN: no JSONL for task {task}, skipping.")
+            print(f"  WARN: no JSONL for task {task} at {jsonl}, skipping.")
             continue
         items = []
         with open(jsonl) as f:
             for line in f:
                 line = line.strip()
-                if line:
-                    items.append(json.loads(line))
+                if not line:
+                    continue
+                d = json.loads(line)
+                # Only use test-split items
+                if "test" in d.get("split", []):
+                    items.append(d)
         rng.shuffle(items)
-        sampled.extend({"task": task, **it} for it in items[:n])
+        sampled.extend({"_task": task, **it} for it in items[:n])
     print(f"  Sampled {len(sampled)} items across {len(_SAMPLE_PLAN)} tasks.")
     return sampled
 
 
 def audio_zip_path(item: dict) -> str:
-    """Convert item audio_path to the path as it appears inside the zip."""
-    rel = item.get("audio_path") or item.get("audio") or ""
+    """Convert item audio_path (list or str) to the path inside the zip.
+
+    JSONL audio_path: ["data/GTZAN/Data/..."]
+    ZIP path:          testdata/GTZAN/Data/...
+    """
+    ap = item.get("audio_path") or item.get("audio") or ""
+    rel = ap[0] if isinstance(ap, list) else ap
     if rel.startswith("data/"):
         rel = rel[len("data/"):]
-    # Zip contains files as testdata/<task>/<filename>
     return f"testdata/{rel}"
 
 
@@ -346,8 +354,9 @@ def download_and_extract(items: list[dict], cd_index: dict, cleanup: bool = True
             zip_path   = file_info["zip_path"]
             loc_offset = file_info["local_offset"]
 
-            # Determine output path
-            rel = item.get("audio_path") or item.get("audio") or ""
+            # Determine output path (mirrors zip path under AUDIO_DIR)
+            ap = item.get("audio_path") or item.get("audio") or ""
+            rel = ap[0] if isinstance(ap, list) else ap
             if rel.startswith("data/"):
                 rel = rel[len("data/"):]
             out_path = AUDIO_DIR / "testdata" / rel
