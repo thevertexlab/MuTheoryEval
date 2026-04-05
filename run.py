@@ -25,6 +25,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from benchmarks import REGISTRY as BENCH_REGISTRY, WEIGHTS
+from benchmarks import MULTIMODAL_REGISTRY, MULTIMODAL_WEIGHTS
 from models import REGISTRY as MODEL_REGISTRY
 
 SYSTEM_PROMPT = (
@@ -61,48 +62,61 @@ def estimate(model_name: str, n_questions: int) -> dict:
 
 
 def print_plan(model_name: str, bench_names: list[str]):
+    from benchmarks import MULTIMODAL_REGISTRY
+    all_reg = {**BENCH_REGISTRY, **MULTIMODAL_REGISTRY}
     print(f"\n{'─'*55}")
     print(f"  Run plan: {model_name}")
     print(f"{'─'*55}")
     total_cost, total_min = 0.0, 0.0
     for bn in bench_names:
-        if bn not in BENCH_REGISTRY:
+        if bn not in all_reg:
             continue
-        meta = BENCH_REGISTRY[bn].METADATA
+        meta = all_reg[bn].METADATA
         if meta.get("status") == "UNRELEASED":
             print(f"  {'SKIP':<22} {bn} (UNRELEASED)")
             continue
-        n = meta.get("default_sample") or meta["n_questions"]
+        modality = meta.get("modality", "text")
+        n = meta.get("default_sample") or meta.get("n_questions") or 0
+        if not n:
+            print(f"  {bn:<28}    ?q  [n/a — {modality}]")
+            continue
         est = estimate(model_name, n)
         total_cost += est["cost_usd"]
         total_min += est["minutes"]
-        print(f"  {bn:<28} {n:>5}q  ~${est['cost_usd']:.3f}  ~{est['minutes']:.1f}min")
+        tag = f"[{modality}]" if modality != "text" else ""
+        print(f"  {bn:<28} {n:>5}q  ~${est['cost_usd']:.3f}  ~{est['minutes']:.1f}min  {tag}")
     print(f"{'─'*55}")
     print(f"  {'TOTAL':<28}        ~${total_cost:.3f}  ~{total_min:.1f}min")
     print(f"{'─'*55}\n")
     return total_cost, total_min
 
 
-def run_benchmark(model_name: str, bench_name: str, out_dir: Path) -> dict:
-    bench = BENCH_REGISTRY[bench_name]
+def run_benchmark(model_name: str, bench_name: str, out_dir: Path,
+                  bench_registry: dict | None = None) -> dict:
+    if bench_registry is None:
+        bench_registry = BENCH_REGISTRY
+    bench = bench_registry[bench_name]
     meta = bench.METADATA
 
     if meta.get("status") == "UNRELEASED":
         print(f"\n[SKIP] {bench_name} — UNRELEASED")
         return {"skipped": True, "reason": "UNRELEASED"}
 
-    n_expected = meta.get("default_sample") or meta["n_questions"]
-    est = estimate(model_name, n_expected)
+    n_expected = meta.get("default_sample") or meta.get("n_questions") or 0
+    est = estimate(model_name, n_expected) if n_expected else {"cost_usd": 0, "minutes": 0, "rpm": 30}
     print(f"\n{'─'*55}")
     print(f"  {model_name} × {bench_name}")
-    print(f"  {n_expected}q  est. ${est['cost_usd']:.3f}  est. {est['minutes']:.1f}min  ({est['rpm']} rpm)")
+    modality = meta.get("modality", "text")
+    modality_tag = f"  [{modality}]" if modality != "text" else ""
+    n_str = f"{n_expected}q" if n_expected else "?q"
+    print(f"  {n_str}  est. ${est['cost_usd']:.3f}  est. {est['minutes']:.1f}min  ({est.get('rpm', '?')} rpm){modality_tag}")
     print(f"{'─'*55}")
 
     model = MODEL_REGISTRY[model_name]()
 
     try:
         dataset = bench.load()
-    except NotImplementedError as e:
+    except (NotImplementedError, FileNotFoundError) as e:
         print(f"  SKIP: {e}")
         return {"skipped": True, "reason": str(e)}
 
@@ -128,9 +142,28 @@ def run_benchmark(model_name: str, bench_name: str, out_dir: Path) -> dict:
             continue
 
         prompt = bench.format_prompt(item)
-        raw = model.complete(prompt, system=SYSTEM_PROMPT)
+
+        # Collect media (images/audio) if benchmark provides them
+        media = None
+        if hasattr(bench, "get_media"):
+            try:
+                media = bench.get_media(item)
+            except FileNotFoundError as e:
+                print(f"\n  SKIP: {e}")
+                return {"skipped": True, "reason": str(e)}
+
+        raw = model.complete(prompt, system=SYSTEM_PROMPT, media=media)
         pred = model.extract_choice(raw)
-        ref = item.get("answer", item.get("label", "")).strip().upper()
+
+        # Use get_answer() for benchmarks with integer-indexed answers
+        if hasattr(bench, "get_answer"):
+            ref = bench.get_answer(item)
+        else:
+            ref = item.get("answer", item.get("label", ""))
+            if isinstance(ref, str):
+                ref = ref.strip().upper()
+            else:
+                ref = str(ref)
         predictions.append(pred)
         references.append(ref)
 
@@ -185,11 +218,13 @@ def main():
     parser.add_argument("--model", default="gemini-3.1-flash-lite",
                         help="Model key(s), comma-separated or 'all'")
     parser.add_argument("--benchmark", default="music_theory_bench",
-                        help="Benchmark name(s), comma-separated or 'all'")
+                        help="Benchmark name(s), comma-separated or 'all' or 'multimodal'")
     parser.add_argument("--estimate", action="store_true",
                         help="Print cost/time estimate and exit without running")
     parser.add_argument("--list-models", action="store_true")
     parser.add_argument("--list-benchmarks", action="store_true")
+    parser.add_argument("--multimodal", action="store_true",
+                        help="Include multimodal (image/audio) benchmarks")
     parser.add_argument("--out", default="results", help="Output directory")
     args = parser.parse_args()
 
@@ -203,18 +238,33 @@ def main():
         return
 
     if args.list_benchmarks:
+        all_benches = {**BENCH_REGISTRY, **MULTIMODAL_REGISTRY}
         print("\nAvailable benchmarks:")
-        for b, mod in BENCH_REGISTRY.items():
+        for b, mod in all_benches.items():
             meta = mod.METADATA
             status = meta.get("status", "OK")
-            n = meta.get("default_sample") or meta["n_questions"]
-            est = estimate("gemini-3.1-flash-lite", n)
-            print(f"  {b:<28} {n:>5}q  w={meta['weight']}  "
+            modality = meta.get("modality", "text")
+            n = meta.get("default_sample") or meta.get("n_questions") or 0
+            n_str = f"{n}q" if n else "?q"
+            est = estimate("gemini-3.1-flash-lite", n) if n else {"cost_usd": 0, "minutes": 0}
+            print(f"  {b:<28} {n_str:>6}  w={meta['weight']}  [{modality}]  "
                   f"~${est['cost_usd']:.3f}  ~{est['minutes']:.1f}min  [{status}]")
         return
 
     models = list(MODEL_REGISTRY.keys()) if args.model == "all" else [m.strip() for m in args.model.split(",")]
-    benchmarks = list(BENCH_REGISTRY.keys()) if args.benchmark == "all" else [b.strip() for b in args.benchmark.split(",")]
+
+    if args.benchmark == "all":
+        benchmarks = list(BENCH_REGISTRY.keys())
+    elif args.benchmark == "multimodal":
+        benchmarks = list(MULTIMODAL_REGISTRY.keys())
+    else:
+        benchmarks = [b.strip() for b in args.benchmark.split(",")]
+
+    if args.multimodal:
+        benchmarks = list(dict.fromkeys(benchmarks + list(MULTIMODAL_REGISTRY.keys())))
+
+    # Build a combined lookup for resolving benchmark names
+    ALL_BENCH_REGISTRY = {**BENCH_REGISTRY, **MULTIMODAL_REGISTRY}
 
     # Always show plan first
     for model_name in models:
@@ -234,10 +284,10 @@ def main():
         all_results = []
         t_model_start = time.time()
         for bench_name in benchmarks:
-            if bench_name not in BENCH_REGISTRY:
+            if bench_name not in ALL_BENCH_REGISTRY:
                 print(f"Unknown benchmark: {bench_name}. Use --list-benchmarks.")
                 continue
-            result = run_benchmark(model_name, bench_name, out_dir)
+            result = run_benchmark(model_name, bench_name, out_dir, ALL_BENCH_REGISTRY)
             all_results.append(result)
 
             # Save partial results after each benchmark

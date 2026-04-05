@@ -35,14 +35,52 @@ ls -lt results/*.json | grep -v partial | grep -v checkpoint
 
 ---
 
+## Multimodal Benchmarks (VLM / Audio-LM)
+
+### Download required assets first
+
+**WildScore** (score images):
+```bash
+python scripts/download_wildscore.py
+# → data/wildscore/images/ (gitignored)
+```
+
+**CMI-Bench** (audio):
+```bash
+python scripts/download_cmibench.py
+# → data/cmibench/ (gitignored, several GB)
+```
+
+**MuChoMusic** (audio inline): no download needed — HF streams audio automatically.
+
+### Run multimodal benchmarks
+```bash
+# All multimodal (image + audio)
+python run.py --model gemini-2.5-flash --benchmark multimodal
+
+# Single benchmark
+python run.py --model gemini-2.5-flash --benchmark wildscore
+
+# Text + multimodal together
+python run.py --model gemini-2.5-flash --benchmark all --multimodal
+```
+
+> Note: Multimodal benchmarks require a VLM/ALM (e.g. Gemini 1.5+, GPT-4V, Claude 3+).
+> Text-only models (DeepSeek, Llama) will receive the prompt but no media — results will be meaningless.
+
+---
+
 ## Benchmark Status
 
-| Benchmark | Status | Dataset |
-|-----------|--------|---------|
-| `music_theory_bench` | ✅ Ready | HF: m-a-p/MusicTheoryBench |
-| `ziqi_eval` | ✅ Ready | HF: MYTH-Lab/ZIQI-Eval (default: 500-sample) |
-| `abc_eval` | ❌ Unreleased | Anonymous review link expired, no public repo |
-| `ssmr_bench` | ❌ Unreleased | Anonymous review link expired, no public repo |
+| Benchmark | Status | Modality | Dataset |
+|-----------|--------|----------|---------|
+| `music_theory_bench` | ✅ Ready | text | HF: m-a-p/MusicTheoryBench |
+| `ziqi_eval` | ✅ Ready | text | HF: MYTH-Lab/ZIQI-Eval (default: 500-sample) |
+| `wildscore` | ✅ Ready | image | HF: GM77/WildScore — run download script first |
+| `muchomusic` | ✅ Ready | audio | HF: lmms-lab/muchomusic (inline, ~862 MB) |
+| `cmi_bench` | ✅ Ready | audio | HF: nicolaus625/CMI-bench — run download script first |
+| `abc_eval` | ❌ Unreleased | text | Anonymous review link expired, no public repo |
+| `ssmr_bench` | ❌ Unreleased | text | Anonymous review link expired, no public repo |
 
 ---
 
@@ -50,9 +88,11 @@ ls -lt results/*.json | grep -v partial | grep -v checkpoint
 
 | Benchmark | Questions | Est. Cost | Est. Time |
 |-----------|-----------|-----------|-----------|
-| music_theory_bench | 367 | ~$0.006 | ~3 min |
+| music_theory_bench | 372 | ~$0.006 | ~3 min |
 | ziqi_eval (sampled) | 500 | ~$0.008 | ~4 min |
-| **All** | **867** | **~$0.014** | **~7 min** |
+| muchomusic (sampled) | 200 | ~$0.003 | ~2 min |
+| wildscore | varies | ~$0.003 | ~2 min |
+| **Text all** | **872** | **~$0.014** | **~7 min** |
 
 ---
 

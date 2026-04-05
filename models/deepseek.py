@@ -1,5 +1,5 @@
 import os
-from .base import BaseModel
+from .base import BaseModel, MediaItem
 
 
 class DeepSeekModel(BaseModel):
@@ -11,7 +11,9 @@ class DeepSeekModel(BaseModel):
             base_url="https://api.deepseek.com",
         )
 
-    def complete(self, prompt: str, system: str | None = None) -> str:
+    def complete(self, prompt: str, system: str | None = None,
+                 media: list[MediaItem] | None = None) -> str:
+        # DeepSeek API is text-only; media is ignored
         messages = []
         if system:
             messages.append({"role": "system", "content": system})

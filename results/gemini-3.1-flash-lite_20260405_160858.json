@@ -1,0 +1,13 @@
+{
+  "model": "gemini-3.1-flash-lite",
+  "weighted_score": 0.8099999999999999,
+  "results": [
+    {
+      "accuracy": 0.81,
+      "n": 500,
+      "model": "gemini-3.1-flash-lite",
+      "benchmark": "ziqi_eval",
+      "timestamp": "2026-04-05T16:08:58.843988"
+    }
+  ]
+}

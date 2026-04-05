@@ -1,5 +1,5 @@
 import os
-from .base import BaseModel
+from .base import BaseModel, MediaItem
 
 
 class DeepInfraModel(BaseModel):
@@ -11,7 +11,9 @@ class DeepInfraModel(BaseModel):
             base_url="https://api.deepinfra.com/v1/openai",
         )
 
-    def complete(self, prompt: str, system: str | None = None) -> str:
+    def complete(self, prompt: str, system: str | None = None,
+                 media: list[MediaItem] | None = None) -> str:
+        # DeepInfra text models don't support media; ignored here
         messages = []
         if system:
             messages.append({"role": "system", "content": system})

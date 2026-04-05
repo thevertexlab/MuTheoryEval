@@ -134,6 +134,12 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# MuTheoryEval data & runtime
+data/                    # downloaded benchmark assets (audio, images) — never commit
+results/.checkpoint_*   # in-progress checkpoints
+results/*_partial.json  # partial results mid-run
+*.log                   # run logs
+
 # Environments
 .env
 .envrc

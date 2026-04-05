@@ -1,0 +1,25 @@
+{
+  "model": "gemini-3.1-flash-lite",
+  "weighted_score": 0.7387874659400545,
+  "elapsed_sec": 656,
+  "results": [
+    {
+      "accuracy": 0.667574931880109,
+      "n": 367,
+      "model": "gemini-3.1-flash-lite",
+      "benchmark": "music_theory_bench",
+      "timestamp": "2026-04-05T16:15:38.728390+00:00",
+      "elapsed_sec": 280,
+      "cost_est_usd": 0.0059
+    },
+    {
+      "accuracy": 0.81,
+      "n": 500,
+      "model": "gemini-3.1-flash-lite",
+      "benchmark": "ziqi_eval",
+      "timestamp": "2026-04-05T16:21:51.624354+00:00",
+      "elapsed_sec": 371,
+      "cost_est_usd": 0.0081
+    }
+  ]
+}

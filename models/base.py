@@ -1,4 +1,11 @@
 from abc import ABC, abstractmethod
+from typing import TypedDict
+
+
+class MediaItem(TypedDict):
+    """A media attachment to pass alongside a text prompt."""
+    mime_type: str   # e.g. "image/png", "audio/mp3", "audio/wav"
+    data: bytes      # raw binary content
 
 
 class BaseModel(ABC):
@@ -6,8 +13,16 @@ class BaseModel(ABC):
         self.model_id = model_id
 
     @abstractmethod
-    def complete(self, prompt: str, system: str | None = None) -> str:
-        """Return the model's text response to a prompt."""
+    def complete(self, prompt: str, system: str | None = None,
+                 media: list[MediaItem] | None = None) -> str:
+        """Return the model's text response to a prompt.
+
+        Args:
+            prompt: The user-facing text prompt.
+            system: Optional system prompt.
+            media: Optional list of MediaItem dicts with 'mime_type' and 'data'.
+                   Pass images for VLM benchmarks, audio for audio-language benchmarks.
+        """
         ...
 
     def extract_choice(self, response: str) -> str:
