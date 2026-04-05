@@ -32,6 +32,12 @@
       color: var(--text);
       min-height: 100vh;
       padding: 0 0 4rem;
+      /* Blink/WebKit: position:sticky inside overflow-x:auto inflates the body's
+         scrollWidth, creating a phantom horizontal scrollbar + blank space on the
+         right. overflow-x:hidden on body clips that inflation. Child overflow-x:auto
+         containers (.table-wrap) are unaffected — they create independent scroll
+         contexts and show their own scrollbar normally. */
+      overflow-x: hidden;
     }
 
     /* ── Header ── */
@@ -144,10 +150,16 @@
     }
     .stats-bar strong { color: var(--text); }
 
-    /* ── Table container ── */
+    /* ── Table container ──
+       .table-outer is a plain wrapper.
+       .table-wrap is the actual horizontal scroll container; margin (not padding)
+       keeps the visual gutter outside the scrollable area — padding inside a scroll
+       container adds blank space at the scroll end. */
+    .table-outer {
+      /* plain wrapper — no overflow needed; body handles phantom scroll */
+    }
     .table-wrap {
-      padding: 0 2rem;
-      overflow-x: auto;
+      margin: 0 2rem;
     }
 
     table {
@@ -216,19 +228,6 @@
       gap: 0.4rem;
     }
     .model-provider { font-size: 0.72rem; color: var(--muted); }
-    .badge-reasoning {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.2rem;
-      font-size: 0.62rem;
-      font-weight: 600;
-      padding: 0.1rem 0.35rem;
-      border-radius: 0.25rem;
-      background: rgba(245,158,11,0.15);
-      color: #f59e0b;
-      border: 1px solid rgba(245,158,11,0.3);
-      letter-spacing: 0.02em;
-    }
     .badge-thinking {
       display: inline-flex;
       align-items: center;
@@ -320,6 +319,46 @@
     .tooltip-wrap:hover .tooltip { visibility: visible; opacity: 1; }
     .tooltip table td { padding: 0.1rem 0.35rem 0.1rem 0; color: var(--muted); }
     .tooltip table td:last-child { color: var(--text); font-weight: 500; }
+
+    /* Rich tooltip variant — wraps text, wider, used for bench/model headers */
+    .tooltip-rich {
+      white-space: normal;
+      min-width: 260px;
+      max-width: 360px;
+      line-height: 1.5;
+    }
+    .tooltip-rich .tt-title {
+      font-weight: 700; font-size: 0.8rem; color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+    .tooltip-rich .tt-desc {
+      color: var(--muted); font-size: 0.72rem; margin-bottom: 0.4rem;
+      line-height: 1.45;
+    }
+    .tooltip-rich hr { border: none; border-top: 1px solid var(--border); margin: 0.35rem 0; }
+    .tooltip-rich table { width: 100%; }
+    .tooltip-rich table td { padding: 0.1rem 0.4rem 0.1rem 0; font-size: 0.72rem; }
+    .tooltip-rich table td:first-child { color: var(--muted); white-space: nowrap; }
+    .tooltip-rich table td:last-child { color: var(--text); font-weight: 500; }
+    .tooltip-rich .tt-badge {
+      display: inline-block; font-size: 0.62rem; font-weight: 700;
+      padding: 0.1rem 0.3rem; border-radius: 0.2rem; margin-right: 0.25rem;
+      background: rgba(99,102,241,0.18); color: var(--accent2);
+    }
+    .tooltip-rich .tt-badge.audio { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .tooltip-rich .tt-badge.image { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+    /* Downward tooltip — for sticky thead (above would go off-screen) */
+    .tooltip-down {
+      bottom: auto;
+      top: calc(100% + 6px);
+    }
+    /* Rightward tooltip — for leftmost model column */
+    .tooltip-right {
+      bottom: auto; top: 50%;
+      left: calc(100% + 8px);
+      transform: translateY(-50%);
+    }
 
     /* ── Loading / error ── */
     #state {
@@ -414,7 +453,9 @@
   <i data-lucide="loader-2" width="18" height="18" style="animation:spin 1s linear infinite"></i>
   Loading data…
 </div>
-<div class="table-wrap" id="table-wrap" style="display:none"></div>
+<div class="table-outer">
+  <div class="table-wrap" id="table-wrap" style="display:none"></div>
+</div>
 
 <footer>
   <span>Data sourced from <code>docs/data.json</code> — updated automatically by contributors via PR.</span>
@@ -440,6 +481,60 @@
     return modelKey.includes('-xt') || modelKey.includes('-thinking') || modelKey.includes('-effort')
         || modelKey.endsWith('-high') || modelKey.endsWith('-medium') || modelKey.endsWith('-low') || modelKey.endsWith('-minimal');
   }
+
+  // ── Benchmark descriptions for header tooltips ───────────────────────────
+  const BENCH_INFO = {
+    music_theory_bench: {
+      desc: 'Music knowledge & multi-step reasoning questions derived from the ChatMusician dataset. Heavy on ABC notation analysis — models must parse symbolic scores to answer.',
+      subsets: 'Knowledge (269q) · Reasoning (98q)',
+      bias: 'Notation-heavy; symbolic reasoning required',
+      full: 372, lite: null,  // lite_n=null means run all
+    },
+    ziqi_eval: {
+      desc: 'Broad music knowledge benchmark covering theory, history, instruments, genres, and performance practice. Factual recall-oriented with minimal symbolic notation.',
+      subsets: '10 categories · 56 subcategories',
+      bias: 'General music knowledge; factual recall',
+      full: 14244, lite: 500,
+    },
+    wildscore: {
+      desc: 'Real-world sheet music reasoning questions scraped from online music communities (StackExchange, forums). Paired with score images — requires vision input.',
+      subsets: 'Harmony · Rhythm · Form · Notation · Expression',
+      bias: 'Practical score reading; real-world phrasing',
+      full: 807, lite: 100,
+    },
+    muchomusic: {
+      desc: 'Music perception and theory questions paired with audio clips. Tests whether models can integrate auditory information with conceptual knowledge.',
+      subsets: 'Music perception · Theory · Genre · Mood',
+      bias: 'Audio-grounded; requires listening comprehension',
+      full: 1187, lite: 200,
+    },
+    cmi_bench: {
+      desc: 'Comprehensive music instruction following across 14 MIR tasks and 20 sub-datasets. Mixed formats including classification, captioning, and regression.',
+      subsets: '14 MIR tasks · classification / captioning / regression',
+      bias: 'Instruction following; MIR task diversity',
+      full: null, lite: 50,
+    },
+  };
+
+  // ── Model API IDs (display only) ──────────────────────────────────────────
+  const MODEL_API_IDS = {
+    'gpt-5.4': 'gpt-5.4',
+    'gpt-5.4-mini': 'gpt-5.4-mini',
+    'o3': 'o3',
+    'claude-opus-4-6': 'claude-opus-4-6',
+    'claude-sonnet-4-6': 'claude-sonnet-4-6',
+    'claude-sonnet-4-6-xt8k': 'claude-sonnet-4-6',
+    'claude-haiku-4-5': 'claude-haiku-4-5-20251001',
+    'gemini-3.1-pro': 'gemini-3.1-pro-preview',
+    'gemini-3.1-flash': 'gemini-3-flash-preview',
+    'gemini-3.1-flash-high': 'gemini-3-flash-preview',
+    'gemini-3.1-flash-lite': 'gemini-3.1-flash-lite-preview',
+    'deepseek-chat': 'deepseek-chat (= V3.2)',
+    'deepseek-reasoner': 'deepseek-reasoner (= R1)',
+    'qwen3-max-thinking': 'Qwen/Qwen3-Max-Thinking',
+    'llama-4-maverick': 'meta-llama/Llama-4-Maverick-17B-128E-Instruct',
+    'deepseek-r1': 'deepseek-ai/DeepSeek-R1',
+  };
 
   // ── State ─────────────────────────────────────────────────────────────────
   let DATA = null;
@@ -574,20 +669,24 @@
     ));
 
     // Sort
-    const modelsSorted = modelKeys.slice().sort((a, b) => {
-      let va, vb;
-      if (sortKey === '__text' || sortKey === '__image' || sortKey === '__audio') {
-        const mod = sortKey.replace('__', '');
-        va = computeModalityScore(a, mod, cmap, DATA.benchmarks).score ?? -1;
-        vb = computeModalityScore(b, mod, cmap, DATA.benchmarks).score ?? -1;
+    // Rank tiers: has score (0–1) > supported but not run (-0.5) > unsupported (-1)
+    function sortVal(mk, key) {
+      if (key === '__text' || key === '__image' || key === '__audio') {
+        const mod = key.replace('__', '');
+        const r = computeModalityScore(mk, mod, cmap, DATA.benchmarks);
+        if (r.score !== null) return r.score;
+        return modelCapabilities(mk).includes(mod) ? -0.5 : -1;
       } else {
-        const ca = cmap[a + '||' + sortKey];
-        const cb = cmap[b + '||' + sortKey];
-        va = ca ? ca.accuracy : -1;
-        vb = cb ? cb.accuracy : -1;
+        const c = cmap[mk + '||' + key];
+        if (c) return c.accuracy;
+        const bench = DATA.benchmarks.find(b => b.key === key);
+        const mod = bench ? bench.modality : 'text';
+        return modelCapabilities(mk).includes(mod) ? -0.5 : -1;
       }
-      return (vb - va) * sortDir;
-    });
+    }
+    const modelsSorted = modelKeys.slice().sort((a, b) =>
+      (sortVal(b, sortKey) - sortVal(a, sortKey)) * sortDir
+    );
 
     // Stats
     const statsEl = document.getElementById('stats-bar');
@@ -618,18 +717,39 @@
     const thAudio = makeScoreTh('__audio', 'Audio', 'music',     'Audio score — MuChoMusic / CMI-Bench');
 
     function makeBenchTh(b) {
-      const modIcon = b.modality === 'text' ? 'file-text' : b.modality === 'image' ? 'image' : 'music';
       const isSorted = sortKey === b.key;
       const srcLink = b.source ? `<a href="https://arxiv.org/abs/${b.source.replace('arXiv:','')}" target="_blank" style="color:var(--muted)" onclick="event.stopPropagation()">
         <i data-lucide="external-link" width="11" height="11"></i></a>` : '';
+      const info = BENCH_INFO[b.key] || {};
+      const modBadgeClass = b.modality === 'audio' ? 'audio' : b.modality === 'image' ? 'image' : '';
+      const liteStr = info.lite_n !== undefined
+        ? (info.lite ? `${info.lite}q sampled / ${info.full ?? '?'}q total` : `all ${info.full ?? '?'}q (small dataset)`)
+        : (b.lite_n ? `${b.lite_n}q sampled / ${b.n_full ?? '?'}q total` : `${b.n_full ?? '?'}q`);
+      const tooltipHTML = `
+        <div class="tooltip tooltip-rich tooltip-down">
+          <div class="tt-title">${b.name}</div>
+          <div class="tt-desc">${info.desc || b.source || ''}</div>
+          <hr>
+          <table>
+            ${info.subsets ? `<tr><td>Subsets</td><td>${info.subsets}</td></tr>` : ''}
+            ${info.bias   ? `<tr><td>Bias</td><td>${info.bias}</td></tr>` : ''}
+            <tr><td>Format</td><td>4-option MCQ</td></tr>
+            <tr><td>Lite / Full</td><td>${liteStr}</td></tr>
+            <tr><td>Weight</td><td>${b.weight} in <span class="tt-badge ${modBadgeClass}">${b.modality.toUpperCase()}</span> score</td></tr>
+            ${b.source ? `<tr><td>Source</td><td>${b.source}</td></tr>` : ''}
+          </table>
+        </div>`;
       return `<th class="sortable${isSorted?' sorted':''}" onclick="setSort('${b.key}')">
         <div class="th-inner">
-          <div class="bench-header">
-            <span class="bench-name">${b.short}</span>
-            <span class="bench-meta">
-              ${srcLink}
-              <i data-lucide="chevrons-up-down" width="11" height="11" class="sort-icon"></i>
-            </span>
+          <div class="tooltip-wrap bench-header">
+            <div>
+              <span class="bench-name">${b.short}</span>
+              <span class="bench-meta">
+                ${srcLink}
+                <i data-lucide="chevrons-up-down" width="11" height="11" class="sort-icon"></i>
+              </span>
+            </div>
+            ${tooltipHTML}
           </div>
         </div></th>`;
     }
@@ -695,6 +815,7 @@
             c.cost_est_usd != null ? ['Est. cost', '$' + c.cost_est_usd.toFixed(4)] : null,
             c.elapsed_sec  != null ? ['Elapsed', c.elapsed_sec + 's'] : null,
             c.timestamp ? ['Date', fmtDate(c.timestamp)] : null,
+            cfg.answer_format && cfg.answer_format !== 'MCQ' ? ['Format', cfg.answer_format] : null,
             cfg.system_prompt_hash ? ['Prompt hash', cfg.system_prompt_hash] : null,
           ].filter(Boolean);
           const tooltipHTML = tooltipRows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
@@ -711,10 +832,8 @@
     let tbody = '';
     for (const mk of modelsSorted) {
       const provider = (DATA.models.find(m => m.key === mk) || {}).provider || '';
-      const reasoningBadge = isReasoningNative(mk)
-        ? `<span class="badge-reasoning"><i data-lucide="cpu" width="9" height="9"></i> reasoning</span>`
-        : '';
-      const thinkingBadge = hasThinkingVariant(mk)
+      const reasoningBadge = '';
+      const thinkingBadge = (isReasoningNative(mk) || hasThinkingVariant(mk))
         ? `<span class="badge-thinking"><i data-lucide="sparkles" width="9" height="9"></i> thinking</span>`
         : '';
 
@@ -728,14 +847,46 @@
         return `<span class="cap-chip ${ok ? 'supported' : 'unsupported'}" title="${ok ? mod+' supported' : mod+' not supported by this model\'s API'}">${label}</span>`;
       }).join('');
 
+      // Build model tooltip content from available cells
+      const modelCells = cells.filter(c => c.model === mk);
+      const anyCell = modelCells[0] || {};
+      const cfg = anyCell.config || {};
+      const apiId = MODEL_API_IDS[mk] || mk;
+      const thinkingCfg = (() => {
+        const t = cfg.thinking;
+        if (!t || t === false) return null;
+        if (t === 'native') return 'Always-on (reasoning model)';
+        if (typeof t === 'object' && t.budget_tokens) return `Extended thinking, budget=${t.budget_tokens} tok`;
+        if (typeof t === 'object' && t.level) return `Level: ${t.level}`;
+        return String(t);
+      })();
+      const capRows = [['text','T'],['image','I'],['audio','A']].map(([m,l]) =>
+        `<span class="tt-badge ${caps.includes(m)?'':'unsupported'}" style="${caps.includes(m)?'':'opacity:0.4'}">${l}</span>`
+      ).join(' ');
+      const modelTooltipHTML = `
+        <div class="tooltip tooltip-rich tooltip-right">
+          <div class="tt-title">${mk}</div>
+          <hr>
+          <table>
+            <tr><td>Provider</td><td>${provider}</td></tr>
+            <tr><td>API model</td><td style="font-family:monospace;font-size:0.68rem">${apiId}</td></tr>
+            <tr><td>Modalities</td><td>${capRows}</td></tr>
+            ${thinkingCfg ? `<tr><td>Thinking</td><td>${thinkingCfg}</td></tr>` : ''}
+            ${cfg.temperature != null ? `<tr><td>Temperature</td><td>${cfg.temperature}</td></tr>` : ''}
+            ${cfg.max_output_tokens ? `<tr><td>Max output</td><td>${cfg.max_output_tokens} tok</td></tr>` : ''}
+            ${cfg.system_prompt_hash ? `<tr><td>Prompt hash</td><td>${cfg.system_prompt_hash}</td></tr>` : ''}
+          </table>
+        </div>`;
+
       const tdModel = `<td>
-        <div class="model-cell">
+        <div class="tooltip-wrap model-cell" style="align-items:flex-start">
           <span class="model-name">${mk}</span>
           <div class="model-meta">
             <span class="model-provider">${provider}</span>
             ${reasoningBadge}${thinkingBadge}
           </div>
           <div class="cap-chips">${capChips}</div>
+          ${modelTooltipHTML}
         </div></td>`;
 
       function makeScoreTd(mod) {

@@ -1,0 +1,175 @@
+{
+  "model": "gemini-3.1-flash",
+  "benchmark": "muchomusic",
+  "mode": "lite",
+  "accuracy": 0.775,
+  "n": 200,
+  "seed": 42,
+  "timestamp": "2026-04-05T22:16:24.345797+00:00",
+  "elapsed_sec": 1112,
+  "cost_est_usd": 0.0168,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "default"
+    },
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 306737,
+    "total_completion_tokens": 92,
+    "total_thinking_tokens": 52704,
+    "avg_thinking_tokens_per_q": 263.5
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 185,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 63,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 11,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 96,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 84,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 76,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 64,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 58,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 145,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 55,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ],
+    "correct": [
+      {
+        "idx": 193,
+        "subject": "",
+        "stem": "",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 142,
+        "subject": "",
+        "stem": "",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 9,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      }
+    ]
+  }
+}

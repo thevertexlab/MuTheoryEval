@@ -1,0 +1,173 @@
+{
+  "model": "claude-sonnet-4-6-xt8k",
+  "benchmark": "wildscore",
+  "mode": "lite",
+  "accuracy": 0.75,
+  "n": 100,
+  "seed": 42,
+  "timestamp": "2026-04-05T21:41:29.302987+00:00",
+  "elapsed_sec": 170,
+  "cost_est_usd": 0.0495,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 8256,
+    "thinking": {
+      "budget_tokens": 8000
+    },
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 101653,
+    "total_completion_tokens": 1300
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 85,
+        "subject": "",
+        "stem": "In Bartoks \"Mikrokosmos\" piece, why does the key signature include only an A-fla",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 23,
+        "subject": "",
+        "stem": "In the context of 19th-century Romantic era piano composition, such as Chopins e",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 10,
+        "subject": "",
+        "stem": "In the provided funk organ riff in F minor, the chord progression is analyzed as",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 39,
+        "subject": "",
+        "stem": "Given a solo melody line in crotchets with a preceding chord of E7 and a followi",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 38,
+        "subject": "",
+        "stem": "In the context of a first attempt at species two counterpoint following Johann J",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 98,
+        "subject": "",
+        "stem": "What is the commonly accepted name for the 7-note scale consisting of the notes ",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 24,
+        "subject": "",
+        "stem": "In Mozarts aria Ach, ich f\u00fchls, starting from the 2nd measure where the harmony ",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 97,
+        "subject": "",
+        "stem": "Given the symbolic music notation in the provided link, how should the tremolo b",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 20,
+        "subject": "",
+        "stem": "How do composers decide when and how to change the key signature during modulati",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 57,
+        "subject": "",
+        "stem": "What is the correct or most accepted way to notate a passage in music to be play",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      }
+    ],
+    "correct": [
+      {
+        "idx": 4,
+        "subject": "",
+        "stem": "In the provided sheet music bar (https://imgur.com/npxO6gD), why does the bar co",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 3,
+        "subject": "",
+        "stem": "A composer created an invention based on the tune played by a laundry dryer upon",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      },
+      {
+        "idx": 12,
+        "subject": "",
+        "stem": "In the provided measures of the song (at 3:03), what is the musical effect and t",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 13
+      }
+    ]
+  }
+}

@@ -56,7 +56,7 @@ class GeminiModel(BaseModel):
         else:
             contents = text_part
 
-        config_kwargs: dict = dict(max_output_tokens=4096, temperature=0)
+        config_kwargs: dict = dict(max_output_tokens=self.config.get("max_output_tokens", 4096), temperature=0)
         if self.thinking_level is not None:
             config_kwargs["thinking_config"] = types.ThinkingConfig(
                 thinking_budget=-1 if self.thinking_level == "high" else None,

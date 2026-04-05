@@ -1,0 +1,21 @@
+{
+  "model": "deepseek-reasoner",
+  "benchmark": "ziqi_eval",
+  "mode": "lite",
+  "accuracy": 0.808,
+  "n": 500,
+  "seed": 42,
+  "timestamp": "2026-04-05T22:10:57.018041+00:00",
+  "elapsed_sec": 5041,
+  "cost_est_usd": 0.081,
+  "config": {
+    "temperature": null,
+    "max_output_tokens": 16,
+    "thinking": "native",
+    "system_prompt_hash": "eede8cf2"
+  },
+  "usage": {
+    "total_prompt_tokens": 127537,
+    "total_completion_tokens": 248294
+  }
+}

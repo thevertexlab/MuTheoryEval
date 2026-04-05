@@ -30,7 +30,7 @@ class DeepSeekModel(BaseModel):
         kwargs: dict = {
             "model": self.model_id,
             "messages": messages,
-            "max_tokens": 1024 if self._reasoning else 16,
+            "max_tokens": self.config.get("max_output_tokens", 1024 if self._reasoning else 16),
         }
         if not self._reasoning:
             kwargs["temperature"] = 0

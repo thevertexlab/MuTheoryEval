@@ -1,0 +1,176 @@
+{
+  "model": "gemini-3.1-flash-high",
+  "benchmark": "wildscore",
+  "mode": "lite",
+  "accuracy": 0.78,
+  "n": 100,
+  "seed": 42,
+  "timestamp": "2026-04-05T21:58:00.637149+00:00",
+  "elapsed_sec": 1133,
+  "cost_est_usd": 0.0084,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "high",
+      "budget_tokens": -1
+    },
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 123016,
+    "total_completion_tokens": 567,
+    "total_thinking_tokens": 182929,
+    "avg_thinking_tokens_per_q": 1829.3
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 95,
+        "subject": "",
+        "stem": "What are the primary reasons for the poor notation, composition, and copy work q",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 20,
+        "subject": "",
+        "stem": "How do composers decide when and how to change the key signature during modulati",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 4,
+        "subject": "",
+        "stem": "In the provided sheet music bar (https://imgur.com/npxO6gD), why does the bar co",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 34,
+        "subject": "",
+        "stem": "Given a melody with ambiguous meter, as shown in the provided symbolic music ima",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 33,
+        "subject": "",
+        "stem": "In the context of Grade 5 Music Theory ABRSM, given the symbolic music image whe",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 75,
+        "subject": "",
+        "stem": "For a beginner aiming to start composing classical music to deepen understanding",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 23,
+        "subject": "",
+        "stem": "In the context of 19th-century Romantic era piano composition, such as Chopins e",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 40,
+        "subject": "",
+        "stem": "At what point in history did the standard practice of flipping stem direction on",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 7,
+        "subject": "",
+        "stem": "In the score excerpt from The Shepherds Farewell by Berlioz, how can the harmoni",
+        "raw": "vii\u00b07 in E major is D#-F#-A-C.\n        *   Now, how does it relate to G major?\n        *   vii\u00b07 in G major is F#-A-C-Eb",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 164
+      },
+      {
+        "idx": 39,
+        "subject": "",
+        "stem": "Given a solo melody line in crotchets with a preceding chord of E7 and a followi",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ],
+    "correct": [
+      {
+        "idx": 89,
+        "subject": "",
+        "stem": "When notating piano 4 hands where the piano is split between two players with on",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 14,
+        "subject": "",
+        "stem": "A transcription of a piano and vocal piece includes big stacked-third chords and",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 96,
+        "subject": "",
+        "stem": "In the context of learning the piano piece Fade to Black by Metallica, specifica",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ]
+  }
+}

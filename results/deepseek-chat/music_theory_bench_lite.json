@@ -1,0 +1,171 @@
+{
+  "model": "deepseek-chat",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.6158038147138964,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-05T21:21:17.816784+00:00",
+  "elapsed_sec": 381,
+  "cost_est_usd": 0.0161,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 16,
+    "thinking": false,
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 56480,
+    "total_completion_tokens": 367
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 157,
+        "subject": "knowledge",
+        "stem": "Concerning the musical genre of fugue, which of the following statements is inco",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 54,
+        "subject": "knowledge",
+        "stem": "What plays a direct role in vowel formation and clear diction for singers?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 244,
+        "subject": "reasoning",
+        "stem": "Which of the following intervals is a consonant interval?",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 230,
+        "subject": "reasoning",
+        "stem": "Which of the following resolutions of the dominant seventh chord is correct?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 220,
+        "subject": "knowledge",
+        "stem": "Which of the following is the D Pentatonic scale?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 171,
+        "subject": "knowledge",
+        "stem": "Among the three tuning systems, the number of semitone divisions is different. T",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 153,
+        "subject": "knowledge",
+        "stem": "The music fragment shown in the following example develops the musical material ",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 365,
+        "subject": "reasoning",
+        "stem": "Which of the following is not an enharmonic equivalent of E-F-A-C?",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 144,
+        "subject": "knowledge",
+        "stem": "Which of the following musical notes represents B?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 322,
+        "subject": "reasoning",
+        "stem": "The scale of the sharp G as Yu note in the Yan-yue Jue mode:",
+        "raw": "B",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ],
+    "correct": [
+      {
+        "idx": 9,
+        "subject": "knowledge",
+        "stem": "What is the name of the soft tissue at the top of the mouth cavity that singers ",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 8,
+        "subject": "knowledge",
+        "stem": "Which of the following articulations would best evoke a sense of raindrops?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 27,
+        "subject": "knowledge",
+        "stem": "Which of the following coursework would be most important to an aspiring audio e",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ]
+  }
+}

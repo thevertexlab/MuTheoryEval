@@ -1,0 +1,188 @@
+{
+  "model": "gemini-3.1-flash-high",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.7057220708446866,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-05T21:33:10.154784+00:00",
+  "elapsed_sec": 1383,
+  "cost_est_usd": 0.0308,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "high",
+      "budget_tokens": -1
+    },
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 17609,
+    "total_completion_tokens": 982,
+    "total_thinking_tokens": 285186,
+    "avg_thinking_tokens_per_q": 777.1
+  },
+  "samples": {
+    "format_error": [
+      {
+        "idx": 309,
+        "subject": "knowledge",
+        "stem": "Which two notes form an chromatic tone (but not a diatonic tone) in the followin",
+        "raw": "",
+        "pred": "X",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ],
+    "wrong_answer": [
+      {
+        "idx": 337,
+        "subject": "reasoning",
+        "stem": "Which of the following is the correct augmented sixth chord with B as the root?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 264,
+        "subject": "reasoning",
+        "stem": "After converting notes like B-\u266ff to enharmonic equivalents, which of the followi",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 250,
+        "subject": "knowledge",
+        "stem": "Which notation method is used for small character group mi on the stave?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 342,
+        "subject": "reasoning",
+        "stem": "Compound meters consist of",
+        "raw": "A",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 273,
+        "subject": "reasoning",
+        "stem": "Which key does the following group of notes not belong to?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 270,
+        "subject": "knowledge",
+        "stem": "Among the instruments in the options (without special pitch adjustment), which i",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 346,
+        "subject": "reasoning",
+        "stem": "Which of the following options contains the unstable scale degrees in both D maj",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 265,
+        "subject": "reasoning",
+        "stem": "What kind of modulation is shown in the following example?",
+        "raw": "The provided ABC notation consists of two phrases. The first phrase (measures 1-4) uses the notes D, E, C, A, and G, end",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 125
+      },
+      {
+        "idx": 361,
+        "subject": "reasoning",
+        "stem": "Which of the following is correct regarding the enharmonic transposition of an a",
+        "raw": "9 semitones).\n        *   \u266dE to C is 9 semitones.\n        *   \u266dE to C\u266f is 10 semitones. (Correct).\n\n    *   Okay, so \u266dE ",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 163
+      },
+      {
+        "idx": 338,
+        "subject": "reasoning",
+        "stem": "In the Pythagorean major scale of F-sharp, what are the two apotome pitch names?",
+        "raw": "F#, G#, A#, B, C#, D#, E#, F#), the limmas are A#-B and E#-F#. So the notes starting the limmas are A# and E#.\n    *   N",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 159
+      }
+    ],
+    "correct": [
+      {
+        "idx": 344,
+        "subject": "reasoning",
+        "stem": "In the four minor keys with flats as key signatures, which accidental should be ",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 266,
+        "subject": "knowledge",
+        "stem": "Which of the following statements about double stops on bowed string instruments",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 354,
+        "subject": "reasoning",
+        "stem": "Which of the following modes are not related by the same tonic?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ]
+  }
+}

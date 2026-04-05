@@ -1,0 +1,176 @@
+{
+  "model": "gemini-3.1-flash-high",
+  "benchmark": "muchomusic",
+  "mode": "lite",
+  "accuracy": 0.765,
+  "n": 200,
+  "seed": 42,
+  "timestamp": "2026-04-05T22:18:12.525440+00:00",
+  "elapsed_sec": 1206,
+  "cost_est_usd": 0.0168,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "high",
+      "budget_tokens": -1
+    },
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 306737,
+    "total_completion_tokens": 90,
+    "total_thinking_tokens": 57843,
+    "avg_thinking_tokens_per_q": 289.2
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 173,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 63,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 11,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 86,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 83,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 82,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 64,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 58,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 135,
+        "subject": "",
+        "stem": "",
+        "raw": "A",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 55,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ],
+    "correct": [
+      {
+        "idx": 198,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 146,
+        "subject": "",
+        "stem": "",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 9,
+        "subject": "",
+        "stem": "",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      }
+    ]
+  }
+}

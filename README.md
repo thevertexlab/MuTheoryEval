@@ -31,8 +31,16 @@ Not a new benchmark — a runner that brings existing ones together with a weigh
 | Name | Source | Questions | Coverage | Notes |
 |------|--------|-----------|----------|-------|
 | [MuChoMusic](https://arxiv.org/abs/2408.01337) | ISMIR 2024 | 1,187 | Music perception + theory across genres | Requires audio playback; open-sourced |
-| [CMI-Bench](https://arxiv.org/abs/2506.12285) | 2025 | — | 14 MIR tasks, 20 datasets (classification, captioning, regression…) | Audio-text LLMs only |
+| [CMI-Bench](https://arxiv.org/abs/2506.12285) | 2025 | — | 14 MIR tasks, 20 datasets (classification, captioning, regression…) | Audio-text LLMs only; ⚠️ 55GB download |
 | [MARBLE](https://github.com/a43992899/MARBLE-Benchmark) | 2023 | — | Broad music representation evaluation | Audio model evaluation framework |
+
+### 🔒 Dataset Pending Release — Watching
+
+Benchmarks we've evaluated and plan to add once datasets are publicly available.
+
+| Name | arXiv | Questions | Coverage | Status |
+|------|-------|-----------|----------|--------|
+| [MuseBench](https://arxiv.org/abs/2601.11968) | Jan 2026 | 2,052 (expert-verified) | Piano repertoire — text (8 tasks) + sheet image (14 tasks) + performance audio (6 tasks); first benchmark to jointly test score-reading and audio performance understanding | ❌ Dataset not yet released — no HF ID, no public repo. Plan: add as extended tier (not in weighted score) once available. Contact: jaechan-repo on GitHub |
 
 ---
 
@@ -114,4 +122,5 @@ python run.py --list-benchmarks
 - [CMI-Bench](https://arxiv.org/abs/2506.12285) — comprehensive music instruction following, 14 MIR tasks
 - [MARBLE](https://github.com/a43992899/MARBLE-Benchmark) — music audio representation benchmark
 - [Music Flamingo](https://arxiv.org/abs/2511.10289) — audio-LM with 300K chain-of-thought music theory examples
+- [AudioBench](https://arxiv.org/abs/2406.16020) — general audio LLM benchmark (speech/sound/paralinguistics); music subset = MuChoMusic only, not independently useful here
 - [Chorra](https://github.com/thevertexlab/papper) — the read-only DAW + AI music analysis tool that motivated this eval

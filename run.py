@@ -46,13 +46,8 @@ def _update_leaderboard():
 
 from benchmarks import REGISTRY as BENCH_REGISTRY, WEIGHTS
 from benchmarks import MULTIMODAL_REGISTRY, MULTIMODAL_WEIGHTS
+from benchmarks.answer_formats import ANSWER_FORMATS, get_format, get_format_name
 from models import REGISTRY as MODEL_REGISTRY
-
-SYSTEM_PROMPT = (
-    "You are a music theory expert. "
-    "YOUR ENTIRE RESPONSE MUST BE EXACTLY ONE LETTER: A, B, C, or D. "
-    "DO NOT write anything else. DO NOT explain. DO NOT show reasoning. ONLY the letter."
-)
 
 # Cost & speed baseline per model (input $/MTok, output $/MTok, req/min observed)
 MODEL_PRICING = {
@@ -72,6 +67,11 @@ MODEL_PRICING = {
     "claude-opus-4-6":        {"input_per_mtok": 5.00, "output_per_mtok": 25.0,  "rpm": 20},
     "claude-opus-4-6-xt8k":   {"input_per_mtok": 5.00, "output_per_mtok": 25.0,  "rpm": 20},
     "deepseek-chat":          {"input_per_mtok": 0.27, "output_per_mtok": 1.10,  "rpm": 60},
+    # Qwen3.5-Omni (DashScope international) — free during 90-day preview (Apr 2026)
+    # Post-preview estimate based on Qwen3-Omni-Flash rates: audio $3.81/MTok (7 tok/s)
+    # Text: $0.43 in / $1.66 out (text-only mode); $3.06 out (multimodal mode)
+    "qwen3.5-omni-plus":  {"input_per_mtok": 0.0,  "output_per_mtok": 0.0,   "rpm": 20},  # free preview
+    "qwen3.5-omni-flash": {"input_per_mtok": 0.0,  "output_per_mtok": 0.0,   "rpm": 30},  # free preview
 }
 AVG_PROMPT_TOKENS = 150
 AVG_OUTPUT_TOKENS = 3
@@ -180,6 +180,15 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
 
     model = MODEL_REGISTRY[model_name]()
 
+    # Apply answer-format overrides (system prompt, max_output_tokens)
+    fmt_name = get_format_name(bench)
+    fmt = ANSWER_FORMATS.get(fmt_name, ANSWER_FORMATS["MCQ"])
+    # Override model's max_output_tokens to match the format requirement.
+    # For thinking models, preserve the larger of the two values.
+    fmt_max = fmt["max_output_tokens"]
+    model_max = model.config.get("max_output_tokens", fmt_max)
+    model.config["max_output_tokens"] = max(fmt_max, model_max)
+
     # Load dataset with mode-appropriate sampling
     try:
         if mode == "lite":
@@ -238,8 +247,8 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
                 print(f"\n  SKIP: {e}")
                 return {"skipped": True, "reason": str(e)}
 
-        raw = model.complete(prompt, system=SYSTEM_PROMPT, media=media)
-        pred = model.extract_choice(raw)
+        raw = model.complete(prompt, system=fmt["system_prompt"], media=media)
+        pred = fmt["extract"](raw)
 
         # Accumulate token usage reported by the API
         q_output_tokens: int | None = None
@@ -267,6 +276,7 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
             "max_tokens" if (q_output_tokens is not None and q_output_tokens >= max_out)
             else "end_turn"
         )
+        item_score = fmt["compare"](pred, ref)
         _sample_data.append({
             "idx":         i,
             "subject":     item.get("subject", "") if hasattr(item, "get") else "",
@@ -274,7 +284,8 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
             "raw":         raw[:120],
             "pred":        pred,
             "ref":         ref,
-            "correct":     pred == ref,
+            "correct":     item_score == 1.0,
+            "score":       item_score,
             "stop_reason": stop_reason_est,
             "output_tokens": q_output_tokens,
         })
@@ -283,8 +294,8 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
         elapsed = time.time() - t_start
         speed = (done - start_idx) / elapsed if elapsed > 0 else 0
         remaining = (n - done) / speed if speed > 0 else 0
-        correct_so_far = sum(p == r for p, r in zip(predictions, references))
-        acc_so_far = correct_so_far / done
+        score_so_far = sum(fmt["compare"](p, r) for p, r in zip(predictions, references))
+        acc_so_far = score_so_far / done
 
         bar_w = 25
         filled = int(bar_w * done / n)
@@ -306,9 +317,10 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
     n_answered = result["n"]
 
     # Build config block from model's self-reported configuration
-    system_prompt_hash = hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest()[:8]
+    system_prompt_hash = hashlib.sha256(fmt["system_prompt"].encode()).hexdigest()[:8]
     config_block = {
         **model.config,
+        "answer_format":     fmt_name,
         "system_prompt_hash": system_prompt_hash,
     }
 
@@ -330,7 +342,7 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
     _rng = _random.Random(42)
 
     def _is_format_error(s: dict) -> bool:
-        return s["pred"] == "X" or s["stop_reason"] == "max_tokens"
+        return fmt["is_format_error"](s["pred"]) or s["stop_reason"] == "max_tokens"
 
     _format_errors = [s for s in _sample_data if _is_format_error(s)]
     _wrong_ok      = [s for s in _sample_data if not _is_format_error(s) and not s["correct"]]

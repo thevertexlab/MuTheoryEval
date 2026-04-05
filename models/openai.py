@@ -60,7 +60,7 @@ class OpenAIModel(BaseModel):
         kwargs: dict = {
             "model": self.model_id,
             "messages": messages,
-            "max_completion_tokens": 1024,
+            "max_completion_tokens": self.config.get("max_output_tokens", 1024),
         }
         if not self._reasoning:
             kwargs["temperature"] = 0

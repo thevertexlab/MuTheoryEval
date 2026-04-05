@@ -2,11 +2,182 @@
   "model": "claude-sonnet-4-6",
   "benchmark": "music_theory_bench",
   "mode": "lite",
-  "accuracy": 0.5422343324250681,
+  "accuracy": 0.6239782016348774,
   "n": 367,
   "seed": 42,
-  "timestamp": "2026-04-05T18:17:47.292729+00:00",
-  "elapsed_sec": 517,
+  "timestamp": "2026-04-05T21:44:14.792709+00:00",
+  "elapsed_sec": 421,
   "cost_est_usd": 0.1817,
-  "thinking": false
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 16,
+    "thinking": false,
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 61732,
+    "total_completion_tokens": 1468
+  },
+  "samples": {
+    "format_error": [
+      {
+        "idx": 292,
+        "subject": "knowledge",
+        "stem": "What is the submediant of G-sharp minor?",
+        "raw": "E",
+        "pred": "X",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      }
+    ],
+    "wrong_answer": [
+      {
+        "idx": 152,
+        "subject": "knowledge",
+        "stem": "Which of the following melodic excerpts have compound meter? \n \"A\": \"L:1/16\nM:3/",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 69,
+        "subject": "knowledge",
+        "stem": "Which of the following composers wrote music that featured brass with large orch",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 234,
+        "subject": "knowledge",
+        "stem": "Which of the following has a distance of 3 1/2 steps between the two notes?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 223,
+        "subject": "knowledge",
+        "stem": "Which of the following statements about different modes is correct?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 216,
+        "subject": "knowledge",
+        "stem": "Which of the following two-phrase musical segments are considered balanced?\n\u24604+4",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 166,
+        "subject": "reasoning",
+        "stem": "Which two intervals are both consonant and altered? \n \"A\": \"\u266fc - \u266f\u266fF\", \"B\": \"\u266db ",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 145,
+        "subject": "knowledge",
+        "stem": "How many of the following scales or chords can be played on the harp by plucking",
+        "raw": "B",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 135,
+        "subject": "knowledge",
+        "stem": "In the composition structure of music, what is the structure name one level high",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 321,
+        "subject": "reasoning",
+        "stem": "In a harmonic minor key with si as the submediant note, ",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 82,
+        "subject": "knowledge",
+        "stem": "A beginning cello student plays with too much arm movement; what is most likely ",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      }
+    ],
+    "correct": [
+      {
+        "idx": 7,
+        "subject": "knowledge",
+        "stem": "Which movement in music paralleled the movement in visual arts led by painters s",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 27,
+        "subject": "knowledge",
+        "stem": "Which of the following coursework would be most important to an aspiring audio e",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 61,
+        "subject": "knowledge",
+        "stem": "Which of the following improvisational tools is based on a dialogue structure?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      }
+    ]
+  }
 }

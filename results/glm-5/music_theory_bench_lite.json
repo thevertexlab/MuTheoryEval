@@ -1,0 +1,171 @@
+{
+  "model": "glm-5",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.6430517711171662,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-05T22:52:13.255891+00:00",
+  "elapsed_sec": 572,
+  "cost_est_usd": 0.0595,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 1024,
+    "thinking": false,
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 32419,
+    "total_completion_tokens": 734
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 160,
+        "subject": "knowledge",
+        "stem": "Which of the following keys has three sharps as its key signature?",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 86,
+        "subject": "knowledge",
+        "stem": "What component of a stringed instrument generates the sound?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 245,
+        "subject": "reasoning",
+        "stem": "Among the following chords, how many chords can be considered as enharmonically ",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 229,
+        "subject": "knowledge",
+        "stem": "Which of the following is an enharmonic relationship?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 220,
+        "subject": "knowledge",
+        "stem": "Which of the following is the D Pentatonic scale?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 174,
+        "subject": "reasoning",
+        "stem": "Which of the following intervals has a pitch count of 2?",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 154,
+        "subject": "reasoning",
+        "stem": "Which of the following best describes the compound interval property of L:1/4\nM:",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 145,
+        "subject": "knowledge",
+        "stem": "How many of the following scales or chords can be played on the harp by plucking",
+        "raw": "B",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 338,
+        "subject": "reasoning",
+        "stem": "In the Pythagorean major scale of F-sharp, what are the two apotome pitch names?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 107,
+        "subject": "knowledge",
+        "stem": "Use the example below to answer the question that follows.\nWhich of the followin",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      }
+    ],
+    "correct": [
+      {
+        "idx": 7,
+        "subject": "knowledge",
+        "stem": "Which movement in music paralleled the movement in visual arts led by painters s",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 25,
+        "subject": "knowledge",
+        "stem": "The black church heavily influenced which of the following musical genres throug",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      },
+      {
+        "idx": 60,
+        "subject": "knowledge",
+        "stem": "When arranging music, which group of instruments would best function as a crisp ",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 2
+      }
+    ]
+  }
+}

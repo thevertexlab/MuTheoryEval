@@ -59,7 +59,7 @@ class AnthropicModel(BaseModel):
         else:
             kwargs = {
                 "model": self.model_id,
-                "max_tokens": 16,
+                "max_tokens": self.config.get("max_output_tokens", 16),
                 "messages": [{"role": "user", "content": content}],
             }
             if system:

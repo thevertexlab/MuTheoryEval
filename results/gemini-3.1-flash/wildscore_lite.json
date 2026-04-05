@@ -1,0 +1,175 @@
+{
+  "model": "gemini-3.1-flash",
+  "benchmark": "wildscore",
+  "mode": "lite",
+  "accuracy": 0.79,
+  "n": 100,
+  "seed": 42,
+  "timestamp": "2026-04-05T21:57:48.923767+00:00",
+  "elapsed_sec": 1120,
+  "cost_est_usd": 0.0084,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "default"
+    },
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 123016,
+    "total_completion_tokens": 241,
+    "total_thinking_tokens": 185751,
+    "avg_thinking_tokens_per_q": 1857.5
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 97,
+        "subject": "",
+        "stem": "Given the symbolic music notation in the provided link, how should the tremolo b",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 23,
+        "subject": "",
+        "stem": "In the context of 19th-century Romantic era piano composition, such as Chopins e",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 4,
+        "subject": "",
+        "stem": "In the provided sheet music bar (https://imgur.com/npxO6gD), why does the bar co",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 38,
+        "subject": "",
+        "stem": "In the context of a first attempt at species two counterpoint following Johann J",
+        "raw": "The provided counterpoint exercise contains several issues according to the rules of second species counterpoint as defi",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 160
+      },
+      {
+        "idx": 34,
+        "subject": "",
+        "stem": "Given a melody with ambiguous meter, as shown in the provided symbolic music ima",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 77,
+        "subject": "",
+        "stem": "In the provided 7/8 solo clarinet etude image (https://i.imgur.com/yfolUHM.jpg),",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 20,
+        "subject": "",
+        "stem": "How do composers decide when and how to change the key signature during modulati",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 44,
+        "subject": "",
+        "stem": "Based on the provided piano piece, which genre best describes the style of this ",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 13,
+        "subject": "",
+        "stem": "In a 4/4 time signature, if a note starts on beats 2 or 4 but extends into beats",
+        "raw": "A",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 40,
+        "subject": "",
+        "stem": "At what point in history did the standard practice of flipping stem direction on",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ],
+    "correct": [
+      {
+        "idx": 86,
+        "subject": "",
+        "stem": "Given the provided sheet music for the song Pure Imagination, which key is the p",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 12,
+        "subject": "",
+        "stem": "In the provided measures of the song (at 3:03), what is the musical effect and t",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 93,
+        "subject": "",
+        "stem": "A drummer sent a bass groove notation for an audition, but the rhythm is difficu",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ]
+  }
+}

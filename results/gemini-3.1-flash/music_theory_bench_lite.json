@@ -1,0 +1,175 @@
+{
+  "model": "gemini-3.1-flash",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.7220708446866485,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-05T21:31:46.937128+00:00",
+  "elapsed_sec": 1320,
+  "cost_est_usd": 0.0308,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "default"
+    },
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 17609,
+    "total_completion_tokens": 1345,
+    "total_thinking_tokens": 271906,
+    "avg_thinking_tokens_per_q": 740.9
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 342,
+        "subject": "reasoning",
+        "stem": "Compound meters consist of",
+        "raw": "A",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 267,
+        "subject": "knowledge",
+        "stem": "Which of the following statements is correct regarding the rules of orchestral s",
+        "raw": "A",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 250,
+        "subject": "knowledge",
+        "stem": "Which notation method is used for small character group mi on the stave?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 347,
+        "subject": "reasoning",
+        "stem": "Which of the following is both a consonant interval and an altered interval?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 294,
+        "subject": "reasoning",
+        "stem": "The tonality of the following melody is:",
+        "raw": "The tonality of the melody is C Gong mode (Qing music), which corresponds to the notes of a major scale (C, D, E, F, G, ",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 112
+      },
+      {
+        "idx": 286,
+        "subject": "knowledge",
+        "stem": "If in a musical phrase consisting of two parts, the melodic lines of both parts ",
+        "raw": "A",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 352,
+        "subject": "reasoning",
+        "stem": "In G major natural scale, the interval that can resolve to B-D is",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 268,
+        "subject": "knowledge",
+        "stem": "Which of the following note sequences has the duration equal to one half-note?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 363,
+        "subject": "reasoning",
+        "stem": "In a flat D major descending melodic scale, the names of the VI and VII degrees ",
+        "raw": "D",
+        "pred": "D",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 336,
+        "subject": "reasoning",
+        "stem": "The interval E-G can be found in which of the following tonalities?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ],
+    "correct": [
+      {
+        "idx": 264,
+        "subject": "reasoning",
+        "stem": "After converting notes like B-\u266ff to enharmonic equivalents, which of the followi",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 349,
+        "subject": "reasoning",
+        "stem": "As a characteristic interval, the interval \u266fd1-c2 may belong to which of the fol",
+        "raw": "B",
+        "pred": "B",
+        "ref": "B",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 321,
+        "subject": "reasoning",
+        "stem": "In a harmonic minor key with si as the submediant note, ",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ]
+  }
+}
