@@ -833,6 +833,7 @@
     for (const mk of modelsSorted) {
       const modelMeta = DATA.models.find(m => m.key === mk) || {};
       const provider = modelMeta.provider || '';
+      const modelDisplayName = modelMeta.display_name || mk;
       const reasoningBadge = '';
       const thinkingBadge = modelMeta.thinking
         ? `<span class="badge-thinking"><i data-lucide="sparkles" width="9" height="9"></i> thinking</span>`
@@ -866,7 +867,7 @@
       ).join(' ');
       const modelTooltipHTML = `
         <div class="tooltip tooltip-rich tooltip-right">
-          <div class="tt-title">${mk}</div>
+          <div class="tt-title">${modelDisplayName}</div>
           <hr>
           <table>
             <tr><td>Provider</td><td>${provider}</td></tr>
@@ -881,7 +882,7 @@
 
       const tdModel = `<td>
         <div class="tooltip-wrap model-cell" style="align-items:flex-start">
-          <span class="model-name">${mk}</span>
+          <span class="model-name">${modelDisplayName}</span>
           <div class="model-meta">
             <span class="model-provider">${provider}</span>
             ${reasoningBadge}${thinkingBadge}

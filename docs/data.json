@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T23:05:05.205299+00:00",
+  "updated": "2026-04-05T23:09:54.195032+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -60,6 +60,7 @@
   "models": [
     {
       "key": "claude-opus-4-6",
+      "display_name": "claude-opus-4-6",
       "provider": "Anthropic",
       "capabilities": [
         "text",
@@ -69,6 +70,7 @@
     },
     {
       "key": "claude-sonnet-4-6",
+      "display_name": "claude-sonnet-4-6",
       "provider": "Anthropic",
       "capabilities": [
         "text",
@@ -78,6 +80,7 @@
     },
     {
       "key": "claude-sonnet-4-6-xt8k",
+      "display_name": "claude-sonnet-4-6 (xt8k)",
       "provider": "Anthropic",
       "capabilities": [
         "text",
@@ -87,6 +90,7 @@
     },
     {
       "key": "deepseek-chat",
+      "display_name": "deepseek-chat",
       "provider": "DeepSeek",
       "capabilities": [
         "text"
@@ -95,6 +99,7 @@
     },
     {
       "key": "deepseek-reasoner",
+      "display_name": "deepseek-reasoner",
       "provider": "DeepSeek",
       "capabilities": [
         "text"
@@ -103,6 +108,7 @@
     },
     {
       "key": "gemini-3.1-flash",
+      "display_name": "gemini-3.1-flash",
       "provider": "Google",
       "capabilities": [
         "text",
@@ -113,6 +119,18 @@
     },
     {
       "key": "gemini-3.1-flash-lite",
+      "display_name": "gemini-3.1-flash-lite",
+      "provider": "Google",
+      "capabilities": [
+        "text",
+        "image",
+        "audio"
+      ],
+      "thinking": true
+    },
+    {
+      "key": "gemini-3.1-flash-minimal",
+      "display_name": "gemini-3.1-flash (minimal)",
       "provider": "Google",
       "capabilities": [
         "text",
@@ -123,6 +141,7 @@
     },
     {
       "key": "glm-5",
+      "display_name": "glm-5",
       "provider": "ZhipuAI",
       "capabilities": [
         "text"
@@ -131,6 +150,7 @@
     },
     {
       "key": "gpt-5.4",
+      "display_name": "gpt-5.4",
       "provider": "OpenAI",
       "capabilities": [
         "text",
@@ -140,6 +160,7 @@
     },
     {
       "key": "qwen3-max-thinking",
+      "display_name": "qwen3-max-thinking",
       "provider": "DeepInfra",
       "capabilities": [
         "text"
@@ -2376,6 +2397,195 @@
       "cost_est_usd": 0.0081
     },
     {
+      "model": "gemini-3.1-flash-minimal",
+      "benchmark": "music_theory_bench",
+      "mode": "lite",
+      "accuracy": 0.7220708446866485,
+      "n": 367,
+      "seed": 42,
+      "timestamp": "2026-04-05T23:06:48.595622+00:00",
+      "elapsed_sec": 276,
+      "cost_est_usd": 0.0308,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 4096,
+        "thinking": {
+          "level": "minimal"
+        },
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 55422,
+        "total_completion_tokens": 367,
+        "total_thinking_tokens": 0,
+        "avg_thinking_tokens_per_q": 0.0
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 326,
+            "subject": "reasoning",
+            "stem": "Which of the following keys has three flats in its key signature?",
+            "raw": "D",
+            "pred": "D",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 153,
+            "subject": "knowledge",
+            "stem": "The music fragment shown in the following example develops the musical material ",
+            "raw": "A",
+            "pred": "A",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 122,
+            "subject": "knowledge",
+            "stem": "Use the example below to answer the question that follows.\n     \nWhat is the mus",
+            "raw": "B",
+            "pred": "B",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 353,
+            "subject": "reasoning",
+            "stem": "Compared the Ya-yue Shang mode with \u266dB as the Zhi note to that with \u266dB as the to",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 216,
+            "subject": "knowledge",
+            "stem": "Which of the following two-phrase musical segments are considered balanced?\n\u24604+4",
+            "raw": "C",
+            "pred": "C",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 198,
+            "subject": "knowledge",
+            "stem": "The added in B Shang hexatonic mode can be",
+            "raw": "B",
+            "pred": "B",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 187,
+            "subject": "knowledge",
+            "stem": "What does 'scale degree' refer to?",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 168,
+            "subject": "reasoning",
+            "stem": "What is the inversed interval of double-augmented octave?",
+            "raw": "A",
+            "pred": "A",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 149,
+            "subject": "knowledge",
+            "stem": "Which of the following is NOT a main characteristic of Debussy's musical composi",
+            "raw": "B",
+            "pred": "B",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 338,
+            "subject": "reasoning",
+            "stem": "In the Pythagorean major scale of F-sharp, what are the two apotome pitch names?",
+            "raw": "B",
+            "pred": "B",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ],
+        "correct": [
+          {
+            "idx": 45,
+            "subject": "knowledge",
+            "stem": "Which of the following notation software allows musicians to notate compositions",
+            "raw": "B",
+            "pred": "B",
+            "ref": "B",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 282,
+            "subject": "reasoning",
+            "stem": "Which of the following statements about inverted counterpoint is incorrect?",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 16,
+            "subject": "knowledge",
+            "stem": "The Fibonacci sequence in mathematics can be seen in all of the following aspect",
+            "raw": "A",
+            "pred": "A",
+            "ref": "A",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ]
+      }
+    },
+    {
       "model": "glm-5",
       "benchmark": "music_theory_bench",
       "mode": "lite",
@@ -2539,6 +2749,177 @@
             "raw": "D",
             "pred": "D",
             "ref": "D",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          }
+        ]
+      }
+    },
+    {
+      "model": "glm-5",
+      "benchmark": "ziqi_eval",
+      "mode": "lite",
+      "accuracy": 0.852,
+      "n": 500,
+      "seed": 42,
+      "timestamp": "2026-04-05T23:07:23.954711+00:00",
+      "elapsed_sec": 909,
+      "cost_est_usd": 0.081,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 1024,
+        "thinking": false,
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 56202,
+        "total_completion_tokens": 1000
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 106,
+            "subject": "",
+            "stem": "\u7235\u58eb\u4e50\u8d77\u6e90\u4e8e____",
+            "raw": "C",
+            "pred": "C",
+            "ref": "A",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 13,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u6b4c\u66f2\u300a\u5b64\u72ec\u7684\u7267\u7f8a\u4eba\u300b\u662f\u7f8e\u56fd\u97f3\u4e50\u5267____\u4e2d\u5973\u6559\u5e08\u739b\u5229\u4e9a\u5e26\u7740\u5b69\u5b50\u4eec\u8868\u6f14\u6728\u5076\u620f\u65f6\u5531\u7684\u6b4c\u3002,\u9009\u9879A,\u300a",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 239,
+            "subject": "",
+            "stem": "\u4e0b\u5217\u5173\u4e8e\u4e09\u53e5\u4e50\u6bb5\u7684\u8bf4\u6cd5\uff0c\u4e0d\u6b63\u786e\u7684\u662f____\u3002\n",
+            "raw": "A",
+            "pred": "A",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 208,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u300a\u9633\u5173\u4e09\u53e0\u300b\u662f\u73b0\u5b58\u5510\u8bd7\u4e0e\u97f3\u4e50\u5de7\u5999\u878d\u5408\u7684\u5178\u8303\uff0c\u6e90\u4e8e\u5510\u671d\u8bd7\u4eba\u738b\u7ef4\u7684\u4e03\u8a00\u5f8b\u8bd7\u300a\u9001\u5143\u4e8c\u4f7f\u5b89\u897f\u300b\u3002\u5168\u8bd7\u7eaf\u51c0",
+            "raw": "D",
+            "pred": "D",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 202,
+            "subject": "",
+            "stem": "\u975e\u6d32\u9f13\u7684\u7eb5\u5411\u5f8b\u52a8\u4e2d\uff0c\u591a\u4e2a\u58f0\u90e8\u7ec4\u5408\u7684\u65b9\u5f0f\u662f",
+            "raw": "C",
+            "pred": "C",
+            "ref": "A",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 126,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: ____\u662f\u6307\u56db\u4e2a\u58f0\u90e8\u4e2d\uff0c\u4e0a\u65b9\u4e09\u4e2a\u58f0\u90e8\u4e2d\u6bcf\u76f8\u90bb\u58f0\u90e8\u4e4b\u95f4\u7684\u8ddd\u79bb\u662f\u56db\u5ea6\u6216\u56db\u5ea6\u4ee5\u4e0b\u3002,\u9009\u9879A,\u548c\u58f0\u6392\u5217\u6cd5",
+            "raw": "B",
+            "pred": "B",
+            "ref": "A",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 78,
+            "subject": "",
+            "stem": "\u4e00\u677f\u4e09\u773c\u4e2d\u7684\u4e09\u773c\u5206\u522b\u79f0\u4ec0\u4e48________",
+            "raw": "B",
+            "pred": "B",
+            "ref": "A",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 66,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u4ee5\u4e0b\u8c01\u4e0d\u662f\u4e09\u89d2\u6d32\u5e03\u9c81\u65af\u98ce\u683c\u7684\u97f3\u4e50\u5bb6____,\u9009\u9879A,\u7f57\u4f2f\u7279\u00b7\u7ea6\u7ff0\u900a;\u9009\u9879B,\u778e\u5b50\u5a01\u5229;\u9009\u9879C,\u7ea6",
+            "raw": "D",
+            "pred": "D",
+            "ref": "C",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 367,
+            "subject": "",
+            "stem": "\u6b27\u6d32\u97f3\u4e50\u53f2\u4e0a\u8c03\u5f0f\u7684\u53d1\u5c55\u8fc7\u7a0b\u4e3a____\u3002",
+            "raw": "A",
+            "pred": "A",
+            "ref": "C",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 14,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u6559\u5b66\u7a0b\u5e8f\u4e2d\u5907\u8bfe\u7684\u6838\u5fc3\u662f____\u3002,\u9009\u9879A,\u786e\u5b9a\u6559\u5b66\u91cd\u70b9\u548c\u96be\u70b9;\u9009\u9879B,\u8bbe\u8ba1\u6559\u5b66\u7ec4\u7ec7\u5f62\u5f0f;\u9009\u9879C,",
+            "raw": "C",
+            "pred": "C",
+            "ref": "A",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          }
+        ],
+        "correct": [
+          {
+            "idx": 20,
+            "subject": "",
+            "stem": "\u8fea\u65af\u79d1\u97f3\u4e50\u8d77\u6e90\u4e8e\u54ea\u4e2a\u65f6\u671f\uff1f",
+            "raw": "C",
+            "pred": "C",
+            "ref": "C",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 58,
+            "subject": "",
+            "stem": "\u9609\u4eba\u6b4c\u624b___\u7684\u9000\u51fa\u6b4c\u5267\u821e\u53f0\uff0c\u6807\u5fd7\u7740\u7ed3\u675f\u4e86\u6b4c\u5267\u821e\u53f0\u4e0a\u9609\u4eba\u6b4c\u624b\u7edf\u6cbb\u610f\u5927\u5229\u8fbe\u4e24\u4e2a\u4e16\u7eaa\u7684\u5386\u53f2\u3002\u4ed6\u8fd8\u6807\u5fd7\u7740\u6b4c\u5267\u53f2\u4e0a\u4e00\u4e2a\u65f6\u4ee3\u7684\u7ed3\u675f\u3002",
+            "raw": "B",
+            "pred": "B",
+            "ref": "B",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 2
+          },
+          {
+            "idx": 129,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u4e0b\u5217\u54ea\u4e2a\u4e50\u5668\u5c5e\u4e8e\u7ba1\u4e50\u5668_______,\u9009\u9879A,\u5c0f\u63d0\u7434;\u9009\u9879B,\u8428\u514b\u65af;\u9009\u9879C,\u5927\u63d0\u7434;\u9009\u9879D,\u94a2",
+            "raw": "C",
+            "pred": "C",
+            "ref": "C",
             "correct": true,
             "stop_reason": "end_turn",
             "output_tokens": 2

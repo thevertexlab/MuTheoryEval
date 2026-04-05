@@ -151,6 +151,22 @@ def infer_thinking(model_key: str) -> bool:
     return False
 
 
+# ── Display names ──────────────────────────────────────────────────────────────
+# For variants of a base model, show "base (variant)" instead of "base-variant"
+# to avoid confusion with genuinely different models (e.g. flash-lite ≠ flash).
+# Keys not listed here fall back to the model key itself.
+_DISPLAY_NAMES: dict[str, str] = {
+    "gemini-3.1-flash-minimal": "gemini-3.1-flash (minimal)",
+    "claude-sonnet-4-6-xt8k":   "claude-sonnet-4-6 (xt8k)",
+    "claude-opus-4-6-xt8k":     "claude-opus-4-6 (xt8k)",
+    "glm-5-thinking":           "glm-5 (thinking)",
+    "gemini-2.5-pro-thinking":  "gemini-2.5-pro (thinking)",
+}
+
+def display_name(model_key: str) -> str:
+    return _DISPLAY_NAMES.get(model_key, model_key)
+
+
 # ── Cell loading ───────────────────────────────────────────────────────────────
 
 def load_all_cells() -> list[dict]:
@@ -184,6 +200,7 @@ def build_data_json() -> dict:
     models_meta = [
         {
             "key":          m,
+            "display_name": display_name(m),
             "provider":     infer_provider(m),
             "capabilities": infer_capabilities(m),
             "thinking":     infer_thinking(m),
@@ -255,7 +272,8 @@ def build_table(mode: str = "lite") -> str:
         text_s  = _modality_score(model, TEXT_BENCHES,  cells, require_all=True)
         image_s = _modality_score(model, IMAGE_BENCHES, cells)
         audio_s = _modality_score(model, AUDIO_BENCHES, cells)
-        label = f"`{model}` [T]" if infer_thinking(model) else f"`{model}`"
+        dn = display_name(model)
+        label = f"`{dn}` [T]" if infer_thinking(model) else f"`{dn}`"
         row = [
             label,
             f"**{text_s:.1%}**"  if text_s  is not None else "—",
