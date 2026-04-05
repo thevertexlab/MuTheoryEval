@@ -254,6 +254,48 @@
 
     /* heat map coloring via inline style set by JS */
 
+    /* ── Capability chips on model cell ── */
+    .cap-chips { display: flex; gap: 0.25rem; margin-top: 0.2rem; }
+    .cap-chip {
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.04em;
+      padding: 0.1rem 0.3rem; border-radius: 0.2rem;
+    }
+    .cap-chip.supported   { background: rgba(99,102,241,0.18); color: var(--accent2); }
+    .cap-chip.unsupported { background: rgba(255,255,255,0.05); color: var(--muted); opacity: 0.45; }
+
+    /* ── Cell states: unsupported vs not-run ── */
+    .cell-unsupported {
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent, transparent 4px,
+        rgba(255,255,255,0.025) 4px, rgba(255,255,255,0.025) 8px
+      ) !important;
+      cursor: default;
+    }
+    .cell-contribute {
+      cursor: default;
+    }
+    .cell-contribute .contribute-hint {
+      display: inline-flex; align-items: center; gap: 0.2rem;
+      color: var(--muted); font-size: 0.75rem; opacity: 0.5;
+      transition: opacity 0.15s;
+    }
+    .cell-contribute:hover .contribute-hint { opacity: 1; color: var(--accent2); }
+
+    /* ── Modality score columns (aggregate summary) ── */
+    .mod-score-th {
+      background: rgba(99,102,241,0.07) !important;
+      border-left: 2px solid rgba(99,102,241,0.35) !important;
+    }
+    .mod-score-td {
+      background: rgba(99,102,241,0.06);
+      border-left: 2px solid rgba(99,102,241,0.25);
+    }
+    .mod-score-miss {
+      background: rgba(99,102,241,0.04);
+      border-left: 2px solid rgba(99,102,241,0.25);
+    }
+
     /* ── Tooltip ── */
     .tooltip-wrap { position: relative; display: flex; flex-direction: column; align-items: center; }
     .tooltip {
@@ -509,6 +551,11 @@
     }
   }
 
+  function modelCapabilities(mk) {
+    const m = DATA.models.find(m => m.key === mk);
+    return (m && m.capabilities) ? m.capabilities : ['text'];
+  }
+
   function fmtPct(v) { return (v * 100).toFixed(1) + '%'; }
   function fmtDate(iso) {
     if (!iso) return '—';
@@ -559,7 +606,7 @@
 
     function makeScoreTh(key, label, icon, title) {
       const isSorted = sortKey === key;
-      return `<th class="sortable${isSorted ? ' sorted' : ''}" onclick="setSort('${key}')" title="${title}">
+      return `<th class="sortable mod-score-th${isSorted ? ' sorted' : ''}" onclick="setSort('${key}')" title="${title}">
         <div class="th-inner">
           <i data-lucide="${icon}" width="12" height="12"></i>
           ${label}
@@ -606,7 +653,23 @@
         const _b = b;
         groupedCellFns.push((mk) => {
           const c = cmap[mk + '||' + _b.key];
-          if (!c) return `<td class="score-miss">—</td>`;
+          if (!c) {
+            const mkCaps = modelCapabilities(mk);
+            if (!mkCaps.includes(_b.modality)) {
+              return `<td class="score-miss cell-unsupported">
+                <div class="tooltip-wrap" style="justify-content:center">
+                  <span style="color:var(--muted);opacity:0.35;font-size:0.8rem">—</span>
+                  <div class="tooltip">${_b.modality.charAt(0).toUpperCase()+_b.modality.slice(1)} not supported by this model's API</div>
+                </div></td>`;
+            }
+            return `<td class="score-miss cell-contribute">
+              <div class="tooltip-wrap" style="justify-content:center">
+                <span class="contribute-hint">
+                  <i data-lucide="plus-circle" width="11" height="11"></i>
+                </span>
+                <div class="tooltip">Not benchmarked yet — contribute results!</div>
+              </div></td>`;
+          }
           const bg = heatColor(c.accuracy);
           const cfg = c.config || {};
           const thinkingLabel = (() => {
@@ -655,6 +718,16 @@
         ? `<span class="badge-thinking"><i data-lucide="sparkles" width="9" height="9"></i> thinking</span>`
         : '';
 
+      const caps = modelCapabilities(mk);
+      const capChips = [
+        ['text',  'T', 'Text'],
+        ['image', 'I', 'Image'],
+        ['audio', 'A', 'Audio'],
+      ].map(([mod, label, title]) => {
+        const ok = caps.includes(mod);
+        return `<span class="cap-chip ${ok ? 'supported' : 'unsupported'}" title="${ok ? mod+' supported' : mod+' not supported by this model\'s API'}">${label}</span>`;
+      }).join('');
+
       const tdModel = `<td>
         <div class="model-cell">
           <span class="model-name">${mk}</span>
@@ -662,24 +735,37 @@
             <span class="model-provider">${provider}</span>
             ${reasoningBadge}${thinkingBadge}
           </div>
+          <div class="cap-chips">${capChips}</div>
         </div></td>`;
 
       function makeScoreTd(mod) {
+        const supported = caps.includes(mod);
+        if (!supported) {
+          return `<td class="score-miss mod-score-miss cell-unsupported">
+            <div class="tooltip-wrap" style="justify-content:center">
+              <span style="color:var(--muted);opacity:0.4;font-size:0.8rem">—</span>
+              <div class="tooltip">${mod.charAt(0).toUpperCase()+mod.slice(1)} not supported by this model's API</div>
+            </div>
+          </td>`;
+        }
         const r = computeModalityScore(mk, mod, cmap, DATA.benchmarks);
         if (r.score !== null) {
           const bg = heatColor(r.score);
           const coverageNote = r.have < r.total ? `<div class="score-n">${r.have}/${r.total}</div>` : '';
-          return `<td class="score-cell" style="background:${bg}">
+          return `<td class="score-cell mod-score-td" style="background:${bg}">
             <div class="score-val">${fmtPct(r.score)}</div>
             ${coverageNote}
           </td>`;
         } else {
           const tip = r.total === 0 ? '' : `Needs: ${r.missing.join(', ')}`;
           const coverageNote = r.have > 0 ? ` (${r.have}/${r.total})` : '';
-          return `<td class="score-miss">
+          return `<td class="score-miss mod-score-miss cell-contribute">
             <div class="tooltip-wrap" style="justify-content:center">
-              <span style="cursor:default">—${coverageNote}</span>
-              ${tip ? `<div class="tooltip">${tip}</div>` : ''}
+              <span class="contribute-hint">
+                <i data-lucide="plus-circle" width="11" height="11"></i>
+                ${coverageNote || 'run'}
+              </span>
+              <div class="tooltip">${tip || 'Not benchmarked yet — contribute results!'}</div>
             </div>
           </td>`;
         }

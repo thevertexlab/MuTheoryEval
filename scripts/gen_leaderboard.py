@@ -83,10 +83,32 @@ BENCH_CATALOGUE = [
 ]
 
 # ── Model catalogue ────────────────────────────────────────────────────────────
-# Inferred from model key prefix; used to annotate provider in data.json.
+# Inferred from model key prefix; used to annotate provider/capabilities in data.json.
+
+# Capabilities reflect what our implementation actually passes to the API,
+# not what the underlying model architecture theoretically supports.
+# e.g. DeepInfra models skip media even if the model supports images.
+_CAPABILITIES: list[tuple[str, list[str]]] = [
+    ("gemini-",    ["text", "image", "audio"]),  # GeminiModel handles all modalities
+    ("claude-",    ["text", "image"]),            # AnthropicModel: image yes, audio skipped
+    ("gpt-",       ["text", "image"]),            # OpenAIModel: image yes, audio skipped
+    ("o1",         ["text", "image"]),
+    ("o3",         ["text", "image"]),
+    ("o4",         ["text", "image"]),
+    ("deepseek-",  ["text"]),
+    ("llama-",     ["text"]),   # DeepInfraModel ignores media kwarg
+    ("qwen",       ["text"]),
+    ("mistral",    ["text"]),
+]
+
+def infer_capabilities(model_key: str) -> list[str]:
+    for prefix, caps in _CAPABILITIES:
+        if model_key.startswith(prefix):
+            return caps
+    return ["text"]
 
 def infer_provider(model_key: str) -> str:
-    if model_key.startswith("gpt-") or model_key == "o3":
+    if model_key.startswith("gpt-") or model_key.startswith("o1") or model_key.startswith("o3") or model_key.startswith("o4"):
         return "OpenAI"
     if model_key.startswith("claude-"):
         return "Anthropic"
@@ -130,7 +152,7 @@ def build_data_json() -> dict:
     known_models = sorted({c["model"] for c in cells})
 
     models_meta = [
-        {"key": m, "provider": infer_provider(m)}
+        {"key": m, "provider": infer_provider(m), "capabilities": infer_capabilities(m)}
         for m in known_models
     ]
 
