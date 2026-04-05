@@ -1,7 +1,11 @@
 """
 ABC-Eval
-Source: arXiv:2509.23350 (2025)
-Benchmarks LLM understanding of ABC notation (text-encoded symbolic music)
+Source: arXiv:2509.23350 (Jiahao Zhao et al., Kyoto University / RIKEN, 2025)
+
+STATUS: UNRELEASED
+  Anonymous review link (anonymous.4open.science/r/ABC-Eval-B622) has expired.
+  No GitHub or HuggingFace release found as of 2026-04.
+  Re-check: https://arxiv.org/abs/2509.23350 for future official release.
 
 1,086 test samples across 10 sub-tasks:
   - Basic musical syntax comprehension
@@ -9,17 +13,16 @@ Benchmarks LLM understanding of ABC notation (text-encoded symbolic music)
   - Instruction following on ABC notation
 
 Key finding: 7 SOTA LLMs all show "notable limitations" in symbolic music processing
-
-Estimated cost per run: ~$0.40 (GPT-4o)
-Estimated time: ~8 min
-Saturation risk: low (even SOTA models struggle significantly)
-Weight in aggregate: 0.30
+Weight in aggregate: 0.30 (pending release)
 """
+
+STATUS = "UNRELEASED"
 
 METADATA = {
     "name": "ABC-Eval",
     "source": "arXiv:2509.23350",
-    "hf_dataset": None,  # check paper for dataset release status
+    "hf_dataset": None,
+    "status": STATUS,
     "n_questions": 1086,
     "subsets": ["syntax", "reasoning", "instruction_following"],
     "format": "mixed",
@@ -30,7 +33,8 @@ METADATA = {
 
 def load():
     raise NotImplementedError(
-        "ABC-Eval dataset release status unclear — check arXiv:2509.23350 for data access."
+        "ABC-Eval is UNRELEASED — anonymous review link expired, no public repo as of 2026-04. "
+        "Check arXiv:2509.23350 for future release."
     )
 
 

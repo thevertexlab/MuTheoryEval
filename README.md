@@ -14,8 +14,8 @@ Not a new benchmark — a runner that brings existing ones together with a weigh
 |------|-----------|----------|--------|----------------------|
 | [MusicTheoryBench](https://huggingface.co/datasets/m-a-p/MusicTheoryBench) | 372 | Knowledge + reasoning, ABC notation | 0.35 | ~$0.50 |
 | [ZIQI-Eval](https://huggingface.co/datasets/MYTH-Lab/ZIQI-Eval) | 14,244 (500 sampled) | 10 categories, 56 subcategories | 0.35 | ~$0.30 |
-| [ABC-Eval](https://arxiv.org/abs/2509.23350) | 1,086 | Symbolic music (ABC notation) understanding | 0.30 | ~$0.40 ⚠️ dataset TBC |
-| [SSMR-Bench](https://arxiv.org/abs/2509.04059) | 1,600 (textual) | Rhythm, chord, interval, scale — 9 templates | 0.20 | ~$1.20 ⚠️ dataset TBC |
+| [ABC-Eval](https://arxiv.org/abs/2509.23350) | 1,086 | Symbolic music (ABC notation) understanding | 0.30 | ❌ UNRELEASED |
+| [SSMR-Bench](https://arxiv.org/abs/2509.04059) | 1,600 (textual) | Rhythm, chord, interval, scale — 9 templates | 0.20 | ❌ UNRELEASED |
 
 **Aggregate score** = weighted average across available benchmarks.
 

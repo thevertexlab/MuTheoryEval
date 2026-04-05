@@ -3,10 +3,10 @@ from . import ssmr_bench, msu_bench, wildscore
 
 # Text-only benchmarks — runnable with any LLM
 TEXT_REGISTRY = {
-    "music_theory_bench": music_theory_bench,  # ✅ dataset available
-    "ziqi_eval":          ziqi_eval,           # ✅ dataset available
-    "abc_eval":           abc_eval,            # ⚠️  dataset TBC
-    "ssmr_bench":         ssmr_bench,          # ⚠️  dataset TBC
+    "music_theory_bench": music_theory_bench,  # ✅ HF: m-a-p/MusicTheoryBench
+    "ziqi_eval":          ziqi_eval,           # ✅ HF: MYTH-Lab/ZIQI-Eval
+    # abc_eval: UNRELEASED — anonymous link expired, no public repo as of 2026-04
+    # ssmr_bench: UNRELEASED — anonymous link expired, no public repo as of 2026-04
 }
 
 # VLM-only benchmarks — require image input (score sheets)

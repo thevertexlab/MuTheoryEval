@@ -1,66 +1,38 @@
 """
 SSMR-Bench — Synthetic Sheet Music Reasoning Benchmark
-Source: "Towards an AI Musician: Synthesizing Sheet Music Problems for Musical Reasoning"
-        arXiv:2509.04059 (2025)
+Source: arXiv:2509.04059 (Zhilin Wang et al., USTC / Shanghai AI Lab, 2025)
 
-Programmatically generated verifiable QA pairs across 9 templates:
+STATUS: UNRELEASED
+  Anonymous review link (anonymous.4open.science/r/temp-179B) has expired.
+  Author GitHub (github.com/Zhilin123) has no public release as of 2026-04.
+  Re-check: https://arxiv.org/abs/2509.04059 for future official release.
+
+1,600 textual + 1,600 visual QA pairs across 9 templates:
   Rhythm, Chord, Interval, Scale
-  Both textual and visual (image) modalities — this module covers TEXTUAL only.
+  Generated programmatically from MelodyHub (ABC notation corpus)
 
-Dataset size:
-  - Eval: 1,600 textual QA pairs + 1,600 visual QA pairs
-  - Train: 8,000 pairs per modality
-
-Generation approach: rule-based synthesis from music theory rules →
-  verifiable ground truth, no human annotation needed.
-
-Estimated cost per run (textual, 1600q): ~$1.20 (GPT-4.1) / ~$0.20 (gpt-4.1-mini)
-Estimated time: ~15 min (with concurrency)
-Saturation risk: medium-low (rule-based, systematically covers theory gaps)
-Weight in aggregate: 0.20
-
-Dataset availability: paper mentions code/data released; check arXiv:2509.04059 for link.
-HF dataset: TBC — search huggingface.co for "SSMR" or "sheet music reasoning"
+Weight in aggregate: 0.20 (pending release)
 """
+
+STATUS = "UNRELEASED"
 
 METADATA = {
     "name": "SSMR-Bench (textual)",
     "source": "arXiv:2509.04059",
-    "hf_dataset": None,  # TBC — check paper for release URL
+    "hf_dataset": None,
+    "status": STATUS,
     "n_questions": 1600,
     "subsets": ["rhythm", "chord", "interval", "scale"],
     "format": "multiple_choice_4",
-    "modality": "text",  # textual ABC/lilypond representation
-    "cost_gpt41_usd": 1.20,
-    "cost_gpt41mini_usd": 0.20,
+    "modality": "text",
     "weight": 0.20,
 }
 
 
 def load():
-    """
-    Attempt to load SSMR-Bench textual split from HuggingFace.
-    Dataset slug TBC — update once authors publish.
-    """
-    try:
-        from datasets import load_dataset
-        # TODO: replace with actual HF slug once published
-        ds = load_dataset("SSMR-Bench/ssmr-bench", split="test")
-        return [item for item in ds if item.get("modality") == "text"]
-    except Exception as e:
-        raise NotImplementedError(
-            f"SSMR-Bench dataset not yet available or slug unknown. "
-            f"Check arXiv:2509.04059 for the release URL. Original error: {e}"
-        )
-
-
-def format_prompt(item: dict) -> str:
-    opts = "\n".join(f"{k}. {v}" for k, v in item["options"].items())
-    notation = f"\n\nSheet music notation:\n{item['notation']}" if item.get("notation") else ""
-    return (
-        f"Music theory question ({item.get('category', 'general')}):\n\n"
-        f"{item['question']}{notation}\n\n"
-        f"{opts}"
+    raise NotImplementedError(
+        "SSMR-Bench is UNRELEASED — anonymous review link expired, no public repo as of 2026-04. "
+        "Check arXiv:2509.04059 for future release."
     )
 
 
