@@ -3,17 +3,24 @@ from .base import BaseModel, MediaItem
 
 
 class DeepInfraModel(BaseModel):
-    def __init__(self, model_id: str):
+    def __init__(self, model_id: str, thinking_native: bool = False):
+        """
+        Args:
+            model_id: DeepInfra model identifier (e.g. "Qwen/Qwen3-Max-Thinking").
+            thinking_native: Set True for always-on thinking models (Qwen3-Thinking, DeepSeek-R1).
+                             These don't support temperature and have larger max_tokens.
+        """
         super().__init__(model_id)
         from openai import OpenAI
         self.client = OpenAI(
             api_key=os.environ["DEEPINFRA_API_KEY"],
             base_url="https://api.deepinfra.com/v1/openai",
         )
+        self._thinking_native = thinking_native
         self.config = {
-            "temperature":       0,
-            "max_output_tokens": 16,
-            "thinking":          False,
+            "temperature":       None if thinking_native else 0,
+            "max_output_tokens": 1024 if thinking_native else 16,
+            "thinking":          "native" if thinking_native else False,
         }
 
     def complete(self, prompt: str, system: str | None = None,
@@ -24,12 +31,15 @@ class DeepInfraModel(BaseModel):
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
 
-        resp = self.client.chat.completions.create(
-            model=self.model_id,
-            messages=messages,
-            max_tokens=16,
-            temperature=0,
-        )
+        kwargs: dict = {
+            "model": self.model_id,
+            "messages": messages,
+            "max_tokens": 1024 if self._thinking_native else 16,
+        }
+        if not self._thinking_native:
+            kwargs["temperature"] = 0
+
+        resp = self.client.chat.completions.create(**kwargs)
 
         # Capture token usage
         self.last_usage = None

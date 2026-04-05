@@ -38,8 +38,8 @@ REGISTRY = {
     # ── Open-weight via DeepInfra ─────────────────────────────────────────────
     # Llama 4 Maverick — Meta's latest multimodal MoE (Mar 2025)
     "llama-4-maverick":  lambda: DeepInfraModel("meta-llama/Llama-4-Maverick-17B-128E-Instruct"),
-    # Qwen 3.5 — Alibaba's latest MoE flagship
-    "qwen3.5-72b":       lambda: DeepInfraModel("Qwen/Qwen3.5-72B-A10B"),
+    # Qwen3 Max Thinking — Alibaba's frontier reasoning model (always-on thinking)
+    "qwen3-max-thinking": lambda: DeepInfraModel("Qwen/Qwen3-Max-Thinking", thinking_native=True),
     # DeepSeek-R1 open-weight via DeepInfra
     "deepseek-r1":       lambda: DeepInfraModel("deepseek-ai/DeepSeek-R1"),
 }
