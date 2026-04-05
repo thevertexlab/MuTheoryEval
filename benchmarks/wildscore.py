@@ -81,10 +81,21 @@ def get_media(item: dict) -> list[dict]:
         )
         img_path = Path(cached)
 
-    suffix = img_path.suffix.lower().lstrip(".")
-    mime_map = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "gif": "image/gif"}
-    mime = mime_map.get(suffix, "image/jpeg")
-    return [{"mime_type": mime, "data": img_path.read_bytes()}]
+    data = img_path.read_bytes()
+    # Detect actual format from magic bytes (file extension is unreliable in this dataset)
+    if data[:8] == b'\x89PNG\r\n\x1a\n':
+        mime = "image/png"
+    elif data[:3] == b'\xff\xd8\xff':
+        mime = "image/jpeg"
+    elif data[:6] in (b'GIF87a', b'GIF89a'):
+        mime = "image/gif"
+    elif data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+        mime = "image/webp"
+    else:
+        # Fallback to extension-based detection
+        suffix = img_path.suffix.lower().lstrip(".")
+        mime = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "gif": "image/gif"}.get(suffix, "image/jpeg")
+    return [{"mime_type": mime, "data": data}]
 
 
 def format_prompt(item: dict) -> str:

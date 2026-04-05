@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T20:10:41.371165+00:00",
+  "updated": "2026-04-05T20:23:44.924207+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -276,6 +276,177 @@
     },
     {
       "model": "claude-opus-4-6",
+      "benchmark": "wildscore",
+      "mode": "lite",
+      "accuracy": 0.72,
+      "n": 100,
+      "seed": 42,
+      "timestamp": "2026-04-05T20:23:32.932193+00:00",
+      "elapsed_sec": 219,
+      "cost_est_usd": 0.0825,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 16,
+        "thinking": false,
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 98853,
+        "total_completion_tokens": 400
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 75,
+            "subject": "",
+            "stem": "For a beginner aiming to start composing classical music to deepen understanding",
+            "raw": "A",
+            "pred": "A",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 29,
+            "subject": "",
+            "stem": "In Haydns \"Sunrise\" Quartet, measure 16 features a peculiar chord in the second ",
+            "raw": "A",
+            "pred": "A",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 7,
+            "subject": "",
+            "stem": "In the score excerpt from The Shepherds Farewell by Berlioz, how can the harmoni",
+            "raw": "A",
+            "pred": "A",
+            "ref": "C",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 86,
+            "subject": "",
+            "stem": "Given the provided sheet music for the song Pure Imagination, which key is the p",
+            "raw": "A",
+            "pred": "A",
+            "ref": "C",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 40,
+            "subject": "",
+            "stem": "At what point in history did the standard practice of flipping stem direction on",
+            "raw": "D",
+            "pred": "D",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 39,
+            "subject": "",
+            "stem": "Given a solo melody line in crotchets with a preceding chord of E7 and a followi",
+            "raw": "D",
+            "pred": "D",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 85,
+            "subject": "",
+            "stem": "In Bartoks \"Mikrokosmos\" piece, why does the key signature include only an A-fla",
+            "raw": "D",
+            "pred": "D",
+            "ref": "A",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 34,
+            "subject": "",
+            "stem": "Given a melody with ambiguous meter, as shown in the provided symbolic music ima",
+            "raw": "C",
+            "pred": "C",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 97,
+            "subject": "",
+            "stem": "Given the symbolic music notation in the provided link, how should the tremolo b",
+            "raw": "C",
+            "pred": "C",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 71,
+            "subject": "",
+            "stem": "Is there a better, easier-to-read way to notate a rhythm consisting of 3 notes s",
+            "raw": "C",
+            "pred": "C",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          }
+        ],
+        "correct": [
+          {
+            "idx": 12,
+            "subject": "",
+            "stem": "In the provided measures of the song (at 3:03), what is the musical effect and t",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 72,
+            "subject": "",
+            "stem": "A drummer composed a one-minute song for a band project and ended up with a conf",
+            "raw": "C",
+            "pred": "C",
+            "ref": "C",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 4,
+            "subject": "",
+            "stem": "In the provided sheet music bar (https://imgur.com/npxO6gD), why does the bar co",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          }
+        ]
+      }
+    },
+    {
+      "model": "claude-opus-4-6",
       "benchmark": "ziqi_eval",
       "mode": "lite",
       "accuracy": 0.868,
@@ -459,6 +630,177 @@
     },
     {
       "model": "claude-sonnet-4-6",
+      "benchmark": "wildscore",
+      "mode": "lite",
+      "accuracy": 0.73,
+      "n": 100,
+      "seed": 42,
+      "timestamp": "2026-04-05T20:22:45.783338+00:00",
+      "elapsed_sec": 172,
+      "cost_est_usd": 0.0495,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 16,
+        "thinking": false,
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 98853,
+        "total_completion_tokens": 400
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 83,
+            "subject": "",
+            "stem": "Analyze the harmonic structure of the ending bars of J.S. Bachs Prelude in C# ma",
+            "raw": "C",
+            "pred": "C",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 18,
+            "subject": "",
+            "stem": "In the provided rhythmic notation image (https://imgur.com/gallery/MLitK2F), how",
+            "raw": "D",
+            "pred": "D",
+            "ref": "A",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 7,
+            "subject": "",
+            "stem": "In the score excerpt from The Shepherds Farewell by Berlioz, how can the harmoni",
+            "raw": "A",
+            "pred": "A",
+            "ref": "C",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 86,
+            "subject": "",
+            "stem": "Given the provided sheet music for the song Pure Imagination, which key is the p",
+            "raw": "A",
+            "pred": "A",
+            "ref": "C",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 26,
+            "subject": "",
+            "stem": "Considering the current landscape for music copyists and engravers, especially t",
+            "raw": "C",
+            "pred": "C",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 25,
+            "subject": "",
+            "stem": "In the context of composing with the whole-tone scale, which of the following st",
+            "raw": "B",
+            "pred": "B",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 84,
+            "subject": "",
+            "stem": "In the key of A major, within a chord progression that includes A, C#m, D, E, E#",
+            "raw": "B",
+            "pred": "B",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 20,
+            "subject": "",
+            "stem": "How do composers decide when and how to change the key signature during modulati",
+            "raw": "B",
+            "pred": "B",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 95,
+            "subject": "",
+            "stem": "What are the primary reasons for the poor notation, composition, and copy work q",
+            "raw": "A",
+            "pred": "A",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 63,
+            "subject": "",
+            "stem": "In the harmonic analysis of a piece in C major, where the chords include a iii6 ",
+            "raw": "A",
+            "pred": "A",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          }
+        ],
+        "correct": [
+          {
+            "idx": 14,
+            "subject": "",
+            "stem": "A transcription of a piano and vocal piece includes big stacked-third chords and",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 73,
+            "subject": "",
+            "stem": "Given the task of determining the key and relevant scales of Kasss Theme from BO",
+            "raw": "C",
+            "pred": "C",
+            "ref": "C",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 4,
+            "subject": "",
+            "stem": "In the provided sheet music bar (https://imgur.com/npxO6gD), why does the bar co",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          }
+        ]
+      }
+    },
+    {
+      "model": "claude-sonnet-4-6",
       "benchmark": "ziqi_eval",
       "mode": "lite",
       "accuracy": 0.85,
@@ -524,6 +866,180 @@
       "elapsed_sec": 333,
       "cost_est_usd": 0.1541,
       "thinking": false
+    },
+    {
+      "model": "gpt-5.4",
+      "benchmark": "wildscore",
+      "mode": "lite",
+      "accuracy": 0.72,
+      "n": 100,
+      "seed": 42,
+      "timestamp": "2026-04-05T20:22:18.941319+00:00",
+      "elapsed_sec": 144,
+      "cost_est_usd": 0.042,
+      "config": {
+        "temperature": null,
+        "max_output_tokens": 1024,
+        "thinking": "native",
+        "reasoning_effort": null,
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 117652,
+        "total_completion_tokens": 400,
+        "total_thinking_tokens": 0,
+        "avg_thinking_tokens_per_q": 0.0
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 78,
+            "subject": "",
+            "stem": "What is the most effective way to analyze the relationship between the melody an",
+            "raw": "C",
+            "pred": "C",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 26,
+            "subject": "",
+            "stem": "Considering the current landscape for music copyists and engravers, especially t",
+            "raw": "C",
+            "pred": "C",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 7,
+            "subject": "",
+            "stem": "In the score excerpt from The Shepherds Farewell by Berlioz, how can the harmoni",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 89,
+            "subject": "",
+            "stem": "When notating piano 4 hands where the piano is split between two players with on",
+            "raw": "C",
+            "pred": "C",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 40,
+            "subject": "",
+            "stem": "At what point in history did the standard practice of flipping stem direction on",
+            "raw": "D",
+            "pred": "D",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 39,
+            "subject": "",
+            "stem": "Given a solo melody line in crotchets with a preceding chord of E7 and a followi",
+            "raw": "D",
+            "pred": "D",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 85,
+            "subject": "",
+            "stem": "In Bartoks \"Mikrokosmos\" piece, why does the key signature include only an A-fla",
+            "raw": "D",
+            "pred": "D",
+            "ref": "A",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 30,
+            "subject": "",
+            "stem": "Given the timpani score for an orchestral work shown in the provided image link ",
+            "raw": "C",
+            "pred": "C",
+            "ref": "A",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 97,
+            "subject": "",
+            "stem": "Given the symbolic music notation in the provided link, how should the tremolo b",
+            "raw": "C",
+            "pred": "C",
+            "ref": "B",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 75,
+            "subject": "",
+            "stem": "For a beginner aiming to start composing classical music to deepen understanding",
+            "raw": "A",
+            "pred": "A",
+            "ref": "D",
+            "correct": false,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          }
+        ],
+        "correct": [
+          {
+            "idx": 12,
+            "subject": "",
+            "stem": "In the provided measures of the song (at 3:03), what is the musical effect and t",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 68,
+            "subject": "",
+            "stem": "Why did Renaissance and Medieval music notation use longer note values such as d",
+            "raw": "A",
+            "pred": "A",
+            "ref": "A",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          },
+          {
+            "idx": 4,
+            "subject": "",
+            "stem": "In the provided sheet music bar (https://imgur.com/npxO6gD), why does the bar co",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "stop_reason": "end_turn",
+            "output_tokens": 4
+          }
+        ]
+      }
     },
     {
       "model": "gpt-5.4",

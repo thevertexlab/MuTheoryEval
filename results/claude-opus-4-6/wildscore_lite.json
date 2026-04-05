@@ -1,0 +1,171 @@
+{
+  "model": "claude-opus-4-6",
+  "benchmark": "wildscore",
+  "mode": "lite",
+  "accuracy": 0.72,
+  "n": 100,
+  "seed": 42,
+  "timestamp": "2026-04-05T20:23:32.932193+00:00",
+  "elapsed_sec": 219,
+  "cost_est_usd": 0.0825,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 16,
+    "thinking": false,
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 98853,
+    "total_completion_tokens": 400
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 75,
+        "subject": "",
+        "stem": "For a beginner aiming to start composing classical music to deepen understanding",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 29,
+        "subject": "",
+        "stem": "In Haydns \"Sunrise\" Quartet, measure 16 features a peculiar chord in the second ",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 7,
+        "subject": "",
+        "stem": "In the score excerpt from The Shepherds Farewell by Berlioz, how can the harmoni",
+        "raw": "A",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 86,
+        "subject": "",
+        "stem": "Given the provided sheet music for the song Pure Imagination, which key is the p",
+        "raw": "A",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 40,
+        "subject": "",
+        "stem": "At what point in history did the standard practice of flipping stem direction on",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 39,
+        "subject": "",
+        "stem": "Given a solo melody line in crotchets with a preceding chord of E7 and a followi",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 85,
+        "subject": "",
+        "stem": "In Bartoks \"Mikrokosmos\" piece, why does the key signature include only an A-fla",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 34,
+        "subject": "",
+        "stem": "Given a melody with ambiguous meter, as shown in the provided symbolic music ima",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 97,
+        "subject": "",
+        "stem": "Given the symbolic music notation in the provided link, how should the tremolo b",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 71,
+        "subject": "",
+        "stem": "Is there a better, easier-to-read way to notate a rhythm consisting of 3 notes s",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      }
+    ],
+    "correct": [
+      {
+        "idx": 12,
+        "subject": "",
+        "stem": "In the provided measures of the song (at 3:03), what is the musical effect and t",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 72,
+        "subject": "",
+        "stem": "A drummer composed a one-minute song for a band project and ended up with a conf",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 4,
+        "subject": "",
+        "stem": "In the provided sheet music bar (https://imgur.com/npxO6gD), why does the bar co",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      }
+    ]
+  }
+}

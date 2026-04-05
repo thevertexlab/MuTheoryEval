@@ -1,0 +1,174 @@
+{
+  "model": "gpt-5.4",
+  "benchmark": "wildscore",
+  "mode": "lite",
+  "accuracy": 0.72,
+  "n": 100,
+  "seed": 42,
+  "timestamp": "2026-04-05T20:22:18.941319+00:00",
+  "elapsed_sec": 144,
+  "cost_est_usd": 0.042,
+  "config": {
+    "temperature": null,
+    "max_output_tokens": 1024,
+    "thinking": "native",
+    "reasoning_effort": null,
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 117652,
+    "total_completion_tokens": 400,
+    "total_thinking_tokens": 0,
+    "avg_thinking_tokens_per_q": 0.0
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 78,
+        "subject": "",
+        "stem": "What is the most effective way to analyze the relationship between the melody an",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 26,
+        "subject": "",
+        "stem": "Considering the current landscape for music copyists and engravers, especially t",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 7,
+        "subject": "",
+        "stem": "In the score excerpt from The Shepherds Farewell by Berlioz, how can the harmoni",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 89,
+        "subject": "",
+        "stem": "When notating piano 4 hands where the piano is split between two players with on",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 40,
+        "subject": "",
+        "stem": "At what point in history did the standard practice of flipping stem direction on",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 39,
+        "subject": "",
+        "stem": "Given a solo melody line in crotchets with a preceding chord of E7 and a followi",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 85,
+        "subject": "",
+        "stem": "In Bartoks \"Mikrokosmos\" piece, why does the key signature include only an A-fla",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 30,
+        "subject": "",
+        "stem": "Given the timpani score for an orchestral work shown in the provided image link ",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 97,
+        "subject": "",
+        "stem": "Given the symbolic music notation in the provided link, how should the tremolo b",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 75,
+        "subject": "",
+        "stem": "For a beginner aiming to start composing classical music to deepen understanding",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      }
+    ],
+    "correct": [
+      {
+        "idx": 12,
+        "subject": "",
+        "stem": "In the provided measures of the song (at 3:03), what is the musical effect and t",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 68,
+        "subject": "",
+        "stem": "Why did Renaissance and Medieval music notation use longer note values such as d",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      },
+      {
+        "idx": 4,
+        "subject": "",
+        "stem": "In the provided sheet music bar (https://imgur.com/npxO6gD), why does the bar co",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 4
+      }
+    ]
+  }
+}
