@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T23:14:58.090357+00:00",
+  "updated": "2026-04-05T23:17:42.330410+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -2604,6 +2604,195 @@
             "raw": "A",
             "pred": "A",
             "ref": "A",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ]
+      }
+    },
+    {
+      "model": "gemini-3.1-flash-minimal",
+      "benchmark": "wildscore",
+      "mode": "lite",
+      "accuracy": 0.76,
+      "n": 100,
+      "seed": 42,
+      "timestamp": "2026-04-05T23:15:28.802108+00:00",
+      "elapsed_sec": 134,
+      "cost_est_usd": 0.0084,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 4096,
+        "thinking": {
+          "level": "minimal"
+        },
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 123016,
+        "total_completion_tokens": 100,
+        "total_thinking_tokens": 0,
+        "avg_thinking_tokens_per_q": 0.0
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 86,
+            "subject": "",
+            "stem": "Given the provided sheet music for the song Pure Imagination, which key is the p",
+            "raw": "A",
+            "pred": "A",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 23,
+            "subject": "",
+            "stem": "In the context of 19th-century Romantic era piano composition, such as Chopins e",
+            "raw": "C",
+            "pred": "C",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 4,
+            "subject": "",
+            "stem": "In the provided sheet music bar (https://imgur.com/npxO6gD), why does the bar co",
+            "raw": "B",
+            "pred": "B",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 38,
+            "subject": "",
+            "stem": "In the context of a first attempt at species two counterpoint following Johann J",
+            "raw": "C",
+            "pred": "C",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 34,
+            "subject": "",
+            "stem": "Given a melody with ambiguous meter, as shown in the provided symbolic music ima",
+            "raw": "C",
+            "pred": "C",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 85,
+            "subject": "",
+            "stem": "In Bartoks \"Mikrokosmos\" piece, why does the key signature include only an A-fla",
+            "raw": "D",
+            "pred": "D",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 24,
+            "subject": "",
+            "stem": "In Mozarts aria Ach, ich f\u00fchls, starting from the 2nd measure where the harmony ",
+            "raw": "D",
+            "pred": "D",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 96,
+            "subject": "",
+            "stem": "In the context of learning the piano piece Fade to Black by Metallica, specifica",
+            "raw": "D",
+            "pred": "D",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 20,
+            "subject": "",
+            "stem": "How do composers decide when and how to change the key signature during modulati",
+            "raw": "B",
+            "pred": "B",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 40,
+            "subject": "",
+            "stem": "At what point in history did the standard practice of flipping stem direction on",
+            "raw": "D",
+            "pred": "D",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ],
+        "correct": [
+          {
+            "idx": 71,
+            "subject": "",
+            "stem": "Is there a better, easier-to-read way to notate a rhythm consisting of 3 notes s",
+            "raw": "B",
+            "pred": "B",
+            "ref": "B",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 5,
+            "subject": "",
+            "stem": "In harp sheet music, what does the symbol resembling a chord chart indicate, par",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 3,
+            "subject": "",
+            "stem": "A composer created an invention based on the tune played by a laundry dryer upon",
+            "raw": "B",
+            "pred": "B",
+            "ref": "B",
             "correct": true,
             "score": 1.0,
             "stop_reason": "end_turn",
