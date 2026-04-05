@@ -74,7 +74,7 @@ BENCH_CATALOGUE = [
         "name":      "CMI-Bench",
         "short":     "CMI-Bench",
         "modality":  "audio",
-        "source":    "arXiv:2407.05830",
+        "source":    "arXiv:2506.12285",
         "hf":        "nicolaus625/CMI-bench",
         "weight":    0.15,
         "n_full":    None,
@@ -197,6 +197,9 @@ def load_all_cells() -> list[dict]:
                 cell = json.loads(cell_file.read_text())
                 # Ensure required keys
                 if all(k in cell for k in ("model", "benchmark", "mode", "accuracy", "n")):
+                    # Strip old samples block — bad cases live in .errors.jsonl now.
+                    # Keeps data.json lean for old cells that still carry samples.
+                    cell.pop("samples", None)
                     cells.append(cell)
             except Exception:
                 pass
