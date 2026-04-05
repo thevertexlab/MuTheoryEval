@@ -157,14 +157,29 @@ def infer_thinking(model_key: str) -> bool:
 # Keys not listed here fall back to the model key itself.
 _DISPLAY_NAMES: dict[str, str] = {
     "gemini-3.1-flash-minimal": "gemini-3.1-flash (minimal)",
-    "claude-sonnet-4-6-xt8k":   "claude-sonnet-4-6 (xt8k)",
-    "claude-opus-4-6-xt8k":     "claude-opus-4-6 (xt8k)",
+    "claude-sonnet-4-6-xt8k":   "claude-sonnet-4-6 (thinking 8k)",
+    "claude-opus-4-6-xt8k":     "claude-opus-4-6 (thinking 8k)",
     "glm-5-thinking":           "glm-5 (thinking)",
     "gemini-2.5-pro-thinking":  "gemini-2.5-pro (thinking)",
 }
 
+# Short note shown in model tooltip — explains variant suffix or special config.
+# Especially useful when the result cell's config block doesn't capture the setting.
+_MODEL_NOTES: dict[str, str] = {
+    "gemini-3.1-flash-minimal": "Gemini 3 Flash with thinking_level=MINIMAL (explicit low-budget thinking).",
+    "gemini-3.1-flash":         "Gemini 3 Flash — always-on thinking at model default level (HIGH).",
+    "gemini-3.1-flash-lite":    "Gemini 3 Flash Lite — always-on thinking, lighter/faster variant.",
+    "claude-sonnet-4-6-xt8k":   "Extended thinking enabled, budget=8000 tokens. Same base model as claude-sonnet-4-6.",
+    "claude-opus-4-6-xt8k":     "Extended thinking enabled, budget=8000 tokens. Same base model as claude-opus-4-6.",
+    "glm-5-thinking":           "GLM-5 with optional thinking mode enabled (Anthropic-compatible thinking blocks).",
+    "glm-z1-flash":             "GLM-Z1-Flash — always-on reasoning model; thinking output stripped from response.",
+}
+
 def display_name(model_key: str) -> str:
     return _DISPLAY_NAMES.get(model_key, model_key)
+
+def model_note(model_key: str) -> str | None:
+    return _MODEL_NOTES.get(model_key)
 
 
 # ── Cell loading ───────────────────────────────────────────────────────────────
@@ -201,6 +216,7 @@ def build_data_json() -> dict:
         {
             "key":          m,
             "display_name": display_name(m),
+            "note":         model_note(m),
             "provider":     infer_provider(m),
             "capabilities": infer_capabilities(m),
             "thinking":     infer_thinking(m),

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T23:09:54.195032+00:00",
+  "updated": "2026-04-05T23:13:30.696031+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -61,6 +61,7 @@
     {
       "key": "claude-opus-4-6",
       "display_name": "claude-opus-4-6",
+      "note": null,
       "provider": "Anthropic",
       "capabilities": [
         "text",
@@ -71,6 +72,7 @@
     {
       "key": "claude-sonnet-4-6",
       "display_name": "claude-sonnet-4-6",
+      "note": null,
       "provider": "Anthropic",
       "capabilities": [
         "text",
@@ -80,7 +82,8 @@
     },
     {
       "key": "claude-sonnet-4-6-xt8k",
-      "display_name": "claude-sonnet-4-6 (xt8k)",
+      "display_name": "claude-sonnet-4-6 (thinking 8k)",
+      "note": "Extended thinking enabled, budget=8000 tokens. Same base model as claude-sonnet-4-6.",
       "provider": "Anthropic",
       "capabilities": [
         "text",
@@ -91,6 +94,7 @@
     {
       "key": "deepseek-chat",
       "display_name": "deepseek-chat",
+      "note": null,
       "provider": "DeepSeek",
       "capabilities": [
         "text"
@@ -100,6 +104,7 @@
     {
       "key": "deepseek-reasoner",
       "display_name": "deepseek-reasoner",
+      "note": null,
       "provider": "DeepSeek",
       "capabilities": [
         "text"
@@ -109,6 +114,7 @@
     {
       "key": "gemini-3.1-flash",
       "display_name": "gemini-3.1-flash",
+      "note": "Gemini 3 Flash \u2014 always-on thinking at model default level (HIGH).",
       "provider": "Google",
       "capabilities": [
         "text",
@@ -120,6 +126,7 @@
     {
       "key": "gemini-3.1-flash-lite",
       "display_name": "gemini-3.1-flash-lite",
+      "note": "Gemini 3 Flash Lite \u2014 always-on thinking, lighter/faster variant.",
       "provider": "Google",
       "capabilities": [
         "text",
@@ -131,6 +138,7 @@
     {
       "key": "gemini-3.1-flash-minimal",
       "display_name": "gemini-3.1-flash (minimal)",
+      "note": "Gemini 3 Flash with thinking_level=MINIMAL (explicit low-budget thinking).",
       "provider": "Google",
       "capabilities": [
         "text",
@@ -142,6 +150,7 @@
     {
       "key": "glm-5",
       "display_name": "glm-5",
+      "note": null,
       "provider": "ZhipuAI",
       "capabilities": [
         "text"
@@ -151,6 +160,7 @@
     {
       "key": "gpt-5.4",
       "display_name": "gpt-5.4",
+      "note": null,
       "provider": "OpenAI",
       "capabilities": [
         "text",
@@ -161,6 +171,7 @@
     {
       "key": "qwen3-max-thinking",
       "display_name": "qwen3-max-thinking",
+      "note": null,
       "provider": "DeepInfra",
       "capabilities": [
         "text"
@@ -2586,6 +2597,195 @@
       }
     },
     {
+      "model": "gemini-3.1-flash-minimal",
+      "benchmark": "ziqi_eval",
+      "mode": "lite",
+      "accuracy": 0.886,
+      "n": 500,
+      "seed": 42,
+      "timestamp": "2026-04-05T23:13:13.136868+00:00",
+      "elapsed_sec": 382,
+      "cost_est_usd": 0.042,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 4096,
+        "thinking": {
+          "level": "minimal"
+        },
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 146522,
+        "total_completion_tokens": 500,
+        "total_thinking_tokens": 0,
+        "avg_thinking_tokens_per_q": 0.0
+      },
+      "samples": {
+        "format_error": [],
+        "wrong_answer": [
+          {
+            "idx": 359,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u4e0b\u5217\u54ea\u4e2a\u4e50\u5668\u5c5e\u4e8e\u7ba1\u4e50\u5668_______,\u9009\u9879A,\u5c0f\u63d0\u7434;\u9009\u9879B,\u8428\u514b\u65af;\u9009\u9879C,\u5927\u63d0\u7434;\u9009\u9879D,\u94a2",
+            "raw": "C",
+            "pred": "C",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 45,
+            "subject": "",
+            "stem": "C\u5546\u96c5\u4e50\u8c03\u5f0f\u7684\u8c03\u53f7\u4e3a____\u3002",
+            "raw": "C",
+            "pred": "C",
+            "ref": "D",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 4,
+            "subject": "",
+            "stem": "\u88ab\u79f0\u4e3a\u201c\u82ac\u5170\u97f3\u4e50\u4e4b\u7236\u201d\u7684\u662f( )\u3002",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 409,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u5341\u4e8c\u6728\u5361\u59c6\u5df2\u88ab\u5217\u5165\u8054\u5408\u56fd\u6559\u79d1\u6587\u7ec4\u7ec7\u975e\u7269\u8d28\u6587\u5316\u9057\u4ea7\u540d\u5f55\uff0c\u5b83\u662f\u5c5e\u4e8e____\u3002,\u9009\u9879A,\u65b0\u7586\u7ef4\u543e\u5c14\u65cf;",
+            "raw": "B",
+            "pred": "B",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 138,
+            "subject": "",
+            "stem": "\u4e1c\u4e9a\u4f20\u7edf\u97f3\u4e50\u7684\u6f14\u594f\u4e2d\uff0c\u4ee5\u4e0b\u54ea\u79cd\u6f14\u594f\u65b9\u5f0f\u6700\u5e38\u7528____",
+            "raw": "A",
+            "pred": "A",
+            "ref": "B",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 133,
+            "subject": "",
+            "stem": "\u4e50\u53e5\u8fd0\u7528\u7684\u4f20\u7edf\u97f3\u4e50\u5c55\u5f00\u624b\u6cd5\u662f",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 78,
+            "subject": "",
+            "stem": "\u4e00\u677f\u4e09\u773c\u4e2d\u7684\u4e09\u773c\u5206\u522b\u79f0\u4ec0\u4e48________",
+            "raw": "B",
+            "pred": "B",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 49,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u4e0b\u5217\u54ea\u4e2a\u4e50\u5668\u5c5e\u4e8e\u7ba1\u4e50\u5668_______,\u9009\u9879A,\u5c0f\u63d0\u7434;\u9009\u9879B,\u8428\u514b\u65af;\u9009\u9879C,\u5927\u63d0\u7434;\u9009\u9879D,\u94a2",
+            "raw": "B",
+            "pred": "B",
+            "ref": "C",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 465,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u4ee5\u4e0b\u8c01\u4e0d\u662f\u4e09\u89d2\u6d32\u5e03\u9c81\u65af\u98ce\u683c\u7684\u97f3\u4e50\u5bb6____,\u9009\u9879A,\u7f57\u4f2f\u7279\u00b7\u7ea6\u7ff0\u900a;\u9009\u9879B,\u778e\u5b50\u5a01\u5229;\u9009\u9879C,\u7ea6",
+            "raw": "C",
+            "pred": "C",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 33,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u7ba1\u5f26\u4e50\u7ec4\u66f2\u300a\u884c\u661f\u300b\u7684\u4f5c\u8005\u662f____\u3002,\u9009\u9879A,\u970d\u65af\u7279  ;\u9009\u9879B,\u8d1d\u591a\u82ac     ;\u9009\u9879C,\u5e03\u91cc",
+            "raw": "D",
+            "pred": "D",
+            "ref": "A",
+            "correct": false,
+            "score": 0.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ],
+        "correct": [
+          {
+            "idx": 390,
+            "subject": "",
+            "stem": "\u8bf7\u4f60\u5bf9\u95ee\u9898\u8fdb\u884c\u56de\u7b54\uff0c\u5728\u95ee\u9898\u4e4b\u524d\u63d0\u4f9b\u4e865\u4e2a\u5e26\u7b54\u6848\u7684\u793a\u4f8b\u3002\u793a\u4f8b1: \u6559\u5b66\u7a0b\u5e8f\u4e2d\u5907\u8bfe\u7684\u6838\u5fc3\u662f____\u3002,\u9009\u9879A,\u786e\u5b9a\u6559\u5b66\u91cd\u70b9\u548c\u96be\u70b9;\u9009\u9879B,\u8bbe\u8ba1\u6559\u5b66\u7ec4\u7ec7\u5f62\u5f0f;\u9009\u9879C,",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 428,
+            "subject": "",
+            "stem": "\u8bf7\u6839\u636e\u8f93\u5165\u7684\u65cb\u5f8b\u9009\u62e9\u6700\u5339\u914d\u7684\u65cb\u5f8b\u7eed\u5199\u7247\u6bb5\uff1a\n\nX:74\nM:6/8\nL:1/8\nQ:3/8=120\nK:G\nG>AG GBd |g2g gdB|c>de dcB",
+            "raw": "C",
+            "pred": "C",
+            "ref": "C",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          },
+          {
+            "idx": 312,
+            "subject": "",
+            "stem": "\u7d20\u6709\u201c\u9ed1\u6697\u738b\u5b50\u201d\u4e4b\u79f0\u7684\u7235\u58eb\u4e50\u624b\u662f____\u3002",
+            "raw": "D",
+            "pred": "D",
+            "ref": "D",
+            "correct": true,
+            "score": 1.0,
+            "stop_reason": "end_turn",
+            "output_tokens": 1
+          }
+        ]
+      }
+    },
+    {
       "model": "glm-5",
       "benchmark": "music_theory_bench",
       "mode": "lite",
@@ -2763,8 +2963,8 @@
       "accuracy": 0.852,
       "n": 500,
       "seed": 42,
-      "timestamp": "2026-04-05T23:07:23.954711+00:00",
-      "elapsed_sec": 909,
+      "timestamp": "2026-04-05T23:11:37.679162+00:00",
+      "elapsed_sec": 936,
       "cost_est_usd": 0.081,
       "config": {
         "temperature": 0,
@@ -2773,8 +2973,8 @@
         "system_prompt_hash": "451d3bf6"
       },
       "usage": {
-        "total_prompt_tokens": 56202,
-        "total_completion_tokens": 1000
+        "total_prompt_tokens": 26148,
+        "total_completion_tokens": 800
       },
       "samples": {
         "format_error": [],

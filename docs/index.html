@@ -854,13 +854,19 @@
       const anyCell = modelCells[0] || {};
       const cfg = anyCell.config || {};
       const apiId = MODEL_API_IDS[mk] || mk;
+      const modelNote = modelMeta.note || null;
       const thinkingCfg = (() => {
         const t = cfg.thinking;
-        if (!t || t === false) return null;
-        if (t === 'native') return 'Always-on (reasoning model)';
-        if (typeof t === 'object' && t.budget_tokens) return `Extended thinking, budget=${t.budget_tokens} tok`;
-        if (typeof t === 'object' && t.level) return `Level: ${t.level}`;
-        return String(t);
+        if (t && t !== false) {
+          if (t === 'native') return 'Always-on (reasoning model)';
+          if (typeof t === 'object' && t.budget_tokens) return `Extended thinking, budget=${t.budget_tokens} tok`;
+          if (typeof t === 'object' && t.level) return `Level: ${t.level}`;
+          return String(t);
+        }
+        // cfg.thinking may be null/missing when the result cell predates this field —
+        // fall back to a generic note for models we know are thinking-enabled.
+        if (modelMeta.thinking) return 'Thinking-enabled (see note below for details)';
+        return null;
       })();
       const capRows = [['text','T'],['image','I'],['audio','A']].map(([m,l]) =>
         `<span class="tt-badge ${caps.includes(m)?'':'unsupported'}" style="${caps.includes(m)?'':'opacity:0.4'}">${l}</span>`
@@ -878,6 +884,7 @@
             ${cfg.max_output_tokens ? `<tr><td>Max output</td><td>${cfg.max_output_tokens} tok</td></tr>` : ''}
             ${cfg.system_prompt_hash ? `<tr><td>Prompt hash</td><td>${cfg.system_prompt_hash}</td></tr>` : ''}
           </table>
+          ${modelNote ? `<div style="margin-top:0.4rem;font-size:0.7rem;opacity:0.75;line-height:1.4">${modelNote}</div>` : ''}
         </div>`;
 
       const tdModel = `<td>
