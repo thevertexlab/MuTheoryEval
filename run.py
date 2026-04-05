@@ -259,6 +259,13 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
     result = bench.score(predictions, references)
     elapsed_total = time.time() - t_start
 
+    # Detect reasoning-native models (always-on thinking, can't be disabled)
+    _reasoning_prefixes = ("o1", "o3", "o4", "deepseek-reasoner", "deepseek-r1")
+    is_reasoning_native = any(
+        model_name == p or model_name.startswith(p + "-")
+        for p in _reasoning_prefixes
+    )
+
     cell = {
         "model": model_name,
         "benchmark": bench_name,
@@ -269,6 +276,8 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "elapsed_sec": round(elapsed_total),
         "cost_est_usd": round(estimate(model_name, result["n"])["cost_usd"], 4),
+        # Thinking configuration — for reproducibility and fair-comparison transparency
+        "thinking": "native" if is_reasoning_native else False,
     }
 
     print(f"  ✓ accuracy: {cell['accuracy']:.1%}  ({cell['n']}q)  "

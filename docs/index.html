@@ -207,10 +207,41 @@
     .model-cell {
       display: flex;
       flex-direction: column;
-      gap: 0.1rem;
+      gap: 0.15rem;
     }
     .model-name { font-weight: 600; font-size: 0.85rem; font-family: ui-monospace, monospace; }
+    .model-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
     .model-provider { font-size: 0.72rem; color: var(--muted); }
+    .badge-reasoning {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.62rem;
+      font-weight: 600;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.25rem;
+      background: rgba(245,158,11,0.15);
+      color: #f59e0b;
+      border: 1px solid rgba(245,158,11,0.3);
+      letter-spacing: 0.02em;
+    }
+    .badge-thinking {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.62rem;
+      font-weight: 600;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.25rem;
+      background: rgba(99,102,241,0.15);
+      color: var(--accent2);
+      border: 1px solid rgba(99,102,241,0.3);
+      letter-spacing: 0.02em;
+    }
 
     .score-cell {
       text-align: center;
@@ -298,10 +329,10 @@
     <p>Open benchmarking suite for LLM music theory &amp; music understanding</p>
   </div>
   <div class="header-links">
-    <a href="https://github.com/dimpurr/MuTheoryEval" target="_blank">
+    <a href="https://github.com/thevertexlab/MuTheoryEval" target="_blank">
       <i data-lucide="github" width="14" height="14"></i> GitHub
     </a>
-    <a href="https://github.com/dimpurr/MuTheoryEval#contributing" target="_blank">
+    <a href="https://github.com/thevertexlab/MuTheoryEval#contributing" target="_blank">
       <i data-lucide="git-pull-request" width="14" height="14"></i> Contribute
     </a>
   </div>
@@ -345,8 +376,8 @@
 
 <footer>
   <span>Data sourced from <code>docs/data.json</code> — updated automatically by contributors via PR.</span>
-  <a href="https://github.com/dimpurr/MuTheoryEval/blob/main/CLAUDE.md" target="_blank">How to run</a>
-  <a class="contribute-btn" href="https://github.com/dimpurr/MuTheoryEval#contributing" target="_blank">
+  <a href="https://github.com/thevertexlab/MuTheoryEval/blob/main/CLAUDE.md" target="_blank">How to run</a>
+  <a class="contribute-btn" href="https://github.com/thevertexlab/MuTheoryEval#contributing" target="_blank">
     <i data-lucide="plus-circle" width="14" height="14"></i> Submit your results
   </a>
 </footer>
@@ -356,6 +387,17 @@
 </style>
 
 <script>
+  // ── Constants ─────────────────────────────────────────────────────────────
+  // Models whose thinking/reasoning cannot be disabled — shown with a badge
+  const REASONING_NATIVE = ['o1', 'o3', 'o4', 'deepseek-reasoner', 'deepseek-r1'];
+  function isReasoningNative(modelKey) {
+    return REASONING_NATIVE.some(p => modelKey === p || modelKey.startsWith(p + '-'));
+  }
+  function hasThinkingVariant(modelKey) {
+    // e.g. claude-sonnet-4-6-xt8k, gemini-2.5-pro-thinking
+    return modelKey.includes('-xt') || modelKey.includes('-thinking') || modelKey.includes('-effort');
+  }
+
   // ── State ─────────────────────────────────────────────────────────────────
   let DATA = null;
   let currentMode = 'lite';
@@ -536,10 +578,20 @@
       const ws = weightedScore(mk, cmap, DATA.benchmarks);
       const wsBg = heatColor(ws);
 
+      const reasoningBadge = isReasoningNative(mk)
+        ? `<span class="badge-reasoning"><i data-lucide="cpu" width="9" height="9"></i> reasoning</span>`
+        : '';
+      const thinkingBadge = hasThinkingVariant(mk)
+        ? `<span class="badge-thinking"><i data-lucide="sparkles" width="9" height="9"></i> thinking</span>`
+        : '';
+
       const tdModel = `<td>
         <div class="model-cell">
           <span class="model-name">${mk}</span>
-          <span class="model-provider">${provider}</span>
+          <div class="model-meta">
+            <span class="model-provider">${provider}</span>
+            ${reasoningBadge}${thinkingBadge}
+          </div>
         </div></td>`;
 
       const tdWS = ws !== null
