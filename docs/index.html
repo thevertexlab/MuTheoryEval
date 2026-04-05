@@ -527,7 +527,7 @@
     'claude-haiku-4-5': 'claude-haiku-4-5-20251001',
     'gemini-3.1-pro': 'gemini-3.1-pro-preview',
     'gemini-3.1-flash': 'gemini-3-flash-preview',
-    'gemini-3.1-flash-high': 'gemini-3-flash-preview',
+    'gemini-3.1-flash-minimal': 'gemini-3-flash-preview',
     'gemini-3.1-flash-lite': 'gemini-3.1-flash-lite-preview',
     'deepseek-chat': 'deepseek-chat (= V3.2)',
     'deepseek-reasoner': 'deepseek-reasoner (= R1)',
@@ -831,9 +831,10 @@
 
     let tbody = '';
     for (const mk of modelsSorted) {
-      const provider = (DATA.models.find(m => m.key === mk) || {}).provider || '';
+      const modelMeta = DATA.models.find(m => m.key === mk) || {};
+      const provider = modelMeta.provider || '';
       const reasoningBadge = '';
-      const thinkingBadge = (isReasoningNative(mk) || hasThinkingVariant(mk))
+      const thinkingBadge = modelMeta.thinking
         ? `<span class="badge-thinking"><i data-lucide="sparkles" width="9" height="9"></i> thinking</span>`
         : '';
 
