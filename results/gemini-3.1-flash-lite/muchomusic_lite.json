@@ -1,0 +1,11 @@
+{
+  "model": "gemini-3.1-flash-lite",
+  "benchmark": "muchomusic",
+  "mode": "lite",
+  "accuracy": 0.71,
+  "n": 200,
+  "seed": 42,
+  "timestamp": "2026-04-05T17:04:47+00:00",
+  "elapsed_sec": 986,
+  "cost_est_usd": 0.003
+}

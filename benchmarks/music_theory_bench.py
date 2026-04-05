@@ -19,11 +19,11 @@ METADATA = {
     "source": "arXiv:2402.16153",
     "hf_dataset": "m-a-p/MusicTheoryBench",
     "n_questions": 372,
+    "lite_n": None,   # run all (dataset is small enough)
+    "lite_seed": 42,
     "subsets": ["knowledge", "reasoning"],
     "format": "multiple_choice_4",
     "has_abc_notation": True,
-    "cost_gpt4o_usd": 0.50,
-    "cost_gpt35_usd": 0.05,
     "weight": 0.35,
 }
 

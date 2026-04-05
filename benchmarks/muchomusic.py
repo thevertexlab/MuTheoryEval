@@ -27,8 +27,9 @@ METADATA = {
     "name": "MuChoMusic",
     "source": "arXiv:2408.01337",
     "hf_dataset": "lmms-lab/muchomusic",
-    "n_questions": 443,
-    "default_sample": 200,   # use a subset by default (~862 MB total)
+    "n_questions": 1187,  # test split
+    "lite_n": 200,
+    "lite_seed": 42,
     "subsets": ["musical_features", "emotion", "context", "instrumentation", "perception"],
     "format": "multiple_choice_4",
     "modality": "audio",

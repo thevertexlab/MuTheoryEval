@@ -30,8 +30,9 @@ METADATA = {
     "name": "WildScore",
     "source": "arXiv:2509.04744",
     "hf_dataset": "GM77/WildScore",
-    "n_questions": None,   # determined at load time
-    "default_sample": 100,
+    "n_questions": 807,
+    "lite_n": 100,
+    "lite_seed": 42,
     "subsets": ["harmony", "rhythm", "form", "notation", "expression"],
     "format": "multiple_choice_4",
     "modality": "image",

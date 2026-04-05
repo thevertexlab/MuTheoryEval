@@ -4,7 +4,14 @@
 
 ### Step 1: Estimate before running
 ```bash
+# Default mode=lite (standardized samples, skip already-done cells)
 python run.py --estimate --model gemini-3.1-flash-lite --benchmark all
+
+# Including multimodal
+python run.py --estimate --model gemini-3.1-flash-lite --benchmark all --multimodal
+
+# Full dataset
+python run.py --estimate --model gemini-3.1-flash-lite --benchmark all --mode full
 ```
 Review cost and time before proceeding.
 
@@ -96,14 +103,30 @@ python run.py --model gemini-2.5-flash --benchmark all --multimodal
 
 ---
 
-## Known Results
+## Results
 
-### Text benchmarks
-| Model | MusicTheoryBench | ZIQI-Eval (500) | Weighted |
-|-------|-----------------|-----------------|---------|
-| gemini-3.1-flash-lite | 66.8% | 81.0% | 73.9% |
+Results are stored per `(model, benchmark, mode)` cell:
+```
+results/{model}/{benchmark}_lite.json
+results/{model}/{benchmark}_full.json
+```
 
-### Multimodal benchmarks
-| Model | WildScore (100q, image) | MuChoMusic (200q, audio) |
-|-------|------------------------|--------------------------|
-| gemini-3.1-flash-lite | 73.0% | 71.0% |
+Generate leaderboard:
+```bash
+python scripts/gen_leaderboard.py
+```
+
+### Current leaderboard (lite mode)
+
+| Model | MusicTheory | ZIQI-Eval | WildScore (image) | MuChoMusic (audio) |
+|-------|-------------|-----------|-------------------|---------------------|
+| gemini-3.1-flash-lite | 66.8% (367q) | 81.0% (500q) | 73.0% (100q) | 71.0% (200q) |
+
+### Contributing results
+
+Run any subset of cells and open a PR:
+```bash
+python run.py --model your-model --benchmark all --multimodal
+# commit results/your-model/*.json
+```
+Existing cells are skipped automatically. Use `--force` to rerun.

@@ -23,11 +23,10 @@ METADATA = {
     "source": "arXiv:2406.15885",
     "hf_dataset": "MYTH-Lab/ZIQI-Eval",
     "n_questions": 14244,
+    "lite_n": 500,   # 500-sample subset; full=14244q (~2h, ~$0.23 for flash-lite)
+    "lite_seed": 42,
     "subsets": ["comprehension", "generation"],
     "format": "multiple_choice_4",
-    "cost_gpt4o_usd_full": 8.0,
-    "cost_gpt4o_usd_sample500": 0.30,
-    "default_sample": 500,
     "weight": 0.35,
 }
 

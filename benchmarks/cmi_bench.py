@@ -28,8 +28,9 @@ METADATA = {
     "name": "CMI-Bench",
     "source": "arXiv:2407.05830",
     "hf_dataset": "nicolaus625/CMI-bench",
-    "n_questions": None,   # determined at load time
-    "default_sample": 50,
+    "n_questions": None,   # unknown without 55GB download
+    "lite_n": 50,
+    "lite_seed": 42,
     "format": "open_ended_mc",
     "modality": "audio",
     "requires_alm": True,

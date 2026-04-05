@@ -135,10 +135,13 @@ celerybeat.pid
 *.sage.py
 
 # MuTheoryEval data & runtime
-data/                    # downloaded benchmark assets (audio, images) — never commit
-results/.checkpoint_*   # in-progress checkpoints
-results/*_partial.json  # partial results mid-run
-*.log                   # run logs
+data/                        # downloaded benchmark assets (audio, images) — never commit
+results/**/.checkpoint_*     # in-progress checkpoints
+results/*_partial.json       # partial results mid-run (legacy)
+*.log                        # run logs
+
+# Legacy flat result files (pre-restructure)
+results/*_2026*.json
 
 # Environments
 .env
