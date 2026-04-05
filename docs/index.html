@@ -509,9 +509,10 @@
       full: 1187, lite: 200,
     },
     cmi_bench: {
-      desc: 'Audio-grounded music understanding benchmark spanning 16 MIR tasks (full dataset). Our lite eval covers 4 classification tasks formatted as MCQ: GTZAN genre (10 classes), GS-key detection (24 keys), NSynth instrument (10 classes), VocalSet technique (10 classes).',
+      desc: 'Audio-grounded music understanding benchmark spanning 16 MIR tasks (full dataset). Our lite eval covers 4 classification tasks: GTZAN genre (10 classes), GS-key detection (24 keys), NSynth instrument (10 classes), VocalSet technique (10 classes).',
       subsets: '4 / 16 tasks · GTZAN · Key · NSynth · VocalSet · 25q each',
       bias: 'Classification-only subset; full dataset also includes captioning & regression',
+      format: 'Multi-select lettered MCQ (A–X); scored by Jaccard similarity. Variable option count per task (10–24).',
       full: null, lite: 100,
     },
   };
@@ -734,7 +735,7 @@
           <table>
             ${info.subsets ? `<tr><td>Subsets</td><td>${info.subsets}</td></tr>` : ''}
             ${info.bias   ? `<tr><td>Bias</td><td>${info.bias}</td></tr>` : ''}
-            <tr><td>Format</td><td>4-option MCQ</td></tr>
+            <tr><td>Format</td><td>${info.format || '4-option MCQ'}</td></tr>
             <tr><td>Lite / Full</td><td>${liteStr}</td></tr>
             <tr><td>Weight</td><td>${b.weight} in <span class="tt-badge ${modBadgeClass}">${b.modality.toUpperCase()}</span> score</td></tr>
             ${b.source ? `<tr><td>Source</td><td>${b.source}</td></tr>` : ''}
