@@ -45,13 +45,21 @@ def main():
     print(f"\nDownload complete. Raw files in: {local_dir}")
 
     # Extract any zip files found
-    zip_files = list(DATA_DIR.rglob("*.zip"))
+    zip_files = sorted(DATA_DIR.rglob("*.zip"))
     if zip_files:
-        print(f"\nExtracting {len(zip_files)} zip file(s)...")
-        for zf in sorted(zip_files):
-            print(f"  Extracting {zf.name} ...")
-            with zipfile.ZipFile(zf, "r") as z:
-                z.extractall(DATA_DIR)
+        print(f"\nExtracting {len(zip_files)} zip file(s) via system unzip (multi-part safe)...")
+        import shutil, subprocess
+        if not shutil.which("unzip"):
+            print("ERROR: `unzip` not found. Install it (e.g. `brew install unzip`) and re-run.")
+            sys.exit(1)
+        for zf in zip_files:
+            print(f"  unzip {zf.name} ...")
+            result = subprocess.run(
+                ["unzip", "-o", "-q", str(zf), "-d", str(DATA_DIR)],
+                capture_output=True, text=True,
+            )
+            if result.returncode not in (0, 1):  # 1 = warnings, still ok
+                print(f"  Warning: unzip returned {result.returncode}: {result.stderr[:200]}")
         print("Extraction complete.")
     else:
         print("No zip files found — audio may already be extracted or in a different format.")

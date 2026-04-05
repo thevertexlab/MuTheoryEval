@@ -12,9 +12,9 @@ paired with music score images and MC answer options.
 
 Modality: image (score sheets) — requires VLM (e.g. Gemini, GPT-4V, Claude 3+)
 
-Image download required before running:
-  python scripts/download_wildscore.py
-  → images saved to data/wildscore/images/ (gitignored)
+Lazy download: images are fetched on-demand from HF Hub and cached in
+  data/wildscore/images/ (gitignored). No upfront full download needed.
+  Requires HF_TOKEN in .env to avoid rate limits.
 
 Dataset columns: image (filename), question, final_options (JSON string),
                  truth_letter (correct answer)
@@ -23,6 +23,7 @@ Weight in aggregate: 0.15 (VLM-only; excluded from text-only weighted score)
 """
 
 import json
+import os
 from pathlib import Path
 
 METADATA = {
@@ -30,6 +31,7 @@ METADATA = {
     "source": "arXiv:2509.04744",
     "hf_dataset": "GM77/WildScore",
     "n_questions": None,   # determined at load time
+    "default_sample": 100,
     "subsets": ["harmony", "rhythm", "form", "notation", "expression"],
     "format": "multiple_choice_4",
     "modality": "image",
@@ -39,33 +41,46 @@ METADATA = {
 }
 
 _DATA_DIR = Path(__file__).parent.parent / "data" / "wildscore"
+_HF_REPO = "GM77/WildScore"
 
 
-def load(split="test", sample=None, seed=42):
-    """Load WildScore. Raises FileNotFoundError if images not downloaded yet."""
-    if not _DATA_DIR.exists():
-        raise FileNotFoundError(
-            f"WildScore image data not found at {_DATA_DIR}. "
-            "Run: python scripts/download_wildscore.py"
-        )
+def load(split="train", sample=100, seed=42):
+    """Load WildScore metadata (CSV only — no images downloaded yet).
 
+    Images are fetched lazily per-item in get_media().
+    Requires HF_TOKEN in environment to avoid HF rate limits.
+    """
     from datasets import load_dataset
-    ds = load_dataset("GM77/WildScore", split=split)
-
+    token = os.environ.get("HF_TOKEN")
+    ds = load_dataset(_HF_REPO, "csv", split=split, token=token)
     if sample and sample < len(ds):
         ds = ds.shuffle(seed=seed).select(range(sample))
     return ds
 
 
 def get_media(item: dict) -> list[dict]:
-    """Return media list (image bytes) for a dataset item."""
-    img_filename = item["image"]
-    img_path = _DATA_DIR / "images" / img_filename
+    """Lazily fetch image for this item from HF Hub; cache in data/wildscore/.
+
+    The 'image' column contains a repo-relative path like 'images/abc06c.jpg'.
+    We download it to data/wildscore/images/abc06c.jpg on first access.
+    """
+    hf_path = item["image"]          # e.g. "images/qo3i7b.jpg"
+    img_path = _DATA_DIR / hf_path   # data/wildscore/images/qo3i7b.jpg
+
     if not img_path.exists():
-        raise FileNotFoundError(
-            f"Image not found: {img_path}. Run: python scripts/download_wildscore.py"
+        from huggingface_hub import hf_hub_download
+        token = os.environ.get("HF_TOKEN")
+        img_path.parent.mkdir(parents=True, exist_ok=True)
+        cached = hf_hub_download(
+            repo_id=_HF_REPO,
+            filename=hf_path,          # exact repo path, no double-prefix
+            repo_type="dataset",
+            local_dir=str(_DATA_DIR),
+            token=token,
         )
-    suffix = Path(img_filename).suffix.lower().lstrip(".")
+        img_path = Path(cached)
+
+    suffix = img_path.suffix.lower().lstrip(".")
     mime_map = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "gif": "image/gif"}
     mime = mime_map.get(suffix, "image/jpeg")
     return [{"mime_type": mime, "data": img_path.read_bytes()}]
@@ -87,6 +102,10 @@ def format_prompt(item: dict) -> str:
         opts = str(options)
 
     return f"{question}\n\n{opts}"
+
+
+def get_answer(item: dict) -> str:
+    return item["truth_letter"].strip().upper()
 
 
 def score(predictions: list[str], references: list[str]) -> dict:

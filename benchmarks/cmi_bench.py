@@ -7,12 +7,13 @@ Audio-based instruction-following evaluation across music tasks:
   Transcription, melody extraction, chord recognition, beat tracking,
   instrument classification, music captioning, QA, and more.
 
-Audio is distributed as zip files on HuggingFace — download required:
+Audio storage: HF dataset uses multi-part zip files (Python zipfile can't read them).
+Download requires the system `unzip` command:
   python scripts/download_cmibench.py
   → audio saved to data/cmibench/ (gitignored)
 
-After download the dataset metadata (JSON) is loaded from the HF Hub,
-while audio bytes are read from local data/cmibench/.
+Note: CMI-Bench audio may also be accessible inline via the HF Audio feature
+if the dataset is re-encoded as parquet. Check dataset card for updates.
 
 Modality: audio — requires an Audio-Language Model (e.g. Gemini 1.5+)
 
@@ -20,6 +21,7 @@ Weight in aggregate: 0.15 (audio-only; excluded from text-only weighted score)
 """
 
 import json
+import os
 from pathlib import Path
 
 METADATA = {
@@ -27,6 +29,7 @@ METADATA = {
     "source": "arXiv:2407.05830",
     "hf_dataset": "nicolaus625/CMI-bench",
     "n_questions": None,   # determined at load time
+    "default_sample": 50,
     "format": "open_ended_mc",
     "modality": "audio",
     "requires_alm": True,
@@ -37,17 +40,25 @@ METADATA = {
 _DATA_DIR = Path(__file__).parent.parent / "data" / "cmibench"
 
 
-def load(split="test", sample=None, seed=42):
-    """Load CMI-Bench. Raises FileNotFoundError if audio not downloaded."""
+def load(split="test", sample=50, seed=42):
+    """Load CMI-Bench. Requires audio downloaded via scripts/download_cmibench.py."""
     if not _DATA_DIR.exists():
         raise FileNotFoundError(
-            f"CMI-Bench audio data not found at {_DATA_DIR}. "
-            "Run: python scripts/download_cmibench.py"
+            f"CMI-Bench audio not found at {_DATA_DIR}.\n"
+            "Audio is stored as multi-part zips on HF — download with:\n"
+            "  python scripts/download_cmibench.py\n"
+            "(requires system `unzip` command)"
         )
     from datasets import load_dataset
-    ds = load_dataset("nicolaus625/CMI-bench", split=split)
-    # Filter to items that have a corresponding local audio file
+    token = os.environ.get("HF_TOKEN")
+    ds = load_dataset("nicolaus625/CMI-bench", split=split, token=token)
+    # Keep only items whose audio file was successfully extracted
     ds = ds.filter(lambda item: (_DATA_DIR / item["audio_path"]).exists())
+    if len(ds) == 0:
+        raise FileNotFoundError(
+            f"No audio files found under {_DATA_DIR}. "
+            "Run: python scripts/download_cmibench.py"
+        )
     if sample and sample < len(ds):
         ds = ds.shuffle(seed=seed).select(range(sample))
     return ds

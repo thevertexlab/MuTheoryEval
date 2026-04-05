@@ -78,7 +78,7 @@ python run.py --model gemini-2.5-flash --benchmark all --multimodal
 | `ziqi_eval` | ✅ Ready | text | HF: MYTH-Lab/ZIQI-Eval (default: 500-sample) |
 | `wildscore` | ✅ Ready | image | HF: GM77/WildScore — run download script first |
 | `muchomusic` | ✅ Ready | audio | HF: lmms-lab/muchomusic (inline, ~862 MB) |
-| `cmi_bench` | ✅ Ready | audio | HF: nicolaus625/CMI-bench — run download script first |
+| `cmi_bench` | ⚠️ 55GB download | audio | HF: nicolaus625/CMI-bench — 551×100MB zip parts, skip unless needed |
 | `abc_eval` | ❌ Unreleased | text | Anonymous review link expired, no public repo |
 | `ssmr_bench` | ❌ Unreleased | text | Anonymous review link expired, no public repo |
 
@@ -98,6 +98,12 @@ python run.py --model gemini-2.5-flash --benchmark all --multimodal
 
 ## Known Results
 
+### Text benchmarks
 | Model | MusicTheoryBench | ZIQI-Eval (500) | Weighted |
 |-------|-----------------|-----------------|---------|
 | gemini-3.1-flash-lite | 66.8% | 81.0% | 73.9% |
+
+### Multimodal benchmarks
+| Model | WildScore (100q, image) | MuChoMusic (200q, audio) |
+|-------|------------------------|--------------------------|
+| gemini-3.1-flash-lite | 73.0% | 71.0% |

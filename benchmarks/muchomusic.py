@@ -9,13 +9,16 @@ Multiple-choice QA with audio clips covering:
   Instrumentation, Music perception
 
 443 questions (test set) — audio is inline in the HF dataset (~862 MB total)
-No separate download needed; streamed via HuggingFace datasets.
+No separate download needed; audio bytes extracted from Arrow table.
 
 Modality: audio — requires an Audio-Language Model (e.g. Gemini 1.5+)
 Text-only models cannot meaningfully answer these questions.
 
-Dataset columns: audio (dict with array/sampling_rate or bytes),
-                 instruction, choices (list[str]), answer (int index)
+Dataset columns (actual):
+  context  — Audio feature (192kHz), raw bytes extracted via Arrow table
+  instruction — question text
+  choices  — string like "(A) Reggae (B) Pop music (C) Latin rock (D) Ska"
+  answer   — string like "(A) Reggae" (full option, not just letter)
 
 Weight in aggregate: 0.15 (audio-only; excluded from text-only weighted score)
 """
@@ -35,64 +38,58 @@ METADATA = {
 
 
 def load(split="test", sample=200, seed=42):
+    """Load MuChoMusic. Returns a plain list[dict] with 'audio_bytes' pre-extracted.
+
+    HF datasets >= 3.x requires torchcodec for Audio decoding (heavy PyTorch dep).
+    We bypass it by reading raw bytes directly from the underlying Arrow table
+    before any decode step, then returning a plain list of dicts.
+    """
+    import os
     from datasets import load_dataset
-    ds = load_dataset("lmms-lab/muchomusic", split=split)
+    token = os.environ.get("HF_TOKEN")
+    ds = load_dataset("lmms-lab/muchomusic", split=split, token=token)
     if sample and sample < len(ds):
         ds = ds.shuffle(seed=seed).select(range(sample))
-    return ds
+
+    # Read raw audio bytes from Arrow table — no torchcodec needed.
+    # The audio column is named "context" (Audio feature at 192kHz).
+    arrow_table = ds._data
+
+    items = []
+    for i in range(len(ds)):
+        row = {}
+        for col in arrow_table.column_names:
+            if col == "context":
+                val = arrow_table.column("context")[i].as_py()
+                row["audio_bytes"] = val.get("bytes", b"") if isinstance(val, dict) else (val or b"")
+            else:
+                row[col] = arrow_table.column(col)[i].as_py()
+        items.append(row)
+    return items
 
 
 def get_media(item: dict) -> list[dict]:
-    """Return audio bytes as a MediaItem list for a dataset item."""
-    audio = item["audio"]
+    """Return audio bytes as a MediaItem list for a dataset item.
 
-    if isinstance(audio, bytes):
-        return [{"mime_type": "audio/mp3", "data": audio}]
+    Expects 'audio_bytes' key (set by load()) containing raw encoded audio bytes.
+    """
+    raw = item.get("audio_bytes") or b""
+    if not raw:
+        raise ValueError("audio_bytes is empty — audio may not have loaded correctly")
+    return [{"mime_type": "audio/mp3", "data": raw}]
 
-    if isinstance(audio, dict):
-        # HF Audio feature: may have 'bytes' key (encoded) or 'array'+'sampling_rate' (decoded)
-        if audio.get("bytes"):
-            raw = audio["bytes"]
-            return [{"mime_type": "audio/mp3", "data": raw}]
-
-        if audio.get("array") is not None:
-            # Encode raw float32 PCM to WAV in-memory
-            import io
-            import struct
-            import numpy as np
-            arr = np.array(audio["array"], dtype=np.float32)
-            sr = int(audio.get("sampling_rate", 22050))
-            buf = io.BytesIO()
-            _write_wav(buf, arr, sr)
-            return [{"mime_type": "audio/wav", "data": buf.getvalue()}]
-
-    raise ValueError(f"Unrecognized audio format: {type(audio)}")
-
-
-def _write_wav(buf, arr, sr: int):
-    """Write float32 PCM array to WAV bytes (16-bit, mono)."""
-    import struct
-    pcm = (arr * 32767).clip(-32768, 32767).astype("<i2").tobytes()
-    n_bytes = len(pcm)
-    buf.write(b"RIFF")
-    buf.write(struct.pack("<I", 36 + n_bytes))
-    buf.write(b"WAVEfmt ")
-    buf.write(struct.pack("<IHHIIHH", 16, 1, 1, sr, sr * 2, 2, 16))
-    buf.write(b"data")
-    buf.write(struct.pack("<I", n_bytes))
-    buf.write(pcm)
 
 
 def format_prompt(item: dict) -> str:
-    choices = item["choices"]
-    letters = "ABCD"
-    opts = "\n".join(f"{letters[i]}. {c}" for i, c in enumerate(choices))
-    return f"{item['instruction']}\n\n{opts}"
+    # choices is already formatted: "(A) Reggae (B) Pop music (C) Latin rock (D) Ska"
+    return f"{item['instruction']}\n\n{item['choices']}"
 
 
 def get_answer(item: dict) -> str:
-    """Return correct letter (A/B/C/D) from integer index."""
-    return "ABCD"[int(item["answer"])]
+    """Extract letter A/B/C/D from answer string like '(A) Reggae'."""
+    import re
+    m = re.search(r'\(([A-D])\)', item["answer"])
+    return m.group(1) if m else item["answer"].strip().upper()[:1]
 
 
 def score(predictions: list[str], references: list[str]) -> dict:
