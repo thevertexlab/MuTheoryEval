@@ -8,23 +8,23 @@ Not a new benchmark — a runner that brings existing ones together with a weigh
 
 ## Benchmarks
 
-### ✅ Implemented
+### ✅ Implemented — Text / Symbolic
 
-| Name | Questions | Coverage | Weight | Est. Cost (GPT-4o) |
-|------|-----------|----------|--------|---------------------|
+| Name | Questions | Coverage | Weight | Est. Cost (GPT-4.1) |
+|------|-----------|----------|--------|----------------------|
 | [MusicTheoryBench](https://huggingface.co/datasets/m-a-p/MusicTheoryBench) | 372 | Knowledge + reasoning, ABC notation | 0.35 | ~$0.50 |
 | [ZIQI-Eval](https://huggingface.co/datasets/MYTH-Lab/ZIQI-Eval) | 14,244 (500 sampled) | 10 categories, 56 subcategories | 0.35 | ~$0.30 |
-| [ABC-Eval](https://arxiv.org/abs/2509.23350) | 1,086 | Symbolic music (ABC notation) understanding | 0.30 | ~$0.40 |
+| [ABC-Eval](https://arxiv.org/abs/2509.23350) | 1,086 | Symbolic music (ABC notation) understanding | 0.30 | ~$0.40 ⚠️ dataset TBC |
+| [SSMR-Bench](https://arxiv.org/abs/2509.04059) | 1,600 (textual) | Rhythm, chord, interval, scale — 9 templates | 0.20 | ~$1.20 ⚠️ dataset TBC |
 
 **Aggregate score** = weighted average across available benchmarks.
 
-### 🔲 TBD — Text / Symbolic (no audio required)
+### 🔲 TBD — VLM Only (score image input)
 
 | Name | Source | Questions | Coverage | Notes |
 |------|--------|-----------|----------|-------|
-| [SSMR-Bench](https://arxiv.org/abs/2509.04059) | arXiv 2025 | programmatic | Rhythm, chord, interval, scale — 9 templates, verifiable answers | Dataset release TBC |
-| [MSU-Bench](https://openreview.net/pdf/6e87af4a985e84aec4ab4dd71171b7d7f3f30279.pdf) | OpenReview 2025 | 1,800 | 4-level: onset → notation → chord/harmony → texture/form | Score image input (VLM needed) |
-| [WildScore](https://arxiv.org/abs/2509.04744) | EMNLP 2025 | — | 5 categories, 12 subcategories; real community questions | Score image input (VLM needed) |
+| [MSU-Bench](https://arxiv.org/abs/2511.20697) | OpenReview 2025 | 1,800 | 4-level: onset → notation → chord/harmony → texture/form | Requires VLM; best result: Claude+MEI 75% |
+| [WildScore](https://arxiv.org/abs/2509.04744) | EMNLP 2025 | — | 5 categories, 12 subcategories; real community questions | Requires VLM |
 
 ### 🔲 TBD — Multimodal / Audio (requires audio input)
 
@@ -73,13 +73,22 @@ python run.py --list-benchmarks
 
 ## Supported Models
 
-| Model | Provider |
-|-------|----------|
-| gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo | OpenAI |
-| claude-3-5-sonnet, claude-3-5-haiku, claude-3-opus | Anthropic |
-| gemini-2.0-flash, gemini-1.5-pro | Google |
-| deepseek-chat, deepseek-reasoner | DeepSeek |
-| llama-3.3-70b, qwen2.5-72b, mixtral-8x7b | DeepInfra |
+| Model key | API model ID | Provider |
+|-----------|-------------|----------|
+| `gpt-4.1` | `gpt-4.1` | OpenAI |
+| `gpt-4.1-mini` | `gpt-4.1-mini` | OpenAI |
+| `o3` | `o3` | OpenAI |
+| `o4-mini` | `o4-mini` | OpenAI |
+| `claude-opus-4-6` | `claude-opus-4-6` | Anthropic |
+| `claude-sonnet-4-6` | `claude-sonnet-4-6` | Anthropic |
+| `claude-haiku-4-5` | `claude-haiku-4-5-20251001` | Anthropic |
+| `gemini-2.5-pro` | `gemini-2.5-pro` | Google |
+| `gemini-2.5-flash` | `gemini-2.5-flash` | Google |
+| `deepseek-chat` | `deepseek-chat` (= V3.2) | DeepSeek |
+| `deepseek-reasoner` | `deepseek-reasoner` (= V3.2 thinking) | DeepSeek |
+| `llama-4-maverick` | `meta-llama/Llama-4-Maverick-17B-128E-Instruct` | DeepInfra |
+| `qwen3.5-72b` | `Qwen/Qwen3.5-72B-A10B` | DeepInfra |
+| `deepseek-r1` | `deepseek-ai/DeepSeek-R1` | DeepInfra |
 
 ---
 
