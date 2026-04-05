@@ -15,14 +15,16 @@ REGISTRY = {
 
     # ── Anthropic ─────────────────────────────────────────────────────────────
     # Claude 4.6 generation (Feb 2026) — current latest
-    "claude-opus-4-6":   lambda: AnthropicModel("claude-opus-4-6"),
-    "claude-sonnet-4-6": lambda: AnthropicModel("claude-sonnet-4-6"),
-    "claude-haiku-4-5":  lambda: AnthropicModel("claude-haiku-4-5-20251001"),
+    "claude-opus-4-6":        lambda: AnthropicModel("claude-opus-4-6"),
+    "claude-sonnet-4-6":      lambda: AnthropicModel("claude-sonnet-4-6"),
+    "claude-sonnet-4-6-xt8k": lambda: AnthropicModel("claude-sonnet-4-6", thinking_budget=8000),  # extended thinking high
+    "claude-haiku-4-5":       lambda: AnthropicModel("claude-haiku-4-5-20251001"),
 
     # ── Google ────────────────────────────────────────────────────────────────
     # Gemini 3.1 series — latest (preview, production-usable)
     "gemini-3.1-pro":        lambda: GeminiModel("gemini-3.1-pro-preview"),
-    "gemini-3.1-flash":      lambda: GeminiModel("gemini-3-flash-preview"),
+    "gemini-3.1-flash":      lambda: GeminiModel("gemini-3-flash-preview"),          # default thinking
+    "gemini-3.1-flash-high": lambda: GeminiModel("gemini-3-flash-preview", thinking_level="high"),  # thinking_budget=-1
     "gemini-3.1-flash-lite": lambda: GeminiModel("gemini-3.1-flash-lite-preview"),
     # Gemini 2.5 series — last stable GA
     "gemini-2.5-pro":        lambda: GeminiModel("gemini-2.5-pro"),

@@ -12,10 +12,21 @@ class BaseModel(ABC):
     def __init__(self, model_id: str):
         self.model_id = model_id
 
+        # Subclasses populate this in __init__ to describe their configuration.
+        # Stored verbatim in the result cell under "config".
+        self.config: dict = {}
+
+        # Populated after each complete() call with token usage from the API response.
+        # Keys: prompt_tokens, completion_tokens, thinking_tokens (optional), total_tokens.
+        # None if the backend does not expose usage.
+        self.last_usage: dict | None = None
+
     @abstractmethod
     def complete(self, prompt: str, system: str | None = None,
                  media: list[MediaItem] | None = None) -> str:
         """Return the model's text response to a prompt.
+
+        Implementations must also update self.last_usage after each call.
 
         Args:
             prompt: The user-facing text prompt.

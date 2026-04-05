@@ -394,8 +394,9 @@
     return REASONING_NATIVE.some(p => modelKey === p || modelKey.startsWith(p + '-'));
   }
   function hasThinkingVariant(modelKey) {
-    // e.g. claude-sonnet-4-6-xt8k, gemini-2.5-pro-thinking
-    return modelKey.includes('-xt') || modelKey.includes('-thinking') || modelKey.includes('-effort');
+    // e.g. claude-sonnet-4-6-xt8k, gemini-3.1-flash-high, gemini-2.5-pro-thinking
+    return modelKey.includes('-xt') || modelKey.includes('-thinking') || modelKey.includes('-effort')
+        || modelKey.endsWith('-high') || modelKey.endsWith('-medium') || modelKey.endsWith('-low') || modelKey.endsWith('-minimal');
   }
 
   // ── State ─────────────────────────────────────────────────────────────────
@@ -605,13 +606,33 @@
         const c = cmap[mk + '||' + b.key];
         if (!c) return `<td class="score-miss">—</td>`;
         const bg = heatColor(c.accuracy);
+        // Config fields
+        const cfg = c.config || {};
+        const thinkingLabel = (() => {
+          const t = cfg.thinking;
+          if (!t || t === false) return null;
+          if (t === 'native') return 'native (always-on)';
+          if (typeof t === 'object') {
+            if (t.budget_tokens) return `enabled, budget=${t.budget_tokens}`;
+            if (t.level)         return `level=${t.level}`;
+          }
+          return String(t);
+        })();
+        // Usage fields
+        const u = c.usage || {};
         const tooltipRows = [
           ['Accuracy', fmtPct(c.accuracy)],
           ['Questions', c.n],
           c.seed != null ? ['Seed', c.seed] : null,
+          thinkingLabel ? ['Thinking', thinkingLabel] : null,
+          cfg.temperature != null ? ['Temperature', cfg.temperature] : null,
+          u.avg_thinking_tokens_per_q != null ? ['Avg think tok/q', u.avg_thinking_tokens_per_q] : null,
+          u.total_thinking_tokens != null ? ['Total think tok', u.total_thinking_tokens.toLocaleString()] : null,
+          u.total_prompt_tokens   != null ? ['Prompt tokens', u.total_prompt_tokens.toLocaleString()] : null,
           c.cost_est_usd != null ? ['Est. cost', '$' + c.cost_est_usd.toFixed(4)] : null,
-          c.elapsed_sec != null ? ['Elapsed', c.elapsed_sec + 's'] : null,
+          c.elapsed_sec  != null ? ['Elapsed', c.elapsed_sec + 's'] : null,
           c.timestamp ? ['Date', fmtDate(c.timestamp)] : null,
+          cfg.system_prompt_hash ? ['Prompt hash', cfg.system_prompt_hash] : null,
         ].filter(Boolean);
         const tooltipHTML = tooltipRows
           .map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');

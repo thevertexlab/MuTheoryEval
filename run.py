@@ -24,6 +24,7 @@ Background run (recommended for long jobs):
 """
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -201,6 +202,9 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
     predictions, references = [], []
     t_start = time.time()
     start_idx = 0
+    # Accumulated token usage across all questions
+    _usage_totals: dict = {"prompt_tokens": 0, "completion_tokens": 0, "thinking_tokens": 0}
+    _has_thinking_tokens = False
 
     if checkpoint_file.exists():
         try:
@@ -228,6 +232,15 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
 
         raw = model.complete(prompt, system=SYSTEM_PROMPT, media=media)
         pred = model.extract_choice(raw)
+
+        # Accumulate token usage reported by the API
+        if model.last_usage:
+            _usage_totals["prompt_tokens"]     += model.last_usage.get("prompt_tokens") or 0
+            _usage_totals["completion_tokens"] += model.last_usage.get("completion_tokens") or 0
+            tk = model.last_usage.get("thinking_tokens")
+            if tk is not None:
+                _usage_totals["thinking_tokens"] += tk
+                _has_thinking_tokens = True
 
         if hasattr(bench, "get_answer"):
             ref = bench.get_answer(item)
@@ -258,27 +271,42 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
 
     result = bench.score(predictions, references)
     elapsed_total = time.time() - t_start
+    n_answered = result["n"]
 
-    # Detect reasoning-native models (always-on thinking, can't be disabled)
-    _reasoning_prefixes = ("o1", "o3", "o4", "deepseek-reasoner", "deepseek-r1")
-    is_reasoning_native = any(
-        model_name == p or model_name.startswith(p + "-")
-        for p in _reasoning_prefixes
-    )
+    # Build config block from model's self-reported configuration
+    system_prompt_hash = hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest()[:8]
+    config_block = {
+        **model.config,
+        "system_prompt_hash": system_prompt_hash,
+    }
 
-    cell = {
+    # Build usage block from accumulated per-question API usage
+    usage_block: dict | None = None
+    if _usage_totals["prompt_tokens"] > 0 or _usage_totals["completion_tokens"] > 0:
+        usage_block = {
+            "total_prompt_tokens":     _usage_totals["prompt_tokens"],
+            "total_completion_tokens": _usage_totals["completion_tokens"],
+        }
+        if _has_thinking_tokens:
+            usage_block["total_thinking_tokens"]   = _usage_totals["thinking_tokens"]
+            usage_block["avg_thinking_tokens_per_q"] = round(
+                _usage_totals["thinking_tokens"] / n_answered, 1
+            ) if n_answered else 0
+
+    cell: dict = {
         "model": model_name,
         "benchmark": bench_name,
         "mode": mode,
         "accuracy": result["accuracy"],
-        "n": result["n"],
+        "n": n_answered,
         "seed": lite_seed(meta) if mode == "lite" else None,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "elapsed_sec": round(elapsed_total),
-        "cost_est_usd": round(estimate(model_name, result["n"])["cost_usd"], 4),
-        # Thinking configuration — for reproducibility and fair-comparison transparency
-        "thinking": "native" if is_reasoning_native else False,
+        "cost_est_usd": round(estimate(model_name, n_answered)["cost_usd"], 4),
+        "config": config_block,
     }
+    if usage_block:
+        cell["usage"] = usage_block
 
     print(f"  ✓ accuracy: {cell['accuracy']:.1%}  ({cell['n']}q)  "
           f"took {int(elapsed_total//60)}m{int(elapsed_total%60):02d}s  ~${cell['cost_est_usd']:.3f}")
