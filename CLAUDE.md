@@ -32,6 +32,55 @@ ls -t results/*.log | head -1 | xargs tail -20
 cat results/*_partial.json 2>/dev/null | python -m json.tool | grep -E '"benchmark"|"accuracy"'
 ```
 
+### Step 4: Monitor for accuracy drops — intervene immediately
+
+**During a run**, watch the rolling `acc=X%` in the log. If accuracy drops ≥15% from a stable value mid-run:
+1. **Immediately check the JSONL** — bad cases are written in real-time:
+   ```bash
+   tail -20 results/{model}/{bench}_{mode}.errors.jsonl | python3 -c "
+   import sys,json
+   for l in sys.stdin:
+       d=json.loads(l)
+       print(f'[{d[\"subject\"]}] pred={d[\"pred\"]} ref={d[\"ref\"]}  {repr(d[\"raw\"][:60])}')"
+   ```
+2. Common causes: audio/image file missing → `FileNotFoundError`; format regression (pred='X' or ''); API change returning different response structure.
+3. If format errors cluster → stop the run, diagnose prompt/extraction issue before wasting API budget.
+
+### Step 5: Sanity-check JSONL after every completed run
+
+Before committing results, always spot-check the errors JSONL:
+```bash
+python3 -c "
+import json
+from collections import defaultdict
+from pathlib import Path
+import sys
+
+path = sys.argv[1]  # e.g. results/gemini-3.1-flash/cmi_bench_lite.errors.jsonl
+lines = [json.loads(l) for l in Path(path).read_text().splitlines() if l.strip()]
+print(f'Total errors: {len(lines)}')
+
+# Per-subject breakdown
+by_subj = defaultdict(int)
+for d in lines:
+    by_subj[d.get('subject','?')] += 1
+for k,v in sorted(by_subj.items()):
+    print(f'  {k}: {v} errors')
+
+# Sample 5 random errors
+import random; random.seed(42)
+print()
+for d in random.sample(lines, min(5, len(lines))):
+    print(f'[{d.get(\"subject\",\"?\")}] pred={d[\"pred\"]} ref={d[\"ref\"]}  raw={repr(d[\"raw\"][:60])}')
+" results/{model}/{bench}_{mode}.errors.jsonl
+```
+
+What to look for:
+- **All errors in one subject** → dataset/audio quality issue for that task
+- **pred=X or pred=''** → format errors; check system prompt compatibility
+- **pred reasonable but wrong** → genuine model difficulty (expected)
+- **ref='' or ref='X'** → answer extraction bug in benchmark loader
+
 ### Resume after interruption
 Just re-run the same command. `run.py` auto-detects `.checkpoint_*.json` and resumes from where it stopped — no duplicate API calls.
 
@@ -85,7 +134,7 @@ python run.py --model gemini-2.5-flash --benchmark all --multimodal
 | `ziqi_eval` | ✅ Ready | text | HF: MYTH-Lab/ZIQI-Eval (default: 500-sample) |
 | `wildscore` | ✅ Ready | image | HF: GM77/WildScore — run download script first |
 | `muchomusic` | ✅ Ready | audio | HF: lmms-lab/muchomusic (inline, ~862 MB) |
-| `cmi_bench` | ⚠️ 55GB download | audio | HF: nicolaus625/CMI-bench — 551×100MB zip parts, skip unless needed |
+| `cmi_bench` | ✅ Ready | audio | HF: nicolaus625/CMI-bench — selective shard download (~3GB), run download script first |
 | `abc_eval` | ❌ Unreleased | text | Anonymous review link expired, no public repo |
 | `ssmr_bench` | ❌ Unreleased | text | Anonymous review link expired, no public repo |
 
@@ -160,9 +209,13 @@ Observed thinking tokens per question (lite benchmarks):
 
 Results are stored per `(model, benchmark, mode)` cell:
 ```
-results/{model}/{benchmark}_lite.json
+results/{model}/{benchmark}_lite.json           ← accuracy + config + task_accuracy + error_counts
+results/{model}/{benchmark}_lite.errors.jsonl   ← all wrong items, real-time streaming during run
 results/{model}/{benchmark}_full.json
+results/{model}/{benchmark}_full.errors.jsonl
 ```
+
+Both files go into git. The JSONL is written incrementally during the run (real-time) and finalized at completion. It contains one JSON line per wrong item: `idx, subject, stem, pred, ref, score, raw, stop_reason, format_error`.
 
 Generate leaderboard:
 ```bash

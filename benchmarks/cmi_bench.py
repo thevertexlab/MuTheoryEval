@@ -176,10 +176,11 @@ def load(split="test", sample=100, seed=42) -> list[dict]:
             options, correct_letter = _build_mcq(raw, task_key, rng)
             items.append({
                 "task":           task_key,
+                "subject":        task_key,           # for run.py bad-case subject field
+                "question":       cfg["question"],    # for run.py stem field
                 "audio_path":     str(audio_abs),
                 "_options":       options,
                 "_correct_letter": correct_letter,
-                "_question":      cfg["question"],
             })
             added += 1
 
@@ -207,7 +208,7 @@ def get_media(item: dict) -> list[dict]:
 
 def format_prompt(item: dict) -> str:
     opts_str = "\n".join(f"{chr(65+i)}. {opt}" for i, opt in enumerate(item["_options"]))
-    return f"{item['_question']}\n\n{opts_str}"
+    return f"{item['question']}\n\n{opts_str}"
 
 
 def get_answer(item: dict) -> str:

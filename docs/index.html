@@ -819,7 +819,16 @@
             cfg.answer_format && cfg.answer_format !== 'MCQ' ? ['Format', cfg.answer_format] : null,
             cfg.system_prompt_hash ? ['Prompt hash', cfg.system_prompt_hash] : null,
           ].filter(Boolean);
-          const tooltipHTML = tooltipRows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+          // Per-task breakdown rows (CMI-Bench and other multi-task benches)
+          const ta = c.task_accuracy || {};
+          const taKeys = Object.keys(ta);
+          const taskBreakdownHTML = taKeys.length >= 2
+            ? '<tr><td colspan="2" style="padding-top:0.4rem;padding-bottom:0.1rem;color:var(--muted);font-size:0.68rem;letter-spacing:0.03em">by task</td></tr>'
+              + taKeys.map(k =>
+                  `<tr><td style="padding-left:0.5rem">${k}</td><td>${fmtPct(ta[k].accuracy)} <span style="color:var(--muted)">(${ta[k].n}q)</span></td></tr>`
+                ).join('')
+            : '';
+          const tooltipHTML = tooltipRows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') + taskBreakdownHTML;
           return `<td class="score-cell" style="background:${bg}">
             <div class="tooltip-wrap">
               <div class="score-val">${fmtPct(c.accuracy)}</div>

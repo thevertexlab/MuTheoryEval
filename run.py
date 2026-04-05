@@ -49,6 +49,24 @@ from benchmarks import MULTIMODAL_REGISTRY, MULTIMODAL_WEIGHTS
 from benchmarks.answer_formats import ANSWER_FORMATS, get_format, get_format_name
 from models import REGISTRY as MODEL_REGISTRY
 
+
+# ── Bad-case JSONL helpers ────────────────────────────────────────────────────
+
+def _write_errors_jsonl(path: Path, sample_data: list[dict]) -> None:
+    """Overwrite the errors JSONL with all wrong items from sample_data.
+
+    Called on checkpoint-write (keeps file in sync) and on resume (rebuilds
+    from checkpoint so the file never has stale entries from a prior crash).
+    """
+    lines = [json.dumps(s) for s in sample_data if not s.get("correct", True)]
+    path.write_text("\n".join(lines) + ("\n" if lines else ""))
+
+
+def _append_error_line(path: Path, s: dict) -> None:
+    """Stream-append one wrong item to the errors JSONL immediately after eval."""
+    with open(path, "a") as f:
+        f.write(json.dumps(s) + "\n")
+
 # Cost & speed baseline per model (input $/MTok, output $/MTok, req/min observed)
 MODEL_PRICING = {
     # Verified against LiteLLM model_prices_and_context_window.json (2026-04)
@@ -210,12 +228,21 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
 
     n = len(dataset)
 
-    # Checkpoint path (in model subdir)
+    # Checkpoint + errors paths (in model subdir)
     cell_path.parent.mkdir(parents=True, exist_ok=True)
     checkpoint_file = cell_path.parent / f".checkpoint_{bench_name}_{mode}.json"
+    errors_path     = cell_path.parent / f"{bench_name}_{mode}.errors.jsonl"
+
+    # On --force, clear any stale errors file so it reflects the fresh run only
+    if force and errors_path.exists():
+        errors_path.unlink()
+
+    # Format-error predicate — defined here (needs fmt in scope, used in loop)
+    def _is_format_error(s: dict) -> bool:
+        return fmt["is_format_error"](s["pred"]) or s["stop_reason"] == "max_tokens"
 
     predictions, references = [], []
-    _sample_data: list[dict] = []  # per-question data for bad-case sampling
+    _sample_data: list[dict] = []  # per-question data for bad-case analysis
     t_start = time.time()
     start_idx = 0
     # Accumulated token usage across all questions
@@ -230,6 +257,8 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
             _sample_data = ck.get("sample_data", [])
             start_idx = len(predictions)
             print(f"  Resuming from checkpoint at {start_idx}/{n}")
+            # Rebuild JSONL from checkpoint so it's in sync (no stale entries)
+            _write_errors_jsonl(errors_path, _sample_data)
         except Exception:
             pass
 
@@ -270,25 +299,31 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
         predictions.append(pred)
         references.append(ref)
 
-        # Collect per-question sample data for bad-case analysis
+        # Collect per-question data for bad-case analysis
         max_out = model.config.get("max_output_tokens", 16) if model.config else 16
         stop_reason_est = (
             "max_tokens" if (q_output_tokens is not None and q_output_tokens >= max_out)
             else "end_turn"
         )
         item_score = fmt["compare"](pred, ref)
-        _sample_data.append({
-            "idx":         i,
-            "subject":     item.get("subject", "") if hasattr(item, "get") else "",
-            "stem":        (item.get("stem", item.get("question", "")) or "")[:80] if hasattr(item, "get") else "",
-            "raw":         raw[:120],
-            "pred":        pred,
-            "ref":         ref,
-            "correct":     item_score == 1.0,
-            "score":       item_score,
-            "stop_reason": stop_reason_est,
+        _s: dict = {
+            "idx":          i,
+            "subject":      item.get("subject", "") if hasattr(item, "get") else "",
+            "stem":         (item.get("stem", item.get("question", "")) or "")[:80] if hasattr(item, "get") else "",
+            "raw":          raw[:120],
+            "pred":         pred,
+            "ref":          ref,
+            "correct":      item_score == 1.0,
+            "score":        item_score,
+            "stop_reason":  stop_reason_est,
             "output_tokens": q_output_tokens,
-        })
+        }
+        _s["format_error"] = _is_format_error(_s)
+        _sample_data.append(_s)
+
+        # Stream-append wrong items to JSONL immediately (real-time diagnostics)
+        if not _s["correct"]:
+            _append_error_line(errors_path, _s)
 
         done = i + 1
         elapsed = time.time() - t_start
@@ -309,6 +344,9 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
                 "references":  references,
                 "sample_data": _sample_data,
             }))
+            # Overwrite JSONL from sample_data to remove any duplication
+            # that could arise if the process is killed and resumed
+            _write_errors_jsonl(errors_path, _sample_data)
 
     print()
 
@@ -337,22 +375,28 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
                 _usage_totals["thinking_tokens"] / n_answered, 1
             ) if n_answered else 0
 
-    # Build bad-case sample buckets from per-question data
-    import random as _random
-    _rng = _random.Random(42)
+    # Build per-task accuracy breakdown (only when ≥2 distinct non-empty subjects)
+    from collections import defaultdict as _defaultdict
+    _task_buckets: dict = _defaultdict(lambda: {"n": 0, "correct": 0})
+    for _s in _sample_data:
+        _subj = (_s.get("subject") or "").strip()
+        if _subj:
+            _task_buckets[_subj]["n"] += 1
+            if _s["correct"]:
+                _task_buckets[_subj]["correct"] += 1
+    task_accuracy: dict | None = None
+    if len(_task_buckets) >= 2:
+        task_accuracy = {
+            k: {"n": v["n"], "correct": v["correct"],
+                "accuracy": round(v["correct"] / v["n"], 4) if v["n"] else 0.0}
+            for k, v in sorted(_task_buckets.items())
+        }
 
-    def _is_format_error(s: dict) -> bool:
-        return fmt["is_format_error"](s["pred"]) or s["stop_reason"] == "max_tokens"
-
-    _format_errors = [s for s in _sample_data if _is_format_error(s)]
-    _wrong_ok      = [s for s in _sample_data if not _is_format_error(s) and not s["correct"]]
-    _correct_ok    = [s for s in _sample_data if not _is_format_error(s) and s["correct"]]
-
-    samples_block: dict = {
-        "format_error":  _format_errors[:20],
-        "wrong_answer":  _rng.sample(_wrong_ok,  min(10, len(_wrong_ok))),
-        "correct":       _rng.sample(_correct_ok, min(3,  len(_correct_ok))),
-    }
+    # Error count summary
+    _n_fmt  = sum(1 for s in _sample_data if s.get("format_error"))
+    _n_wrong = sum(1 for s in _sample_data if not s["correct"] and not s.get("format_error"))
+    _n_ok    = sum(1 for s in _sample_data if s["correct"])
+    error_counts = {"format_error": _n_fmt, "wrong": _n_wrong, "correct": _n_ok}
 
     cell: dict = {
         "model": model_name,
@@ -368,13 +412,18 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
     }
     if usage_block:
         cell["usage"] = usage_block
-    cell["samples"] = samples_block
+    if task_accuracy:
+        cell["task_accuracy"] = task_accuracy
+    cell["error_counts"] = error_counts
 
     print(f"  ✓ accuracy: {cell['accuracy']:.1%}  ({cell['n']}q)  "
           f"took {int(elapsed_total//60)}m{int(elapsed_total%60):02d}s  ~${cell['cost_est_usd']:.3f}")
 
     cell_path.write_text(json.dumps(cell, indent=2))
     print(f"  Saved → {cell_path}")
+    # Write final JSONL (authoritative, overwrites any streaming state)
+    _write_errors_jsonl(errors_path, _sample_data)
+    print(f"  Errors → {errors_path}  ({error_counts['wrong']} wrong, {error_counts['format_error']} fmt-err)")
 
     if checkpoint_file.exists():
         checkpoint_file.unlink()
