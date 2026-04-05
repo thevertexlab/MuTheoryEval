@@ -91,6 +91,59 @@ python run.py --model gemini-2.5-flash --benchmark all --multimodal
 
 ---
 
+## Pricing Verification
+
+`run.py` `MODEL_PRICING` is the cost estimate source. **Always cross-check against the LiteLLM pricing DB before adding a new model or reporting cost.**
+
+### Canonical verification method
+
+```python
+# Pull the live LiteLLM pricing JSON (no install needed)
+curl -s https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json \
+  | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+for key in ['gemini-3.1-pro-preview','claude-opus-4-6','claude-sonnet-4-6']:
+    v=d.get(key,{})
+    print(key, f\"in=\${v.get('input_cost_per_token',0)*1e6:.3f} out=\${v.get('output_cost_per_token',0)*1e6:.3f} /MTok\")
+"
+```
+
+Or via the installed package (if version is recent enough):
+```python
+import litellm; cm = litellm.get_model_cost_map()
+# keys are bare model IDs without provider prefix, e.g. "claude-opus-4-6"
+```
+
+### Key pricing facts (verified 2026-04)
+
+| Model | Input $/MTok | Output $/MTok | Notes |
+|-------|-------------|---------------|-------|
+| gemini-3.1-flash-lite-preview | $0.25 | $1.50 | |
+| gemini-3-flash-preview | $0.50 | $3.00 | thinking model — output rate applies to thinking tokens |
+| gemini-3.1-pro-preview | $2.00 | $12.00 | thinking model — thinking tokens billed at output rate |
+| claude-haiku-4-5 | $1.00 | $5.00 | |
+| claude-sonnet-4-6 | $3.00 | $15.00 | |
+| claude-opus-4-6 | $5.00 | $25.00 | **Not** $15/$75 — Opus 4.5/4.6 are cheaper than Opus 4.0/4.1 |
+| gpt-5.4 | $2.50 | $15.00 | reasoning model |
+
+### Thinking token cost impact
+
+For **always-thinking models** (Gemini 3 series, deepseek-reasoner, o3), the `--estimate` output is a **lower bound** — it only counts text output tokens (3 tokens avg). Actual cost includes thinking tokens billed at the output rate:
+
+```
+real_cost ≈ estimated_cost + n_questions × avg_thinking_tokens × output_$/MTok / 1e6
+```
+
+Observed thinking tokens per question (lite benchmarks):
+- `gemini-3-flash-preview` default: ~200–250 tok/q → +$0.5–0.6 per 872q run
+- `gemini-3.1-pro-preview` (estimate): ~400–800 tok/q → +$4–8 per 872q run
+- `claude-sonnet-4-6-xt8k` (budget=8000): actual usage varies, check `cell.usage.avg_thinking_tokens_per_q`
+
+`run.py` captures actual token usage in `cell.usage` after each run — use that for accurate post-hoc cost analysis.
+
+---
+
 ## Cost Reference (gemini-3.1-flash-lite baseline)
 
 | Benchmark | Questions | Est. Cost | Est. Time |

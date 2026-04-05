@@ -55,17 +55,22 @@ SYSTEM_PROMPT = (
 
 # Cost & speed baseline per model (input $/MTok, output $/MTok, req/min observed)
 MODEL_PRICING = {
-    "gemini-3.1-flash-lite": {"input_per_mtok": 0.10, "output_per_mtok": 0.40, "rpm": 120},
-    "gemini-3.1-flash":      {"input_per_mtok": 0.30, "output_per_mtok": 1.20, "rpm": 60},
-    "gemini-3.1-pro":        {"input_per_mtok": 1.25, "output_per_mtok": 5.00, "rpm": 20},
-    "gemini-2.5-flash":      {"input_per_mtok": 0.30, "output_per_mtok": 1.20, "rpm": 60},
-    "gemini-2.5-pro":        {"input_per_mtok": 1.25, "output_per_mtok": 5.00, "rpm": 20},
+    # Verified against LiteLLM model_prices_and_context_window.json (2026-04)
+    "gemini-3.1-flash-lite": {"input_per_mtok": 0.25, "output_per_mtok": 1.50,  "rpm": 120},
+    "gemini-3.1-flash":      {"input_per_mtok": 0.50, "output_per_mtok": 3.00,  "rpm": 60},
+    "gemini-3.1-flash-high": {"input_per_mtok": 0.50, "output_per_mtok": 3.00,  "rpm": 60},  # same model, more thinking tokens
+    "gemini-3.1-pro":        {"input_per_mtok": 2.00, "output_per_mtok": 12.00, "rpm": 20},
+    "gemini-2.5-flash":      {"input_per_mtok": 0.30, "output_per_mtok": 1.20,  "rpm": 60},
+    "gemini-2.5-pro":        {"input_per_mtok": 1.25, "output_per_mtok": 5.00,  "rpm": 20},
     "gpt-5.4-nano":          {"input_per_mtok": 0.20, "output_per_mtok": 1.25, "rpm": 60},
     "gpt-5.4-mini":          {"input_per_mtok": 0.75, "output_per_mtok": 4.50, "rpm": 60},
     "gpt-5.4":               {"input_per_mtok": 2.50, "output_per_mtok": 15.0, "rpm": 30},
-    "claude-haiku-4-5":      {"input_per_mtok": 1.00, "output_per_mtok": 5.00, "rpm": 60},
-    "claude-sonnet-4-6":     {"input_per_mtok": 3.00, "output_per_mtok": 15.0, "rpm": 30},
-    "deepseek-chat":         {"input_per_mtok": 0.27, "output_per_mtok": 1.10, "rpm": 60},
+    "claude-haiku-4-5":       {"input_per_mtok": 1.00, "output_per_mtok": 5.00,  "rpm": 60},
+    "claude-sonnet-4-6":      {"input_per_mtok": 3.00, "output_per_mtok": 15.0,  "rpm": 30},
+    "claude-sonnet-4-6-xt8k": {"input_per_mtok": 3.00, "output_per_mtok": 15.0,  "rpm": 30},  # thinking tokens at output rate
+    "claude-opus-4-6":        {"input_per_mtok": 5.00, "output_per_mtok": 25.0,  "rpm": 20},
+    "claude-opus-4-6-xt8k":   {"input_per_mtok": 5.00, "output_per_mtok": 25.0,  "rpm": 20},
+    "deepseek-chat":          {"input_per_mtok": 0.27, "output_per_mtok": 1.10,  "rpm": 60},
 }
 AVG_PROMPT_TOKENS = 150
 AVG_OUTPUT_TOKENS = 3
