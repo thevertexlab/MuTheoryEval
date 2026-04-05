@@ -286,8 +286,8 @@ def build_table(mode: str = "lite") -> str:
 
     for model in models:
         text_s  = _modality_score(model, TEXT_BENCHES,  cells, require_all=True)
-        image_s = _modality_score(model, IMAGE_BENCHES, cells)
-        audio_s = _modality_score(model, AUDIO_BENCHES, cells)
+        image_s = _modality_score(model, IMAGE_BENCHES, cells, require_all=True)
+        audio_s = _modality_score(model, AUDIO_BENCHES, cells, require_all=True)
         dn = display_name(model)
         label = f"`{dn}` [T]" if infer_thinking(model) else f"`{dn}`"
         row = [

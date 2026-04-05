@@ -619,12 +619,13 @@
     if (!group.length) return { score: null, have: 0, total: 0, missing: [] };
     const present = group.filter(b => cmap[modelKey + '||' + b.key]);
     const missing = group.filter(b => !cmap[modelKey + '||' + b.key]).map(b => b.short);
-    // Text: strict — require all benchmarks
-    if (modality === 'text' && present.length < group.length) {
+    // Text + Audio: strict — require all benchmarks to prevent partial-coverage inflation
+    // (a model missing CMI-Bench would otherwise show inflated audio score from MuChoMusic alone)
+    // Image: also strict for consistency (currently only 1 bench so has no effect)
+    if (present.length < group.length) {
       return { score: null, have: present.length, total: group.length, missing };
     }
     if (!present.length) return { score: null, have: 0, total: group.length, missing };
-    // Normalize weights within group so partial results still give 0–100%
     const totalW = present.reduce((s, b) => s + b.weight, 0);
     const score  = present.reduce((s, b) => s + cmap[modelKey + '||' + b.key].accuracy * b.weight, 0) / totalW;
     return { score, have: present.length, total: group.length, missing };
