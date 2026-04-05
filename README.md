@@ -75,12 +75,10 @@ python run.py --list-benchmarks
 
 | Model key | API model ID | Provider |
 |-----------|-------------|----------|
-| `gpt-5.4` | `gpt-5.4` | OpenAI (frontier) |
-| `gpt-5.4-mini` | `gpt-5.4-mini` | OpenAI |
-| `gpt-5` | `gpt-5` | OpenAI |
-| `o3` | `o3` | OpenAI (reasoning) |
-| `o3-pro` | `o3-pro` | OpenAI (reasoning, high compute) |
-| `o4-mini` | `o4-mini` | OpenAI (reasoning, fast) |
+| `gpt-5.4` | `gpt-5.4` | OpenAI — flagship |
+| `gpt-5.4-mini` | `gpt-5.4-mini` | OpenAI — strong + fast |
+| `gpt-5.4-nano` | `gpt-5.4-nano` | OpenAI — cheapest |
+| `o3` | `o3` | OpenAI — reasoning (not deprecated, but succeeded by gpt-5.4) |
 | `claude-opus-4-6` | `claude-opus-4-6` | Anthropic |
 | `claude-sonnet-4-6` | `claude-sonnet-4-6` | Anthropic |
 | `claude-haiku-4-5` | `claude-haiku-4-5-20251001` | Anthropic |

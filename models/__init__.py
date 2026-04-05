@@ -6,15 +6,12 @@ from .deepinfra import DeepInfraModel
 
 REGISTRY = {
     # ── OpenAI ────────────────────────────────────────────────────────────────
-    # GPT-5.4 series — current frontier (agentic, coding, professional)
-    "gpt-5.4":        lambda: OpenAIModel("gpt-5.4"),
-    "gpt-5.4-mini":   lambda: OpenAIModel("gpt-5.4-mini"),
-    # GPT-5 base — strong general purpose
-    "gpt-5":          lambda: OpenAIModel("gpt-5"),
-    # o-series reasoning models
-    "o3":             lambda: OpenAIModel("o3"),
-    "o3-pro":         lambda: OpenAIModel("o3-pro"),
-    "o4-mini":        lambda: OpenAIModel("o4-mini"),
+    # GPT-5.4 series — current frontier (as of Apr 2026)
+    "gpt-5.4":      lambda: OpenAIModel("gpt-5.4"),       # flagship
+    "gpt-5.4-mini": lambda: OpenAIModel("gpt-5.4-mini"),  # strong + fast
+    "gpt-5.4-nano": lambda: OpenAIModel("gpt-5.4-nano"),  # cheapest
+    # o3 — still available, not deprecated; succeeded by gpt-5.4 per OpenAI docs
+    "o3":           lambda: OpenAIModel("o3"),
 
     # ── Anthropic ─────────────────────────────────────────────────────────────
     # Claude 4.6 generation (Feb 2026) — current latest
