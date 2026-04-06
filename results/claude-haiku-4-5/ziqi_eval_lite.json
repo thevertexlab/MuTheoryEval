@@ -1,0 +1,27 @@
+{
+  "model": "claude-haiku-4-5",
+  "benchmark": "ziqi_eval",
+  "mode": "lite",
+  "accuracy": 0.754,
+  "n": 500,
+  "seed": 42,
+  "timestamp": "2026-04-06T01:52:38.996265+00:00",
+  "elapsed_sec": 346,
+  "cost_est_usd": 0.0825,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 16,
+    "thinking": false,
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 204915,
+    "total_completion_tokens": 2000
+  },
+  "error_counts": {
+    "format_error": 0,
+    "wrong": 123,
+    "correct": 377
+  }
+}

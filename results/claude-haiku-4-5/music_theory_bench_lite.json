@@ -1,0 +1,39 @@
+{
+  "model": "claude-haiku-4-5",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.5885558583106267,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-06T01:51:12.109319+00:00",
+  "elapsed_sec": 267,
+  "cost_est_usd": 0.0606,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 16,
+    "thinking": false,
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 61365,
+    "total_completion_tokens": 1480
+  },
+  "task_accuracy": {
+    "knowledge": {
+      "n": 269,
+      "correct": 180,
+      "accuracy": 0.6691
+    },
+    "reasoning": {
+      "n": 98,
+      "correct": 36,
+      "accuracy": 0.3673
+    }
+  },
+  "error_counts": {
+    "format_error": 1,
+    "wrong": 150,
+    "correct": 216
+  }
+}

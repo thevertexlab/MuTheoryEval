@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-06T01:13:10.062431+00:00",
+  "updated": "2026-04-06T01:57:00.569882+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -69,6 +69,18 @@
     }
   ],
   "models": [
+    {
+      "key": "claude-haiku-4-5",
+      "display_name": "claude-haiku-4-5",
+      "note": null,
+      "provider": "Anthropic",
+      "capabilities": [
+        "text",
+        "abc",
+        "image"
+      ],
+      "thinking": false
+    },
     {
       "key": "claude-opus-4-6",
       "display_name": "claude-opus-4-6",
@@ -225,6 +237,173 @@
     }
   ],
   "cells": [
+    {
+      "model": "claude-haiku-4-5",
+      "benchmark": "music_theory_bench",
+      "mode": "lite",
+      "accuracy": 0.5885558583106267,
+      "n": 367,
+      "seed": 42,
+      "timestamp": "2026-04-06T01:51:12.109319+00:00",
+      "elapsed_sec": 267,
+      "cost_est_usd": 0.0606,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 16,
+        "thinking": false,
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 61365,
+        "total_completion_tokens": 1480
+      },
+      "task_accuracy": {
+        "knowledge": {
+          "n": 269,
+          "correct": 180,
+          "accuracy": 0.6691
+        },
+        "reasoning": {
+          "n": 98,
+          "correct": 36,
+          "accuracy": 0.3673
+        }
+      },
+      "error_counts": {
+        "format_error": 1,
+        "wrong": 150,
+        "correct": 216
+      }
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "benchmark": "ssmr_bench",
+      "mode": "lite",
+      "accuracy": 0.635,
+      "n": 200,
+      "seed": 42,
+      "timestamp": "2026-04-06T01:49:40.380070+00:00",
+      "elapsed_sec": 160,
+      "cost_est_usd": 0.033,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 16,
+        "thinking": false,
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 34044,
+        "total_completion_tokens": 800
+      },
+      "task_accuracy": {
+        "BarLinePlacementQuestion": {
+          "n": 23,
+          "correct": 6,
+          "accuracy": 0.2609
+        },
+        "ChordIdentificationQuestion": {
+          "n": 6,
+          "correct": 4,
+          "accuracy": 0.6667
+        },
+        "ChordKeyRootIdentificationQuestion": {
+          "n": 30,
+          "correct": 16,
+          "accuracy": 0.5333
+        },
+        "ChordsCompletionQuestion": {
+          "n": 18,
+          "correct": 15,
+          "accuracy": 0.8333
+        },
+        "IntervalNumberQuestion": {
+          "n": 23,
+          "correct": 13,
+          "accuracy": 0.5652
+        },
+        "NoteCompletionByInterval": {
+          "n": 23,
+          "correct": 16,
+          "accuracy": 0.6957
+        },
+        "ScaleIdentificationFromAbcQuestion": {
+          "n": 50,
+          "correct": 40,
+          "accuracy": 0.8
+        },
+        "ScaleSelectionQuestion": {
+          "n": 2,
+          "correct": 2,
+          "accuracy": 1.0
+        },
+        "TimeSignatureQuestion": {
+          "n": 25,
+          "correct": 15,
+          "accuracy": 0.6
+        }
+      },
+      "error_counts": {
+        "format_error": 1,
+        "wrong": 72,
+        "correct": 127
+      }
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "benchmark": "wildscore",
+      "mode": "lite",
+      "accuracy": 0.59,
+      "n": 100,
+      "seed": 42,
+      "timestamp": "2026-04-06T01:48:41.328517+00:00",
+      "elapsed_sec": 90,
+      "cost_est_usd": 0.0165,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 16,
+        "thinking": false,
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 98753,
+        "total_completion_tokens": 400
+      },
+      "error_counts": {
+        "format_error": 0,
+        "wrong": 41,
+        "correct": 59
+      }
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "benchmark": "ziqi_eval",
+      "mode": "lite",
+      "accuracy": 0.754,
+      "n": 500,
+      "seed": 42,
+      "timestamp": "2026-04-06T01:52:38.996265+00:00",
+      "elapsed_sec": 346,
+      "cost_est_usd": 0.0825,
+      "config": {
+        "temperature": 0,
+        "max_output_tokens": 16,
+        "thinking": false,
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 204915,
+        "total_completion_tokens": 2000
+      },
+      "error_counts": {
+        "format_error": 0,
+        "wrong": 123,
+        "correct": 377
+      }
+    },
     {
       "model": "claude-opus-4-6",
       "benchmark": "music_theory_bench",
@@ -1486,6 +1665,82 @@
         "total_completion_tokens": 525944,
         "total_thinking_tokens": 373428,
         "avg_thinking_tokens_per_q": 1017.5
+      }
+    },
+    {
+      "model": "glm-z1-flash",
+      "benchmark": "ssmr_bench",
+      "mode": "lite",
+      "accuracy": 0.505,
+      "n": 200,
+      "seed": 42,
+      "timestamp": "2026-04-06T01:57:00.553108+00:00",
+      "elapsed_sec": 3384,
+      "cost_est_usd": 0.0324,
+      "config": {
+        "temperature": null,
+        "max_output_tokens": 4096,
+        "thinking": "native",
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 22976,
+        "total_completion_tokens": 355902,
+        "total_thinking_tokens": 242099,
+        "avg_thinking_tokens_per_q": 1210.5
+      },
+      "task_accuracy": {
+        "BarLinePlacementQuestion": {
+          "n": 23,
+          "correct": 10,
+          "accuracy": 0.4348
+        },
+        "ChordIdentificationQuestion": {
+          "n": 6,
+          "correct": 4,
+          "accuracy": 0.6667
+        },
+        "ChordKeyRootIdentificationQuestion": {
+          "n": 30,
+          "correct": 15,
+          "accuracy": 0.5
+        },
+        "ChordsCompletionQuestion": {
+          "n": 18,
+          "correct": 6,
+          "accuracy": 0.3333
+        },
+        "IntervalNumberQuestion": {
+          "n": 23,
+          "correct": 12,
+          "accuracy": 0.5217
+        },
+        "NoteCompletionByInterval": {
+          "n": 23,
+          "correct": 10,
+          "accuracy": 0.4348
+        },
+        "ScaleIdentificationFromAbcQuestion": {
+          "n": 50,
+          "correct": 25,
+          "accuracy": 0.5
+        },
+        "ScaleSelectionQuestion": {
+          "n": 2,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "TimeSignatureQuestion": {
+          "n": 25,
+          "correct": 19,
+          "accuracy": 0.76
+        }
+      },
+      "error_counts": {
+        "format_error": 26,
+        "wrong": 82,
+        "correct": 101
       }
     },
     {

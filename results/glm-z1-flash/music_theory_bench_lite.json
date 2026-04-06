@@ -1,0 +1,394 @@
+{
+  "model": "glm-z1-flash",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.4822888283378747,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-06T00:06:21.918078+00:00",
+  "elapsed_sec": 5118,
+  "cost_est_usd": 0.0595,
+  "config": {
+    "temperature": null,
+    "max_output_tokens": 4096,
+    "thinking": "native",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 57002,
+    "total_completion_tokens": 525944,
+    "total_thinking_tokens": 373428,
+    "avg_thinking_tokens_per_q": 1017.5
+  },
+  "samples": {
+    "format_error": [
+      {
+        "idx": 12,
+        "subject": "knowledge",
+        "stem": "Use the example below to answer the question that follows.\nName the harmony in t",
+        "raw": "<think>\nOkay, let's see. The user provided a music theory question and wants me to answer with just one letter: A, B, C,",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 132,
+        "subject": "reasoning",
+        "stem": "In which key can the following interval be resolved?",
+        "raw": "<think>\nOkay, let's tackle this question. So, the task is to determine in which key the given interval can be resolved. ",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 133,
+        "subject": "reasoning",
+        "stem": "In the Neo-Riemannian triadic theory, which transformation can convert the A maj",
+        "raw": "L",
+        "pred": "X",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2717
+      },
+      {
+        "idx": 134,
+        "subject": "reasoning",
+        "stem": "To form a diminished sixth interval below L:1/4\nM:4/4\nK:C\n   ^F4 |] %1, the root",
+        "raw": "<think>\nOkay, let's see. The question is about forming a diminished sixth interval below L:1/4 in the key of C (K:C) wit",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 136,
+        "subject": "knowledge",
+        "stem": "According to the note value combination method, which of the following melody fr",
+        "raw": "<think>\nOkay, let's see. The question is about determining which melody fragment uses the note value combination method ",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 137,
+        "subject": "knowledge",
+        "stem": "In the following tempo terms, which one is arranged from fast to slow?",
+        "raw": "<think>\nOkay, let's see. The question is asking which of the given options arranges tempo terms from fast to slow. The o",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 145,
+        "subject": "knowledge",
+        "stem": "How many of the following scales or chords can be played on the harp by plucking",
+        "raw": "<think>\nOkay, let's tackle this harp glissando question. So, the user is asking which of the listed scales or chords can",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 146,
+        "subject": "knowledge",
+        "stem": "Which of the following statements about the theme, answer, and countersubject in",
+        "raw": "<think>\nOkay, let's tackle this question step by step. The user is asking which statement about the theme, answer, and c",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 164,
+        "subject": "knowledge",
+        "stem": "In the process of modulation from E major (including natural major and harmonic ",
+        "raw": "<think>\nOkay, let's tackle this question step by step. The user is asking about modulation from E major (including its n",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 166,
+        "subject": "reasoning",
+        "stem": "Which two intervals are both consonant and altered? \n \"A\": \"\u266fc - \u266f\u266fF\", \"B\": \"\u266db ",
+        "raw": "<think>\nOkay, let's see. The question is asking which two intervals are both consonant and altered. The options are A, B",
+        "pred": "A",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 172,
+        "subject": "reasoning",
+        "stem": "Which of the following harmonic intervals has an incorrect structure?",
+        "raw": "<think>\nOkay, let's see. The user provided a question about harmonic intervals and their incorrect structures. The optio",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 181,
+        "subject": "knowledge",
+        "stem": "Which of the following pentatonic scale names is correct?",
+        "raw": "<think>\nOkay, let's see. The user is asking about the correct pentatonic scale names in Chinese. The options are A, B, C",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 186,
+        "subject": "knowledge",
+        "stem": "How many double diminished intervals can be formed within an octave downwards fr",
+        "raw": "<think>\nOkay, let's tackle this music theory question. The question is asking how many double diminished intervals can b",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 198,
+        "subject": "knowledge",
+        "stem": "The added in B Shang hexatonic mode can be",
+        "raw": "<think>\nOkay, so I need to figure out the answer to this music theory question about the B Shang hexatonic mode. The que",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 203,
+        "subject": "reasoning",
+        "stem": "Which of the following is a different enharmonic interval from the double-augmen",
+        "raw": "<think>\nOkay, let's see. The user is asking which of the options is a different enharmonic interval from the double-augm",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 211,
+        "subject": "reasoning",
+        "stem": "Which harmonic major or minor mode could the following diminished triad possibly",
+        "raw": "<think>\nOkay, let's tackle this question. The user is asking which harmonic major or minor mode a diminished triad could",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 213,
+        "subject": "reasoning",
+        "stem": "Which common tones are shared between Mode V Form 3 (V3) of Messiaen's finite tr",
+        "raw": "<think>\nOkay, let's tackle this question. The user is asking about the common tones between Mode V Form 3 (V3) of Messia",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 230,
+        "subject": "reasoning",
+        "stem": "Which of the following resolutions of the dominant seventh chord is correct?",
+        "raw": "<think>\nOkay, let's tackle this question. The user is asking about the correct resolution of a dominant seventh chord. T",
+        "pred": "A",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 254,
+        "subject": "knowledge",
+        "stem": "Which of the following note sequences has the duration equal to an eighth note?",
+        "raw": "<think>\nOkay, let's tackle this question. The user is asking which note sequence equals an eighth note. The options are ",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      },
+      {
+        "idx": 278,
+        "subject": "knowledge",
+        "stem": "Which of the following options is the G-sharp harmonic minor scale?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "max_tokens",
+        "output_tokens": 4096
+      }
+    ],
+    "wrong_answer": [
+      {
+        "idx": 120,
+        "subject": "knowledge",
+        "stem": "What is the main role of the free hand when conducting an ensemble?",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 193
+      },
+      {
+        "idx": 35,
+        "subject": "knowledge",
+        "stem": "Which of the following typically describes rondo form?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1464
+      },
+      {
+        "idx": 206,
+        "subject": "knowledge",
+        "stem": "Which level in the tonality refers to the submediant?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 878
+      },
+      {
+        "idx": 189,
+        "subject": "knowledge",
+        "stem": "Which of the following statements about the whole-tone scale is incorrect?",
+        "raw": "C",
+        "pred": "C",
+        "ref": "D",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 684
+      },
+      {
+        "idx": 178,
+        "subject": "knowledge",
+        "stem": "About the rondo form, how many of the following statements are correct? ( )\n\u2460 In",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 586
+      },
+      {
+        "idx": 130,
+        "subject": "knowledge",
+        "stem": "Determine the tonality of the following score",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 3430
+      },
+      {
+        "idx": 107,
+        "subject": "knowledge",
+        "stem": "Use the example below to answer the question that follows.\nWhich of the followin",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 2308
+      },
+      {
+        "idx": 322,
+        "subject": "reasoning",
+        "stem": "The scale of the sharp G as Yu note in the Yan-yue Jue mode:",
+        "raw": "C",
+        "pred": "C",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 545
+      },
+      {
+        "idx": 88,
+        "subject": "knowledge",
+        "stem": "Which of the following is the most likely cause of a buzzing sound when a beginn",
+        "raw": "D",
+        "pred": "D",
+        "ref": "A",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 419
+      },
+      {
+        "idx": 351,
+        "subject": "reasoning",
+        "stem": "After enharmonically converting B-\u266ff to the same pitch class, which of the follo",
+        "raw": "D",
+        "pred": "D",
+        "ref": "B",
+        "correct": false,
+        "stop_reason": "end_turn",
+        "output_tokens": 1282
+      }
+    ],
+    "correct": [
+      {
+        "idx": 173,
+        "subject": "reasoning",
+        "stem": "Which of the following harmonic intervals has the incorrect structure?",
+        "raw": "C",
+        "pred": "C",
+        "ref": "C",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 3448
+      },
+      {
+        "idx": 8,
+        "subject": "knowledge",
+        "stem": "Which of the following articulations would best evoke a sense of raindrops?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 211
+      },
+      {
+        "idx": 7,
+        "subject": "knowledge",
+        "stem": "Which movement in music paralleled the movement in visual arts led by painters s",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "stop_reason": "end_turn",
+        "output_tokens": 277
+      }
+    ]
+  }
+}
