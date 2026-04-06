@@ -1,0 +1,41 @@
+{
+  "model": "glm-5-thinking",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.5722070844686649,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-06T04:09:47.021985+00:00",
+  "elapsed_sec": 10268,
+  "cost_est_usd": 0.0595,
+  "config": {
+    "temperature": null,
+    "max_output_tokens": 4096,
+    "thinking": "enabled",
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 17291,
+    "total_completion_tokens": 406796,
+    "total_thinking_tokens": 366593,
+    "avg_thinking_tokens_per_q": 998.9
+  },
+  "task_accuracy": {
+    "knowledge": {
+      "n": 269,
+      "correct": 185,
+      "accuracy": 0.6877
+    },
+    "reasoning": {
+      "n": 98,
+      "correct": 25,
+      "accuracy": 0.2551
+    }
+  },
+  "error_counts": {
+    "format_error": 83,
+    "wrong": 74,
+    "correct": 210
+  }
+}

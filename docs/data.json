@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-06T01:57:00.569882+00:00",
+  "updated": "2026-04-06T04:09:47.034193+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -188,6 +188,17 @@
         "abc"
       ],
       "thinking": false
+    },
+    {
+      "key": "glm-5-thinking",
+      "display_name": "glm-5 (thinking)",
+      "note": "GLM-5 with optional thinking mode enabled (Anthropic-compatible thinking blocks).",
+      "provider": "ZhipuAI",
+      "capabilities": [
+        "text",
+        "abc"
+      ],
+      "thinking": true
     },
     {
       "key": "glm-z1-flash",
@@ -947,6 +958,80 @@
     },
     {
       "model": "deepseek-reasoner",
+      "benchmark": "ssmr_bench",
+      "mode": "lite",
+      "accuracy": 0.8,
+      "n": 200,
+      "seed": 42,
+      "timestamp": "2026-04-06T03:19:15.769030+00:00",
+      "elapsed_sec": 9535,
+      "cost_est_usd": 0.0324,
+      "config": {
+        "temperature": null,
+        "max_output_tokens": 4096,
+        "thinking": "native",
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 29891,
+        "total_completion_tokens": 413741
+      },
+      "task_accuracy": {
+        "BarLinePlacementQuestion": {
+          "n": 23,
+          "correct": 15,
+          "accuracy": 0.6522
+        },
+        "ChordIdentificationQuestion": {
+          "n": 6,
+          "correct": 4,
+          "accuracy": 0.6667
+        },
+        "ChordKeyRootIdentificationQuestion": {
+          "n": 30,
+          "correct": 28,
+          "accuracy": 0.9333
+        },
+        "ChordsCompletionQuestion": {
+          "n": 18,
+          "correct": 14,
+          "accuracy": 0.7778
+        },
+        "IntervalNumberQuestion": {
+          "n": 23,
+          "correct": 19,
+          "accuracy": 0.8261
+        },
+        "NoteCompletionByInterval": {
+          "n": 23,
+          "correct": 16,
+          "accuracy": 0.6957
+        },
+        "ScaleIdentificationFromAbcQuestion": {
+          "n": 50,
+          "correct": 50,
+          "accuracy": 1.0
+        },
+        "ScaleSelectionQuestion": {
+          "n": 2,
+          "correct": 2,
+          "accuracy": 1.0
+        },
+        "TimeSignatureQuestion": {
+          "n": 25,
+          "correct": 12,
+          "accuracy": 0.48
+        }
+      },
+      "error_counts": {
+        "format_error": 35,
+        "wrong": 5,
+        "correct": 160
+      }
+    },
+    {
+      "model": "deepseek-reasoner",
       "benchmark": "ziqi_eval",
       "mode": "lite",
       "accuracy": 0.808,
@@ -1642,6 +1727,152 @@
       "usage": {
         "total_prompt_tokens": 26148,
         "total_completion_tokens": 800
+      }
+    },
+    {
+      "model": "glm-5-thinking",
+      "benchmark": "music_theory_bench",
+      "mode": "lite",
+      "accuracy": 0.5722070844686649,
+      "n": 367,
+      "seed": 42,
+      "timestamp": "2026-04-06T04:09:47.021985+00:00",
+      "elapsed_sec": 10268,
+      "cost_est_usd": 0.0595,
+      "config": {
+        "temperature": null,
+        "max_output_tokens": 4096,
+        "thinking": "enabled",
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 17291,
+        "total_completion_tokens": 406796,
+        "total_thinking_tokens": 366593,
+        "avg_thinking_tokens_per_q": 998.9
+      },
+      "task_accuracy": {
+        "knowledge": {
+          "n": 269,
+          "correct": 185,
+          "accuracy": 0.6877
+        },
+        "reasoning": {
+          "n": 98,
+          "correct": 25,
+          "accuracy": 0.2551
+        }
+      },
+      "error_counts": {
+        "format_error": 83,
+        "wrong": 74,
+        "correct": 210
+      }
+    },
+    {
+      "model": "glm-5-thinking",
+      "benchmark": "ssmr_bench",
+      "mode": "lite",
+      "accuracy": 0.66,
+      "n": 200,
+      "seed": 42,
+      "timestamp": "2026-04-06T04:03:37.586578+00:00",
+      "elapsed_sec": 9839,
+      "cost_est_usd": 0.0324,
+      "config": {
+        "temperature": null,
+        "max_output_tokens": 4096,
+        "thinking": "enabled",
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 28137,
+        "total_completion_tokens": 392623,
+        "total_thinking_tokens": 328281,
+        "avg_thinking_tokens_per_q": 1641.4
+      },
+      "task_accuracy": {
+        "BarLinePlacementQuestion": {
+          "n": 23,
+          "correct": 13,
+          "accuracy": 0.5652
+        },
+        "ChordIdentificationQuestion": {
+          "n": 6,
+          "correct": 5,
+          "accuracy": 0.8333
+        },
+        "ChordKeyRootIdentificationQuestion": {
+          "n": 30,
+          "correct": 21,
+          "accuracy": 0.7
+        },
+        "ChordsCompletionQuestion": {
+          "n": 18,
+          "correct": 12,
+          "accuracy": 0.6667
+        },
+        "IntervalNumberQuestion": {
+          "n": 23,
+          "correct": 14,
+          "accuracy": 0.6087
+        },
+        "NoteCompletionByInterval": {
+          "n": 23,
+          "correct": 14,
+          "accuracy": 0.6087
+        },
+        "ScaleIdentificationFromAbcQuestion": {
+          "n": 50,
+          "correct": 42,
+          "accuracy": 0.84
+        },
+        "ScaleSelectionQuestion": {
+          "n": 2,
+          "correct": 2,
+          "accuracy": 1.0
+        },
+        "TimeSignatureQuestion": {
+          "n": 25,
+          "correct": 9,
+          "accuracy": 0.36
+        }
+      },
+      "error_counts": {
+        "format_error": 58,
+        "wrong": 10,
+        "correct": 132
+      }
+    },
+    {
+      "model": "glm-5-thinking",
+      "benchmark": "ziqi_eval",
+      "mode": "lite",
+      "accuracy": 0.83,
+      "n": 500,
+      "seed": 42,
+      "timestamp": "2026-04-06T04:09:12.934195+00:00",
+      "elapsed_sec": 4377,
+      "cost_est_usd": 0.081,
+      "config": {
+        "temperature": null,
+        "max_output_tokens": 4096,
+        "thinking": "enabled",
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 29488,
+        "total_completion_tokens": 151149,
+        "total_thinking_tokens": 140584,
+        "avg_thinking_tokens_per_q": 281.2
+      },
+      "error_counts": {
+        "format_error": 29,
+        "wrong": 56,
+        "correct": 415
       }
     },
     {
