@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-06T01:03:03.269686+00:00",
+  "updated": "2026-04-06T01:13:10.062431+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -1486,6 +1486,35 @@
         "total_completion_tokens": 525944,
         "total_thinking_tokens": 373428,
         "avg_thinking_tokens_per_q": 1017.5
+      }
+    },
+    {
+      "model": "glm-z1-flash",
+      "benchmark": "ziqi_eval",
+      "mode": "lite",
+      "accuracy": 0.672,
+      "n": 500,
+      "seed": 42,
+      "timestamp": "2026-04-06T01:11:36.636095+00:00",
+      "elapsed_sec": 660,
+      "cost_est_usd": 0.081,
+      "config": {
+        "temperature": null,
+        "max_output_tokens": 4096,
+        "thinking": "native",
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 41440,
+        "total_completion_tokens": 61425,
+        "total_thinking_tokens": 19255,
+        "avg_thinking_tokens_per_q": 38.5
+      },
+      "error_counts": {
+        "format_error": 3,
+        "wrong": 161,
+        "correct": 336
       }
     },
     {
