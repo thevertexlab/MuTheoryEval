@@ -44,7 +44,7 @@ def _update_leaderboard():
     except Exception as e:
         print(f"  [warn] Could not update docs/data.json: {e}")
 
-from benchmarks import REGISTRY as BENCH_REGISTRY, WEIGHTS
+from benchmarks import REGISTRY as BENCH_REGISTRY, WEIGHTS, ABC_WEIGHTS
 from benchmarks import MULTIMODAL_REGISTRY, MULTIMODAL_WEIGHTS
 from benchmarks.answer_formats import ANSWER_FORMATS, get_format, get_format_name
 from models import REGISTRY as MODEL_REGISTRY
@@ -526,14 +526,18 @@ def main():
 
         # Print summary of this model's cells
         text_cells = [c for c in all_cells if c["benchmark"] in WEIGHTS]
+        abc_cells  = [c for c in all_cells if c["benchmark"] in ABC_WEIGHTS]
         mm_cells   = [c for c in all_cells if c["benchmark"] in MULTIMODAL_WEIGHTS]
         ws_text = weighted_score(text_cells, WEIGHTS)
+        ws_abc  = weighted_score(abc_cells,  ABC_WEIGHTS)
         ws_mm   = weighted_score(mm_cells, MULTIMODAL_WEIGHTS)
 
         print(f"\n{'═'*62}")
         print(f"  {model_name}  [{args.mode}]")
         if ws_text is not None:
             print(f"  Text weighted score:  {ws_text:.1%}")
+        if ws_abc is not None:
+            print(f"  ABC weighted score:   {ws_abc:.1%}")
         if ws_mm is not None:
             print(f"  Modal weighted score: {ws_mm:.1%}")
         print(f"  Total time: {int(elapsed//60)}m{int(elapsed%60):02d}s")

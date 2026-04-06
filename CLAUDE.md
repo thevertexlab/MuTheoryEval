@@ -135,8 +135,10 @@ python run.py --model gemini-2.5-flash --benchmark all --multimodal
 | `wildscore` | ✅ Ready | image | HF: GM77/WildScore — run download script first |
 | `muchomusic` | ✅ Ready | audio | HF: lmms-lab/muchomusic (inline, ~862 MB) |
 | `cmi_bench` | ✅ Ready | audio | HF: nicolaus625/CMI-bench — selective shard download (~3GB), run download script first |
-| `abc_eval` | ❌ Unreleased | text | Anonymous review link expired, no public repo |
-| `ssmr_bench` | ❌ Unreleased | text | Anonymous review link expired, no public repo |
+| `ssmr_bench` | ✅ Ready | abc | HF: Sylence/SSMR-Bench — 1600q ABC MCQ, 9 task types, lite=200q |
+| `abc_eval` | ❌ Unreleased | abc | Anonymous review link expired, no public repo |
+| `muse_bench` | 📋 Ref only | midi-text | arXiv:2026 Carone, ~84q, custom MIDI integer-list schema — too small for leaderboard |
+| `musicxml_study` | 📋 Ref only | musicxml-text | arXiv:2503.22853, RCM exam questions not publicly released |
 
 ---
 

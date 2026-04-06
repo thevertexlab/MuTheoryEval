@@ -6,7 +6,12 @@ TEXT_REGISTRY = {
     "music_theory_bench": music_theory_bench,  # ✅ HF: m-a-p/MusicTheoryBench
     "ziqi_eval":          ziqi_eval,           # ✅ HF: MYTH-Lab/ZIQI-Eval
     # abc_eval: UNRELEASED — anonymous link expired, no public repo as of 2026-04
-    # ssmr_bench: UNRELEASED — anonymous link expired, no public repo as of 2026-04
+}
+
+# ABC notation benchmarks — pure text input, tests symbolic music understanding
+ABC_REGISTRY = {
+    "ssmr_bench": ssmr_bench,  # ✅ HF: Sylence/SSMR-Bench — 1600q ABC MCQ, 9 task types
+    # ssmr_bench (UNRELEASED stub removed): now fully integrated
 }
 
 # VLM benchmarks — require image input (music score sheets)
@@ -24,8 +29,13 @@ ALM_REGISTRY = {
 # Combined multimodal registry
 MULTIMODAL_REGISTRY = {**VLM_REGISTRY, **ALM_REGISTRY}
 
-# Default registry for run.py (text-only)
-REGISTRY = TEXT_REGISTRY
+# Default registry for run.py --benchmark all (text + abc)
+REGISTRY = {**TEXT_REGISTRY, **ABC_REGISTRY}
 
-WEIGHTS = {k: m.METADATA["weight"] for k, m in REGISTRY.items()}
+# Weights: text-only (for backward-compat "Text weighted score" in run.py summary)
+WEIGHTS = {k: m.METADATA["weight"] for k, m in TEXT_REGISTRY.items()}
+
+# ABC weights (separate, for "ABC weighted score" in run.py summary)
+ABC_WEIGHTS = {k: m.METADATA["weight"] for k, m in ABC_REGISTRY.items()}
+
 MULTIMODAL_WEIGHTS = {k: m.METADATA["weight"] for k, m in MULTIMODAL_REGISTRY.items()}

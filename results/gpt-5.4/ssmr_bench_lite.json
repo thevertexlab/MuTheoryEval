@@ -1,0 +1,77 @@
+{
+  "model": "gpt-5.4",
+  "benchmark": "ssmr_bench",
+  "mode": "lite",
+  "accuracy": 0.675,
+  "n": 200,
+  "seed": 42,
+  "timestamp": "2026-04-06T00:23:04.120691+00:00",
+  "elapsed_sec": 150,
+  "cost_est_usd": 0.084,
+  "config": {
+    "temperature": null,
+    "max_output_tokens": 1024,
+    "thinking": "native",
+    "reasoning_effort": null,
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 30464,
+    "total_completion_tokens": 800,
+    "total_thinking_tokens": 0,
+    "avg_thinking_tokens_per_q": 0.0
+  },
+  "task_accuracy": {
+    "BarLinePlacementQuestion": {
+      "n": 23,
+      "correct": 19,
+      "accuracy": 0.8261
+    },
+    "ChordIdentificationQuestion": {
+      "n": 6,
+      "correct": 6,
+      "accuracy": 1.0
+    },
+    "ChordKeyRootIdentificationQuestion": {
+      "n": 30,
+      "correct": 18,
+      "accuracy": 0.6
+    },
+    "ChordsCompletionQuestion": {
+      "n": 18,
+      "correct": 11,
+      "accuracy": 0.6111
+    },
+    "IntervalNumberQuestion": {
+      "n": 23,
+      "correct": 13,
+      "accuracy": 0.5652
+    },
+    "NoteCompletionByInterval": {
+      "n": 23,
+      "correct": 14,
+      "accuracy": 0.6087
+    },
+    "ScaleIdentificationFromAbcQuestion": {
+      "n": 50,
+      "correct": 38,
+      "accuracy": 0.76
+    },
+    "ScaleSelectionQuestion": {
+      "n": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    "TimeSignatureQuestion": {
+      "n": 25,
+      "correct": 14,
+      "accuracy": 0.56
+    }
+  },
+  "error_counts": {
+    "format_error": 0,
+    "wrong": 65,
+    "correct": 135
+  }
+}

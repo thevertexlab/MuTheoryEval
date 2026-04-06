@@ -1,39 +1,81 @@
 """
-SSMR-Bench — Synthetic Sheet Music Reasoning Benchmark
-Source: arXiv:2509.04059 (Zhilin Wang et al., USTC / Shanghai AI Lab, 2025)
+SSMR-Bench — Synthetic Sheet Music Reasoning Benchmark (textual modality)
+Source: arXiv:2509.04059 (Wang et al., USTC / Shanghai AI Lab, 2025)
+Dataset: huggingface.co/datasets/Sylence/SSMR-Bench
+GitHub: github.com/Linzwcs/AutoMusicTheoryQA
 
-STATUS: UNRELEASED
-  Anonymous review link (anonymous.4open.science/r/temp-179B) has expired.
-  Author GitHub (github.com/Zhilin123) has no public release as of 2026-04.
-  Re-check: https://arxiv.org/abs/2509.04059 for future official release.
+1,600 textual MCQ questions across 9 task types, programmatically generated
+from ABC notation using music theory rules:
+  BarLinePlacementQuestion     183q
+  ChordIdentificationQuestion   44q
+  ChordKeyRootIdentification   200q
+  ChordsCompletionQuestion     156q
+  IntervalNumberQuestion       199q
+  NoteCompletionByInterval     201q
+  ScaleIdentificationFromAbc   352q
+  ScaleSelectionQuestion        48q
+  TimeSignatureQuestion        217q
 
-1,600 textual + 1,600 visual QA pairs across 9 templates:
-  Rhythm, Chord, Interval, Scale
-  Generated programmatically from MelodyHub (ABC notation corpus)
+Input: ABC notation snippet + music theory question → 4-option MCQ
+Answer format: single letter A–D
 
-Weight in aggregate: 0.20 (pending release)
+Modality: abc — pure text, ABC notation as LLM input
+Weight in ABC aggregate: 1.0 (sole benchmark in modality)
 """
 
-STATUS = "UNRELEASED"
+import random
 
 METADATA = {
-    "name": "SSMR-Bench (textual)",
-    "source": "arXiv:2509.04059",
-    "hf_dataset": None,
-    "status": STATUS,
-    "n_questions": 1600,
-    "subsets": ["rhythm", "chord", "interval", "scale"],
-    "format": "multiple_choice_4",
-    "modality": "text",
-    "weight": 0.20,
+    "name":              "SSMR-Bench",
+    "source":            "arXiv:2509.04059",
+    "hf_dataset":        "Sylence/SSMR-Bench",
+    "n_questions":       1600,
+    "lite_n":            200,
+    "lite_seed":         42,
+    "answer_format":     "MCQ",
+    "modality":          "abc",
+    "weight":            1.0,
 }
 
 
-def load():
-    raise NotImplementedError(
-        "SSMR-Bench is UNRELEASED — anonymous review link expired, no public repo as of 2026-04. "
-        "Check arXiv:2509.04059 for future release."
-    )
+def load(split="Test_textual", sample=200, seed=42) -> list[dict]:
+    from datasets import load_dataset
+    ds = load_dataset("Sylence/SSMR-Bench", split=split)
+
+    rng = random.Random(seed)
+    raw = list(ds)
+    rng.shuffle(raw)
+    if sample and sample < len(raw):
+        raw = raw[:sample]
+
+    items = []
+    for row in raw:
+        correct = row["correct_answer"]
+        options = [correct, row["incorrect_answer1"], row["incorrect_answer2"], row["incorrect_answer3"]]
+        rng.shuffle(options)
+        correct_letter = chr(65 + options.index(correct))
+        items.append({
+            "subject":         row["class_name"],
+            "question":        row["question"],
+            "abc_context":     row["abc_context"] or "",
+            "category":        row.get("category", ""),
+            "difficulty":      row.get("difficulty", ""),
+            "_options":        options,
+            "_correct_letter": correct_letter,
+        })
+    return items
+
+
+def format_prompt(item: dict) -> str:
+    # abc_context stores literal \n sequences from the HF dataset — decode to real newlines
+    abc = item["abc_context"].strip().replace("\\n", "\n")
+    opts = "\n".join(f"{chr(65+i)}. {opt}" for i, opt in enumerate(item["_options"]))
+    abc_block = f"ABC Notation:\n{abc}\n\n" if abc else ""
+    return f"{abc_block}{item['question']}\n\n{opts}"
+
+
+def get_answer(item: dict) -> str:
+    return item["_correct_letter"]
 
 
 def score(predictions: list[str], references: list[str]) -> dict:

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T23:43:44.984408+00:00",
+  "updated": "2026-04-06T00:23:04.136909+00:00",
   "benchmarks": [
     {
       "key": "music_theory_bench",
@@ -55,6 +55,17 @@
       "weight": 0.15,
       "n_full": null,
       "lite_n": 100
+    },
+    {
+      "key": "ssmr_bench",
+      "name": "SSMR-Bench",
+      "short": "SSMR-Bench",
+      "modality": "abc",
+      "source": "arXiv:2509.04059",
+      "hf": "Sylence/SSMR-Bench",
+      "weight": 1.0,
+      "n_full": 1600,
+      "lite_n": 200
     }
   ],
   "models": [
@@ -65,6 +76,7 @@
       "provider": "Anthropic",
       "capabilities": [
         "text",
+        "abc",
         "image"
       ],
       "thinking": false
@@ -76,6 +88,7 @@
       "provider": "Anthropic",
       "capabilities": [
         "text",
+        "abc",
         "image"
       ],
       "thinking": false
@@ -87,6 +100,7 @@
       "provider": "Anthropic",
       "capabilities": [
         "text",
+        "abc",
         "image"
       ],
       "thinking": true
@@ -97,7 +111,8 @@
       "note": null,
       "provider": "DeepSeek",
       "capabilities": [
-        "text"
+        "text",
+        "abc"
       ],
       "thinking": false
     },
@@ -107,7 +122,8 @@
       "note": null,
       "provider": "DeepSeek",
       "capabilities": [
-        "text"
+        "text",
+        "abc"
       ],
       "thinking": true
     },
@@ -118,6 +134,7 @@
       "provider": "Google",
       "capabilities": [
         "text",
+        "abc",
         "image",
         "audio"
       ],
@@ -130,6 +147,7 @@
       "provider": "Google",
       "capabilities": [
         "text",
+        "abc",
         "image",
         "audio"
       ],
@@ -142,6 +160,7 @@
       "provider": "Google",
       "capabilities": [
         "text",
+        "abc",
         "image",
         "audio"
       ],
@@ -153,9 +172,21 @@
       "note": null,
       "provider": "ZhipuAI",
       "capabilities": [
-        "text"
+        "text",
+        "abc"
       ],
       "thinking": false
+    },
+    {
+      "key": "glm-z1-flash",
+      "display_name": "glm-z1-flash",
+      "note": "GLM-Z1-Flash \u2014 always-on reasoning model; thinking output stripped from response.",
+      "provider": "ZhipuAI",
+      "capabilities": [
+        "text",
+        "abc"
+      ],
+      "thinking": true
     },
     {
       "key": "gpt-5.4",
@@ -164,6 +195,7 @@
       "provider": "OpenAI",
       "capabilities": [
         "text",
+        "abc",
         "image"
       ],
       "thinking": false
@@ -174,7 +206,8 @@
       "note": null,
       "provider": "DeepInfra",
       "capabilities": [
-        "text"
+        "text",
+        "abc"
       ],
       "thinking": true
     }
@@ -474,11 +507,11 @@
       "model": "gemini-3.1-flash",
       "benchmark": "muchomusic",
       "mode": "lite",
-      "accuracy": 0.775,
+      "accuracy": 0.76,
       "n": 200,
       "seed": 42,
-      "timestamp": "2026-04-05T22:16:24.345797+00:00",
-      "elapsed_sec": 1112,
+      "timestamp": "2026-04-06T00:11:07.731019+00:00",
+      "elapsed_sec": 1385,
       "cost_est_usd": 0.0168,
       "config": {
         "temperature": 0,
@@ -486,13 +519,14 @@
         "thinking": {
           "level": "default"
         },
+        "answer_format": "MCQ",
         "system_prompt_hash": "451d3bf6"
       },
       "usage": {
-        "total_prompt_tokens": 306737,
-        "total_completion_tokens": 92,
-        "total_thinking_tokens": 52704,
-        "avg_thinking_tokens_per_q": 263.5
+        "total_prompt_tokens": 615717,
+        "total_completion_tokens": 183,
+        "total_thinking_tokens": 105906,
+        "avg_thinking_tokens_per_q": 529.5
       }
     },
     {
@@ -524,11 +558,11 @@
       "model": "gemini-3.1-flash",
       "benchmark": "wildscore",
       "mode": "lite",
-      "accuracy": 0.79,
+      "accuracy": 0.81,
       "n": 100,
       "seed": 42,
-      "timestamp": "2026-04-05T21:57:48.923767+00:00",
-      "elapsed_sec": 1120,
+      "timestamp": "2026-04-05T23:48:01.028189+00:00",
+      "elapsed_sec": 1078,
       "cost_est_usd": 0.0084,
       "config": {
         "temperature": 0,
@@ -536,13 +570,14 @@
         "thinking": {
           "level": "default"
         },
+        "answer_format": "MCQ",
         "system_prompt_hash": "451d3bf6"
       },
       "usage": {
         "total_prompt_tokens": 123016,
-        "total_completion_tokens": 241,
-        "total_thinking_tokens": 185751,
-        "avg_thinking_tokens_per_q": 1857.5
+        "total_completion_tokens": 355,
+        "total_thinking_tokens": 187131,
+        "avg_thinking_tokens_per_q": 1871.3
       }
     },
     {
@@ -813,6 +848,29 @@
       }
     },
     {
+      "model": "glm-z1-flash",
+      "benchmark": "music_theory_bench",
+      "mode": "lite",
+      "accuracy": 0.4822888283378747,
+      "n": 367,
+      "seed": 42,
+      "timestamp": "2026-04-06T00:06:21.918078+00:00",
+      "elapsed_sec": 5118,
+      "cost_est_usd": 0.0595,
+      "config": {
+        "temperature": null,
+        "max_output_tokens": 4096,
+        "thinking": "native",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 57002,
+        "total_completion_tokens": 525944,
+        "total_thinking_tokens": 373428,
+        "avg_thinking_tokens_per_q": 1017.5
+      }
+    },
+    {
       "model": "gpt-5.4",
       "benchmark": "music_theory_bench",
       "mode": "lite",
@@ -823,6 +881,83 @@
       "elapsed_sec": 333,
       "cost_est_usd": 0.1541,
       "thinking": false
+    },
+    {
+      "model": "gpt-5.4",
+      "benchmark": "ssmr_bench",
+      "mode": "lite",
+      "accuracy": 0.675,
+      "n": 200,
+      "seed": 42,
+      "timestamp": "2026-04-06T00:23:04.120691+00:00",
+      "elapsed_sec": 150,
+      "cost_est_usd": 0.084,
+      "config": {
+        "temperature": null,
+        "max_output_tokens": 1024,
+        "thinking": "native",
+        "reasoning_effort": null,
+        "answer_format": "MCQ",
+        "system_prompt_hash": "451d3bf6"
+      },
+      "usage": {
+        "total_prompt_tokens": 30464,
+        "total_completion_tokens": 800,
+        "total_thinking_tokens": 0,
+        "avg_thinking_tokens_per_q": 0.0
+      },
+      "task_accuracy": {
+        "BarLinePlacementQuestion": {
+          "n": 23,
+          "correct": 19,
+          "accuracy": 0.8261
+        },
+        "ChordIdentificationQuestion": {
+          "n": 6,
+          "correct": 6,
+          "accuracy": 1.0
+        },
+        "ChordKeyRootIdentificationQuestion": {
+          "n": 30,
+          "correct": 18,
+          "accuracy": 0.6
+        },
+        "ChordsCompletionQuestion": {
+          "n": 18,
+          "correct": 11,
+          "accuracy": 0.6111
+        },
+        "IntervalNumberQuestion": {
+          "n": 23,
+          "correct": 13,
+          "accuracy": 0.5652
+        },
+        "NoteCompletionByInterval": {
+          "n": 23,
+          "correct": 14,
+          "accuracy": 0.6087
+        },
+        "ScaleIdentificationFromAbcQuestion": {
+          "n": 50,
+          "correct": 38,
+          "accuracy": 0.76
+        },
+        "ScaleSelectionQuestion": {
+          "n": 2,
+          "correct": 2,
+          "accuracy": 1.0
+        },
+        "TimeSignatureQuestion": {
+          "n": 25,
+          "correct": 14,
+          "accuracy": 0.56
+        }
+      },
+      "error_counts": {
+        "format_error": 0,
+        "wrong": 65,
+        "correct": 135
+      }
     },
     {
       "model": "gpt-5.4",

@@ -80,6 +80,17 @@ BENCH_CATALOGUE = [
         "n_full":    None,   # full dataset ~56k items across 16 tasks; not yet fully implemented
         "lite_n":    100,
     },
+    {
+        "key":       "ssmr_bench",
+        "name":      "SSMR-Bench",
+        "short":     "SSMR-Bench",
+        "modality":  "abc",
+        "source":    "arXiv:2509.04059",
+        "hf":        "Sylence/SSMR-Bench",
+        "weight":    1.0,
+        "n_full":    1600,
+        "lite_n":    200,
+    },
 ]
 
 # ── Model catalogue ────────────────────────────────────────────────────────────
@@ -89,25 +100,25 @@ BENCH_CATALOGUE = [
 # not what the underlying model architecture theoretically supports.
 # e.g. DeepInfra models skip media even if the model supports images.
 _CAPABILITIES: list[tuple[str, list[str]]] = [
-    ("gemini-",       ["text", "image", "audio"]),  # GeminiModel handles all modalities
-    ("claude-",       ["text", "image"]),            # AnthropicModel: image yes, audio skipped
-    ("gpt-",          ["text", "image"]),            # OpenAIModel: image yes, audio skipped
-    ("o1",            ["text", "image"]),
-    ("o3",            ["text", "image"]),
-    ("o4",            ["text", "image"]),
-    ("deepseek-",     ["text"]),
-    ("llama-",        ["text"]),   # DeepInfraModel ignores media kwarg
-    ("qwen3.5-omni",  ["text", "image", "audio"]),   # DashScope Omni: full multimodal
-    ("qwen",          ["text"]),
-    ("glm-",          ["text"]),                     # ZAIModel: text only
-    ("mistral",       ["text"]),
+    ("gemini-",       ["text", "abc", "image", "audio"]),  # GeminiModel handles all modalities
+    ("claude-",       ["text", "abc", "image"]),            # AnthropicModel: image yes, audio skipped
+    ("gpt-",          ["text", "abc", "image"]),            # OpenAIModel: image yes, audio skipped
+    ("o1",            ["text", "abc", "image"]),
+    ("o3",            ["text", "abc", "image"]),
+    ("o4",            ["text", "abc", "image"]),
+    ("deepseek-",     ["text", "abc"]),
+    ("llama-",        ["text", "abc"]),   # DeepInfraModel ignores media kwarg
+    ("qwen3.5-omni",  ["text", "abc", "image", "audio"]),   # DashScope Omni: full multimodal
+    ("qwen",          ["text", "abc"]),
+    ("glm-",          ["text", "abc"]),                     # ZAIModel: text only
+    ("mistral",       ["text", "abc"]),
 ]
 
 def infer_capabilities(model_key: str) -> list[str]:
     for prefix, caps in _CAPABILITIES:
         if model_key.startswith(prefix):
             return caps
-    return ["text"]
+    return ["text", "abc"]
 
 def infer_provider(model_key: str) -> str:
     if model_key.startswith("gpt-") or model_key.startswith("o1") or model_key.startswith("o3") or model_key.startswith("o4"):
@@ -258,6 +269,7 @@ def load_cells_for_mode(mode: str = "lite") -> dict[tuple, dict]:
 TEXT_BENCHES  = ["music_theory_bench", "ziqi_eval"]
 IMAGE_BENCHES = ["wildscore"]
 AUDIO_BENCHES = ["muchomusic", "cmi_bench"]
+ABC_BENCHES   = ["ssmr_bench"]
 
 
 def _modality_score(model: str, bench_keys: list[str], cells: dict, require_all: bool = False) -> float | None:
@@ -280,15 +292,16 @@ def build_table(mode: str = "lite") -> str:
     models  = sorted({m for m, _ in cells})
     benches = [b["key"] for b in BENCH_CATALOGUE if any((m, b["key"]) in cells for m in models)]
 
-    header = ["Model", "Text", "Image", "Audio"] + [
+    header = ["Model", "Text", "ABC", "Image", "Audio"] + [
         f"{b['short']} ({b['modality']})"
         for b in BENCH_CATALOGUE if b["key"] in benches
     ]
-    sep = [":---"] + [":---:" for _ in range(3 + len(benches))]
+    sep = [":---"] + [":---:" for _ in range(4 + len(benches))]
     rows = [header, sep]
 
     for model in models:
         text_s  = _modality_score(model, TEXT_BENCHES,  cells, require_all=True)
+        abc_s   = _modality_score(model, ABC_BENCHES,   cells, require_all=False)
         image_s = _modality_score(model, IMAGE_BENCHES, cells, require_all=True)
         audio_s = _modality_score(model, AUDIO_BENCHES, cells, require_all=True)
         dn = display_name(model)
@@ -296,6 +309,7 @@ def build_table(mode: str = "lite") -> str:
         row = [
             label,
             f"**{text_s:.1%}**"  if text_s  is not None else "—",
+            f"**{abc_s:.1%}**"   if abc_s   is not None else "—",
             f"**{image_s:.1%}**" if image_s is not None else "—",
             f"**{audio_s:.1%}**" if audio_s is not None else "—",
         ]

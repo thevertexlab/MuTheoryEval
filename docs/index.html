@@ -347,6 +347,7 @@
     }
     .tooltip-rich .tt-badge.audio { background: rgba(34,197,94,0.15); color: #22c55e; }
     .tooltip-rich .tt-badge.image { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .tooltip-rich .tt-badge.abc   { background: rgba(168,85,247,0.15); color: #a855f7; }
 
     /* Downward tooltip — for sticky thead (above would go off-screen) */
     .tooltip-down {
@@ -433,6 +434,9 @@
     <div class="mod-tag active" data-mod="text">
       <i data-lucide="file-text" width="12" height="12"></i> Text
     </div>
+    <div class="mod-tag active" data-mod="abc">
+      <i data-lucide="music-2" width="12" height="12"></i> ABC
+    </div>
     <div class="mod-tag active" data-mod="image">
       <i data-lucide="image" width="12" height="12"></i> Image
     </div>
@@ -514,6 +518,13 @@
       bias: 'Classification-only subset; full dataset also includes captioning & regression',
       format: 'Multi-select lettered MCQ (A–X); scored by Jaccard similarity. Variable option count per task (10–24).',
       full: null, lite: 100,
+    },
+    ssmr_bench: {
+      desc: 'Programmatically synthesised sheet music reasoning questions in ABC notation. Covers 9 music theory task types across Scale, Rhythm, Interval, and Chord categories. All questions are verifiable with ground-truth answers derived from music theory rules.',
+      subsets: 'Scale Identification · Scale Selection · Time Signature · Bar Line Placement · Interval Number · Note Completion · Chord Identification · Chord Key Root · Chords Completion',
+      bias: 'Synthetically generated; tests formal music theory parsing of ABC notation',
+      format: '4-option MCQ; correct answer shuffled to random position per question',
+      full: 1600, lite: 200,
     },
   };
 
@@ -673,7 +684,7 @@
     // Sort
     // Rank tiers: has score (0–1) > supported but not run (-0.5) > unsupported (-1)
     function sortVal(mk, key) {
-      if (key === '__text' || key === '__image' || key === '__audio') {
+      if (key === '__text' || key === '__abc' || key === '__image' || key === '__audio') {
         const mod = key.replace('__', '');
         const r = computeModalityScore(mk, mod, cmap, DATA.benchmarks);
         if (r.score !== null) return r.score;
@@ -715,6 +726,7 @@
         </div></th>`;
     }
     const thText  = makeScoreTh('__text',  'Text',  'file-text', 'Text score — requires all text benchmarks (MusicTheoryBench + ZIQI-Eval)');
+    const thAbc   = makeScoreTh('__abc',   'ABC',   'music-2',   'ABC score — SSMR-Bench (symbolic music, ABC notation input)');
     const thImage = makeScoreTh('__image', 'Image', 'image',     'Image score — WildScore (sheet music recognition)');
     const thAudio = makeScoreTh('__audio', 'Audio', 'music',     'Audio score — MuChoMusic / CMI-Bench');
 
@@ -723,7 +735,7 @@
       const srcLink = b.source ? `<a href="https://arxiv.org/abs/${b.source.replace('arXiv:','')}" target="_blank" style="color:var(--muted)" onclick="event.stopPropagation()">
         <i data-lucide="external-link" width="11" height="11"></i></a>` : '';
       const info = BENCH_INFO[b.key] || {};
-      const modBadgeClass = b.modality === 'audio' ? 'audio' : b.modality === 'image' ? 'image' : '';
+      const modBadgeClass = b.modality === 'audio' ? 'audio' : b.modality === 'image' ? 'image' : b.modality === 'abc' ? 'abc' : '';
       const liteStr = info.lite_n !== undefined
         ? (info.lite ? `${info.lite}q sampled / ${info.full ?? '?'}q total` : `all ${info.full ?? '?'}q (small dataset)`)
         : (b.lite_n ? `${b.lite_n}q sampled / ${b.n_full ?? '?'}q total` : `${b.n_full ?? '?'}q`);
@@ -757,9 +769,9 @@
     }
 
     // Build grouped columns: [Text score, ...text benches, Image score, ...image benches, Audio score, ...audio benches]
-    const MODALITIES = ['text', 'image', 'audio'];
-    const scoreThMap  = { text: thText,  image: thImage,  audio: thAudio  };
-    const scoreTdFn   = { text: () => makeScoreTd('text'), image: () => makeScoreTd('image'), audio: () => makeScoreTd('audio') };
+    const MODALITIES = ['text', 'abc', 'image', 'audio'];
+    const scoreThMap  = { text: thText,  abc: thAbc,  image: thImage,  audio: thAudio  };
+    const scoreTdFn   = { text: () => makeScoreTd('text'), abc: () => makeScoreTd('abc'), image: () => makeScoreTd('image'), audio: () => makeScoreTd('audio') };
 
     let groupedHeaders = '';
     let groupedCellFns = []; // array of functions: (mk, cmap) => td string
@@ -853,6 +865,7 @@
       const caps = modelCapabilities(mk);
       const capChips = [
         ['text',  'T', 'Text'],
+        ['abc',   'S', 'ABC (Symbolic)'],
         ['image', 'I', 'Image'],
         ['audio', 'A', 'Audio'],
       ].map(([mod, label, title]) => {
@@ -879,7 +892,7 @@
         if (modelMeta.thinking) return 'Thinking-enabled (see note below for details)';
         return null;
       })();
-      const capRows = [['text','T'],['image','I'],['audio','A']].map(([m,l]) =>
+      const capRows = [['text','T'],['abc','S'],['image','I'],['audio','A']].map(([m,l]) =>
         `<span class="tt-badge ${caps.includes(m)?'':'unsupported'}" style="${caps.includes(m)?'':'opacity:0.4'}">${l}</span>`
       ).join(' ');
       const modelTooltipHTML = `
