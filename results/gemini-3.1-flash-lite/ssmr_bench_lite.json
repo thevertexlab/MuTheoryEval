@@ -1,0 +1,78 @@
+{
+  "model": "gemini-3.1-flash-lite",
+  "benchmark": "ssmr_bench",
+  "mode": "lite",
+  "accuracy": 0.78,
+  "n": 200,
+  "seed": 42,
+  "timestamp": "2026-04-06T00:29:54.242859+00:00",
+  "elapsed_sec": 114,
+  "cost_est_usd": 0.0084,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "default"
+    },
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 23617,
+    "total_completion_tokens": 150,
+    "total_thinking_tokens": 0,
+    "avg_thinking_tokens_per_q": 0.0
+  },
+  "task_accuracy": {
+    "BarLinePlacementQuestion": {
+      "n": 23,
+      "correct": 20,
+      "accuracy": 0.8696
+    },
+    "ChordIdentificationQuestion": {
+      "n": 6,
+      "correct": 4,
+      "accuracy": 0.6667
+    },
+    "ChordKeyRootIdentificationQuestion": {
+      "n": 30,
+      "correct": 18,
+      "accuracy": 0.6
+    },
+    "ChordsCompletionQuestion": {
+      "n": 18,
+      "correct": 15,
+      "accuracy": 0.8333
+    },
+    "IntervalNumberQuestion": {
+      "n": 23,
+      "correct": 11,
+      "accuracy": 0.4783
+    },
+    "NoteCompletionByInterval": {
+      "n": 23,
+      "correct": 18,
+      "accuracy": 0.7826
+    },
+    "ScaleIdentificationFromAbcQuestion": {
+      "n": 50,
+      "correct": 46,
+      "accuracy": 0.92
+    },
+    "ScaleSelectionQuestion": {
+      "n": 2,
+      "correct": 1,
+      "accuracy": 0.5
+    },
+    "TimeSignatureQuestion": {
+      "n": 25,
+      "correct": 23,
+      "accuracy": 0.92
+    }
+  },
+  "error_counts": {
+    "format_error": 0,
+    "wrong": 44,
+    "correct": 156
+  }
+}

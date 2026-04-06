@@ -2,11 +2,11 @@
   "model": "gemini-3.1-flash",
   "benchmark": "wildscore",
   "mode": "lite",
-  "accuracy": 0.79,
+  "accuracy": 0.81,
   "n": 100,
   "seed": 42,
-  "timestamp": "2026-04-05T21:57:48.923767+00:00",
-  "elapsed_sec": 1120,
+  "timestamp": "2026-04-05T23:48:01.028189+00:00",
+  "elapsed_sec": 1078,
   "cost_est_usd": 0.0084,
   "config": {
     "temperature": 0,
@@ -14,36 +14,27 @@
     "thinking": {
       "level": "default"
     },
+    "answer_format": "MCQ",
     "system_prompt_hash": "451d3bf6"
   },
   "usage": {
     "total_prompt_tokens": 123016,
-    "total_completion_tokens": 241,
-    "total_thinking_tokens": 185751,
-    "avg_thinking_tokens_per_q": 1857.5
+    "total_completion_tokens": 355,
+    "total_thinking_tokens": 187131,
+    "avg_thinking_tokens_per_q": 1871.3
   },
   "samples": {
     "format_error": [],
     "wrong_answer": [
       {
-        "idx": 97,
+        "idx": 20,
         "subject": "",
-        "stem": "Given the symbolic music notation in the provided link, how should the tremolo b",
-        "raw": "C",
-        "pred": "C",
-        "ref": "B",
+        "stem": "How do composers decide when and how to change the key signature during modulati",
+        "raw": "B",
+        "pred": "B",
+        "ref": "D",
         "correct": false,
-        "stop_reason": "end_turn",
-        "output_tokens": 1
-      },
-      {
-        "idx": 23,
-        "subject": "",
-        "stem": "In the context of 19th-century Romantic era piano composition, such as Chopins e",
-        "raw": "C",
-        "pred": "C",
-        "ref": "A",
-        "correct": false,
+        "score": 0.0,
         "stop_reason": "end_turn",
         "output_tokens": 1
       },
@@ -55,6 +46,7 @@
         "pred": "C",
         "ref": "D",
         "correct": false,
+        "score": 0.0,
         "stop_reason": "end_turn",
         "output_tokens": 1
       },
@@ -62,12 +54,13 @@
         "idx": 38,
         "subject": "",
         "stem": "In the context of a first attempt at species two counterpoint following Johann J",
-        "raw": "The provided counterpoint exercise contains several issues according to the rules of second species counterpoint as defi",
+        "raw": "Based on the principles of **species two counterpoint** as outlined in Johann Joseph Fux's *Gradus ad Parnassum*, one of",
         "pred": "A",
         "ref": "D",
         "correct": false,
+        "score": 0.0,
         "stop_reason": "end_turn",
-        "output_tokens": 160
+        "output_tokens": 164
       },
       {
         "idx": 34,
@@ -77,50 +70,55 @@
         "pred": "C",
         "ref": "D",
         "correct": false,
+        "score": 0.0,
         "stop_reason": "end_turn",
         "output_tokens": 1
       },
       {
-        "idx": 77,
+        "idx": 97,
         "subject": "",
-        "stem": "In the provided 7/8 solo clarinet etude image (https://i.imgur.com/yfolUHM.jpg),",
-        "raw": "D",
-        "pred": "D",
-        "ref": "C",
+        "stem": "Given the symbolic music notation in the provided link, how should the tremolo b",
+        "raw": "C",
+        "pred": "C",
+        "ref": "B",
         "correct": false,
+        "score": 0.0,
         "stop_reason": "end_turn",
-        "output_tokens": 0
+        "output_tokens": 1
       },
       {
-        "idx": 20,
+        "idx": 7,
         "subject": "",
-        "stem": "How do composers decide when and how to change the key signature during modulati",
+        "stem": "In the score excerpt from The Shepherds Farewell by Berlioz, how can the harmoni",
         "raw": "B",
         "pred": "B",
-        "ref": "D",
-        "correct": false,
-        "stop_reason": "end_turn",
-        "output_tokens": 1
-      },
-      {
-        "idx": 44,
-        "subject": "",
-        "stem": "Based on the provided piano piece, which genre best describes the style of this ",
-        "raw": "D",
-        "pred": "D",
         "ref": "C",
         "correct": false,
+        "score": 0.0,
         "stop_reason": "end_turn",
         "output_tokens": 1
       },
       {
-        "idx": 13,
+        "idx": 48,
         "subject": "",
-        "stem": "In a 4/4 time signature, if a note starts on beats 2 or 4 but extends into beats",
+        "stem": "In the provided countermelody (middle staff) of an arrangement, minor 2nd interv",
+        "raw": "B",
+        "pred": "B",
+        "ref": "A",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 6,
+        "subject": "",
+        "stem": "A beginner was given the soprano line and tasked with creating the bass line and",
         "raw": "A",
         "pred": "A",
-        "ref": "C",
+        "ref": "B",
         "correct": false,
+        "score": 0.0,
         "stop_reason": "end_turn",
         "output_tokens": 1
       },
@@ -132,41 +130,57 @@
         "pred": "D",
         "ref": "B",
         "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 92,
+        "subject": "",
+        "stem": "In transcribing the vocal rhythms of bar 28 from the linked song, which approach",
+        "raw": "A",
+        "pred": "A",
+        "ref": "D",
+        "correct": false,
+        "score": 0.0,
         "stop_reason": "end_turn",
         "output_tokens": 1
       }
     ],
     "correct": [
       {
-        "idx": 86,
+        "idx": 14,
         "subject": "",
-        "stem": "Given the provided sheet music for the song Pure Imagination, which key is the p",
-        "raw": "C",
-        "pred": "C",
-        "ref": "C",
-        "correct": true,
-        "stop_reason": "end_turn",
-        "output_tokens": 1
-      },
-      {
-        "idx": 12,
-        "subject": "",
-        "stem": "In the provided measures of the song (at 3:03), what is the musical effect and t",
+        "stem": "A transcription of a piano and vocal piece includes big stacked-third chords and",
         "raw": "D",
         "pred": "D",
         "ref": "D",
         "correct": true,
+        "score": 1.0,
         "stop_reason": "end_turn",
-        "output_tokens": 0
+        "output_tokens": 1
       },
       {
-        "idx": 93,
+        "idx": 91,
         "subject": "",
-        "stem": "A drummer sent a bass groove notation for an audition, but the rhythm is difficu",
+        "stem": "Why is the piece written with a D major key signature (two sharps) when all the ",
         "raw": "C",
         "pred": "C",
         "ref": "C",
         "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 68,
+        "subject": "",
+        "stem": "Why did Renaissance and Medieval music notation use longer note values such as d",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "score": 1.0,
         "stop_reason": "end_turn",
         "output_tokens": 1
       }

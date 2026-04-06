@@ -1,0 +1,30 @@
+{
+  "model": "gpt-5.4-mini",
+  "benchmark": "ziqi_eval",
+  "mode": "lite",
+  "accuracy": 0.772,
+  "n": 500,
+  "seed": 42,
+  "timestamp": "2026-04-06T00:37:05.131553+00:00",
+  "elapsed_sec": 291,
+  "cost_est_usd": 0.063,
+  "config": {
+    "temperature": null,
+    "max_output_tokens": 1024,
+    "thinking": "native",
+    "reasoning_effort": null,
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 164221,
+    "total_completion_tokens": 2132,
+    "total_thinking_tokens": 0,
+    "avg_thinking_tokens_per_q": 0.0
+  },
+  "error_counts": {
+    "format_error": 0,
+    "wrong": 114,
+    "correct": 386
+  }
+}

@@ -202,7 +202,20 @@ def run_benchmark(model_name: str, bench_name: str, mode: str,
     fmt_name = get_format_name(bench)
     fmt = ANSWER_FORMATS.get(fmt_name, ANSWER_FORMATS["MCQ"])
     # Override model's max_output_tokens to match the format requirement.
-    # For thinking models, preserve the larger of the two values.
+    # Rule: model.config["max_output_tokens"] = max(fmt_max, model_max)
+    #
+    # Why max() and not just fmt_max?
+    #   Thinking/reasoning models need a much larger token budget than a plain MCQ
+    #   answer requires.  Each model backend is responsible for declaring a floor in
+    #   its own config that reflects its minimum viable budget:
+    #     - AnthropicModel(thinking_budget=N): floor = N + 256
+    #     - DeepInfraModel(thinking_native=True): floor = 1024
+    #     - DeepSeekModel(reasoning): floor = 4096  ← DeepSeek-R1 max_tokens is
+    #       TOTAL (thinking + output); must be high enough for the reasoning chain
+    #     - ZAIModel(thinking): floor = 4096
+    #   Non-thinking models set floor=16, so max(fmt_max=16, 16)=16 as intended.
+    #
+    # DO NOT lower a model's floor here — add it to the model's __init__ instead.
     fmt_max = fmt["max_output_tokens"]
     model_max = model.config.get("max_output_tokens", fmt_max)
     model.config["max_output_tokens"] = max(fmt_max, model_max)

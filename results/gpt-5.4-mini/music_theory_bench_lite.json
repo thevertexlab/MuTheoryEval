@@ -1,0 +1,42 @@
+{
+  "model": "gpt-5.4-mini",
+  "benchmark": "music_theory_bench",
+  "mode": "lite",
+  "accuracy": 0.5940054495912807,
+  "n": 367,
+  "seed": 42,
+  "timestamp": "2026-04-06T00:32:12.263271+00:00",
+  "elapsed_sec": 205,
+  "cost_est_usd": 0.0462,
+  "config": {
+    "temperature": null,
+    "max_output_tokens": 1024,
+    "thinking": "native",
+    "reasoning_effort": null,
+    "answer_format": "MCQ",
+    "system_prompt_hash": "451d3bf6"
+  },
+  "usage": {
+    "total_prompt_tokens": 57576,
+    "total_completion_tokens": 1684,
+    "total_thinking_tokens": 0,
+    "avg_thinking_tokens_per_q": 0.0
+  },
+  "task_accuracy": {
+    "knowledge": {
+      "n": 269,
+      "correct": 188,
+      "accuracy": 0.6989
+    },
+    "reasoning": {
+      "n": 98,
+      "correct": 30,
+      "accuracy": 0.3061
+    }
+  },
+  "error_counts": {
+    "format_error": 0,
+    "wrong": 149,
+    "correct": 218
+  }
+}

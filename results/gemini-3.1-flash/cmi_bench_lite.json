@@ -1,0 +1,189 @@
+{
+  "model": "gemini-3.1-flash",
+  "benchmark": "cmi_bench",
+  "mode": "lite",
+  "accuracy": 0.41750841750841755,
+  "n": 99,
+  "seed": 42,
+  "timestamp": "2026-04-05T23:29:58.431164+00:00",
+  "elapsed_sec": 584,
+  "cost_est_usd": 0.0083,
+  "config": {
+    "temperature": 0,
+    "max_output_tokens": 4096,
+    "thinking": {
+      "level": "default"
+    },
+    "answer_format": "MULTI_SELECT",
+    "system_prompt_hash": "91cc684c"
+  },
+  "usage": {
+    "total_prompt_tokens": 51571,
+    "total_completion_tokens": 120,
+    "total_thinking_tokens": 49515,
+    "avg_thinking_tokens_per_q": 500.2
+  },
+  "samples": {
+    "format_error": [],
+    "wrong_answer": [
+      {
+        "idx": 67,
+        "subject": "NSynth",
+        "stem": "What instrument family is playing in this audio?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "C",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 23,
+        "subject": "GTZAN",
+        "stem": "What is the genre of this music?",
+        "raw": "F",
+        "pred": "F",
+        "ref": "A",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 2,
+        "subject": "GTZAN",
+        "stem": "What is the genre of this music?",
+        "raw": "D, H",
+        "pred": "D,H",
+        "ref": "H",
+        "correct": false,
+        "score": 0.5,
+        "stop_reason": "end_turn",
+        "output_tokens": 3
+      },
+      {
+        "idx": 77,
+        "subject": "VocalSet",
+        "stem": "What singing technique is being demonstrated in this audio?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "G",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 36,
+        "subject": "GS-key",
+        "stem": "What is the musical key of this audio clip?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "G",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 34,
+        "subject": "GS-key",
+        "stem": "What is the musical key of this audio clip?",
+        "raw": "F",
+        "pred": "F",
+        "ref": "E",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 0
+      },
+      {
+        "idx": 33,
+        "subject": "GS-key",
+        "stem": "What is the musical key of this audio clip?",
+        "raw": "H",
+        "pred": "H",
+        "ref": "A",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 26,
+        "subject": "GS-key",
+        "stem": "What is the musical key of this audio clip?",
+        "raw": "G",
+        "pred": "G",
+        "ref": "D",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 93,
+        "subject": "VocalSet",
+        "stem": "What singing technique is being demonstrated in this audio?",
+        "raw": "B",
+        "pred": "B",
+        "ref": "G",
+        "correct": false,
+        "score": 0.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 21,
+        "subject": "GTZAN",
+        "stem": "What is the genre of this music?",
+        "raw": "B, C",
+        "pred": "B,C",
+        "ref": "B",
+        "correct": false,
+        "score": 0.5,
+        "stop_reason": "end_turn",
+        "output_tokens": 3
+      }
+    ],
+    "correct": [
+      {
+        "idx": 92,
+        "subject": "VocalSet",
+        "stem": "What singing technique is being demonstrated in this audio?",
+        "raw": "D",
+        "pred": "D",
+        "ref": "D",
+        "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 9,
+        "subject": "GTZAN",
+        "stem": "What is the genre of this music?",
+        "raw": "E",
+        "pred": "E",
+        "ref": "E",
+        "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      },
+      {
+        "idx": 70,
+        "subject": "NSynth",
+        "stem": "What instrument family is playing in this audio?",
+        "raw": "A",
+        "pred": "A",
+        "ref": "A",
+        "correct": true,
+        "score": 1.0,
+        "stop_reason": "end_turn",
+        "output_tokens": 1
+      }
+    ]
+  }
+}
